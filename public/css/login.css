@@ -1,0 +1,10 @@
+#wrapper {
+  background-color: #4eac6d;
+  width: 100%;
+  height: 100vh;
+  padding: 24px;
+}
+#wrapper .content {
+  border-radius: 16px;
+  padding: 24px 24px 0;
+}
