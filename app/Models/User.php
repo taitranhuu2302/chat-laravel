@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use phpDocumentor\Reflection\Types\Boolean;
 
 
 class User extends Authenticatable
@@ -21,7 +23,8 @@ class User extends Authenticatable
     protected $fillable = [
         'email',
         'password',
-        'google_id'
+        'google_id',
+        'login_first'
     ];
 
     /**
@@ -44,6 +47,11 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
+    public function checkPassword($password): bool
+    {
+        return Hash::check($this->password, $password);
+    }
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

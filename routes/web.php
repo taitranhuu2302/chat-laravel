@@ -15,17 +15,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-
 Route::prefix('auth')->group(function () {
+    // View
     Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
+    Route::get('/change-password', [AuthController::class, 'viewChangePassword']);
 
+    // Action
+    Route::post('/change-password', [AuthController::class, 'postChangePassword']);
+    Route::post('/login', [AuthController::class, 'postLogin']);
+
+
+    // Login Social Google
     Route::get('/google', [AuthController::class, 'googleRedirect']);
     Route::get('/google/callback', [AuthController::class, 'googleCallback']);
 });
 
 Route::middleware('auth')->group(function() {
     Route::get('/', function() {
-        return view('welcome');
+        return view('pages.dashboard');
     });
 });
