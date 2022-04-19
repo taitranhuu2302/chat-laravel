@@ -21,13 +21,19 @@ class AuthController extends Controller
         return View('auth.login');
     }
 
-    public function postLogin(PostLogin $request)
+    public function postLogin(PostLogin $request): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
             return redirect('/');
         } else {
             return redirect('/auth/login');
         }
+    }
+
+    public function logout(): RedirectResponse
+    {
+        Auth::logout();
+        return redirect()->route('login');
     }
 
     public function googleRedirect(): RedirectResponse
@@ -40,7 +46,7 @@ class AuthController extends Controller
         return View('auth.change_password');
     }
 
-    public function postChangePassword(PostChangePassword $request)
+    public function postChangePassword(PostChangePassword $request): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
         $user = Auth::user();
         // Create New Password

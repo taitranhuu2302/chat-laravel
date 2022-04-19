@@ -1,8 +1,37 @@
+$width-nav: 75px;
+$width-sidebar: 300px;
+$width-navigation: $width-nav + $width-sidebar;
+
 #navigation {
     position: fixed;
     left: 0;
     top: 0;
-    background: #4a5568;
-    width: 375px;
+    width: $width-navigation;
     height: 100%;
+    display: flex;
+
+
+    #nav {
+        background: #4a5568;
+        width: $width-nav;
+        height: 100%;
+
+        .icon-nav {
+            font-size: 25px;
+            color: #878a92;
+        }
+
+        .button-tab.active {
+            i {
+                color: #4eac6d !important;
+            }
+        }
+    }
+
+    #sidebar {
+        width: $width-sidebar;
+        height: 100%;
+        background: white;
+        padding: 24px;
+    }
 }

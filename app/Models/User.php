@@ -39,7 +39,8 @@ class User extends Authenticatable
 
     public function profile(): HasOne
     {
-        return $this->hasOne(Profile::class);
+        return $this->hasOne(Profile::class)
+            ->select('full_name', 'avatar', 'phone', 'address', 'city', 'country', 'postal_code');
     }
 
     /**
@@ -47,10 +48,6 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    public function checkPassword($password): bool
-    {
-        return Hash::check($this->password, $password);
-    }
 
     protected $casts = [
         'email_verified_at' => 'datetime',

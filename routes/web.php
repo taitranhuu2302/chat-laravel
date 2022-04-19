@@ -23,6 +23,7 @@ Route::prefix('auth')->group(function () {
     // Action
     Route::post('/change-password', [AuthController::class, 'postChangePassword']);
     Route::post('/login', [AuthController::class, 'postLogin']);
+    Route::get('/logout', [AuthController::class, 'logout']);
 
 
     // Login Social Google
