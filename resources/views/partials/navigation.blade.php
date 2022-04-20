@@ -12,20 +12,20 @@
                         d="M8.5,18l3.5,4l3.5-4H19c1.103,0,2-0.897,2-2V4c0-1.103-0.897-2-2-2H5C3.897,2,3,2.897,3,4v12c0,1.103,0.897,2,2,2H8.5z M7,7h10v2H7V7z M7,11h7v2H7V11z"></path>
                 </svg>
             </li>
+            {{--            <li>--}}
+            {{--                <button class="button-tab active" data-tooltip-target="button-profile" data-tabs-target="#tab-profile"--}}
+            {{--                        type="button" role="tab" aria-controls="profile" aria-selected="false">--}}
+            {{--                    <i class="far fa-user-circle icon-nav "></i>--}}
+            {{--                </button>--}}
+            {{--                <div id="button-profile" role="tooltip"--}}
+            {{--                     class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">--}}
+            {{--                    Profile--}}
+            {{--                    <div class="tooltip-arrow" data-popper-arrow></div>--}}
+            {{--                </div>--}}
+            {{--            </li>--}}
             <li>
-                <button class="button-tab active" data-tooltip-target="button-profile" data-tabs-target="#tab-profile"
-                        type="button" role="tab" aria-controls="profile" aria-selected="false">
-                    <i class="far fa-user-circle icon-nav "></i>
-                </button>
-                <div id="button-profile" role="tooltip"
-                     class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                    Profile
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                </div>
-            </li>
-            <li>
-                <button class="button-tab" data-tooltip-target="button-chats" data-tabs-target="#tab-chat" type="button"
-                        role="tab" aria-controls="profile" aria-selected="false">
+                <button class="button-tab active" data-tooltip-target="button-chats" data-tabs-target="#tab-chat" type="button"
+                        role="tab" aria-controls="chats" aria-selected="true">
                     <i class="far fa-comments-alt icon-nav"></i>
                 </button>
                 <div id="button-chats" role="tooltip"
@@ -97,14 +97,45 @@
         </ul>
     </div>
     <div id="sidebar">
-        <div id="tab-profile" class="hidden" role="tabpanel" aria-labelledby="profile-tab">
-            <div class="profile_header">
-                Profile
-            </div>
-        </div>
+        {{--        <div id="tab-profile" class="hidden" role="tabpanel" aria-labelledby="profile-tab">--}}
+        {{--            <div class="profile_header">--}}
+        {{--                <p class="text-xl font-semibold">My Profile</p>--}}
+        {{--                <div id="profile_banner">--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        {{--        </div>--}}
         <div id="tab-chat" class="hidden">
-            <div class="profile_header">
-                Chat
+            <div class="tab_header">
+                <div class="flex justify-between items-center">
+                    <p class="text-xl font-semibold">Chats</p>
+                    <button type="button"
+                            class="focus:outline-none border-0 text-white bg-green-300 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center dark:bg-green-500 dark:hover:bg-green-500 dark:focus:ring-green-500">
+                        <i class="far fa-plus"></i>
+                    </button>
+                </div>
+                <div class="tab-search mt-3">
+                    <input type="text"
+                           placeholder="Search here..."
+                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+                    >
+                </div>
+                <div class="flex flex-col gap-5 chat-list py-3">
+                    <button class="chat-item flex items-center gap-3">
+                        <img class="w-8 h-8 rounded-full" src="{{ Auth::user()->profile->avatar }}"
+                             alt="Rounded avatar">
+                        <p class="font-semibold text-md">{{ Auth::user()->profile->full_name }}</p>
+                    </button>
+                    <button class="chat-item flex items-center gap-3">
+                        <img class="w-8 h-8 rounded-full" src="{{ Auth::user()->profile->avatar }}"
+                             alt="Rounded avatar">
+                        <p class="font-semibold text-md">{{ Auth::user()->profile->full_name }}</p>
+                    </button>
+                    <button class="chat-item flex items-center gap-3">
+                        <img class="w-8 h-8 rounded-full" src="{{ Auth::user()->profile->avatar }}"
+                             alt="Rounded avatar">
+                        <p class="font-semibold text-md">{{ Auth::user()->profile->full_name }}</p>
+                    </button>
+                </div>
             </div>
         </div>
         <div id="tab-friend-pending" class="hidden">
@@ -113,8 +144,37 @@
             </div>
         </div>
         <div id="tab-contact" class="hidden">
-            <div class="profile_header">
-                Contact
+            <div class="tab_header">
+                <div class="flex justify-between items-center">
+                    <p class="text-xl font-semibold">Contacts</p>
+                    <button type="button"
+                            class="focus:outline-none border-0 text-white bg-green-300 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center dark:bg-green-500 dark:hover:bg-green-500 dark:focus:ring-green-500">
+                        <i class="far fa-plus"></i>
+                    </button>
+                </div>
+                <div class="tab-search mt-3">
+                    <input type="text"
+                           placeholder="Search here..."
+                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
+                    >
+                </div>
+                <div class="flex flex-col gap-5 contact-list py-3">
+                    <button class="contact-item flex items-center gap-3">
+                        <img class="w-8 h-8 rounded-full" src="{{ Auth::user()->profile->avatar }}"
+                             alt="Rounded avatar">
+                        <p class="font-semibold text-md">{{ Auth::user()->profile->full_name }}</p>
+                    </button>
+                    <button class="contact-item flex items-center gap-3">
+                        <img class="w-8 h-8 rounded-full" src="{{ Auth::user()->profile->avatar }}"
+                             alt="Rounded avatar">
+                        <p class="font-semibold text-md">{{ Auth::user()->profile->full_name }}</p>
+                    </button>
+                    <button class="contact-item flex items-center gap-3">
+                        <img class="w-8 h-8 rounded-full" src="{{ Auth::user()->profile->avatar }}"
+                             alt="Rounded avatar">
+                        <p class="font-semibold text-md">{{ Auth::user()->profile->full_name }}</p>
+                    </button>
+                </div>
             </div>
         </div>
         <div id="tab-setting" class="hidden">
