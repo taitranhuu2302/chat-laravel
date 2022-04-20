@@ -18,6 +18,12 @@ return [
         'passwords' => 'users',
     ],
 
+    'socialite' => [
+        'drivers' => [
+            'google',
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards
@@ -58,6 +64,7 @@ return [
     | Supported: "database", "eloquent"
     |
     */
+
 
     'providers' => [
         'users' => [
