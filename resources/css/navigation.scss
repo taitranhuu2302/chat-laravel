@@ -33,5 +33,12 @@ $width-navigation: $width-nav + $width-sidebar;
         height: 100%;
         background: white;
         padding: 24px;
+
+        #tab-profile {
+
+            .profile_header {
+
+            }
+        }
     }
 }
