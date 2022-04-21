@@ -16,7 +16,7 @@
     @include('partials.navigation')
 
 
-    <div style="margin-left: 375px">
+    <div style="margin-left: 450px">
         @yield('content')
     </div>
 </div>

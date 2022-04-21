@@ -1,44 +1,53 @@
-$width-nav: 75px;
-$width-sidebar: 300px;
-$width-navigation: $width-nav + $width-sidebar;
+$width_navigation: 450px;
+$width_nav: 100px;
+$width_sidebar: 350px;
 
 #navigation {
     position: fixed;
     left: 0;
     top: 0;
-    width: $width-navigation;
     height: 100%;
-    display: flex;
-
+    width: $width_navigation;
 
     #nav {
-        background: #4a5568;
-        width: $width-nav;
+        width: $width_nav;
         height: 100%;
+        background: white;
+        border: 1px solid #ebebeb;
 
-        .icon-nav {
-            font-size: 25px;
-            color: #878a92;
+        .nav__top {
+
+            &--logo {
+                font-size: 45px;
+                color: #1C64F2;
+            }
+            &--icon {
+                font-size: 25px;
+            }
+
+            &--button {
+                background: white;
+                padding: 10px;
+                border-radius: 8px;
+            }
+
+            &--active {
+                background: #e6e6e6 !important;
+                //border-radius: ;
+                i {
+                    color: #1C64F2;
+                }
+            }
         }
 
-        .button-tab.active {
-            i {
-                color: #4eac6d !important;
-            }
+        .nav__bottom {
+
         }
     }
 
     #sidebar {
-        width: $width-sidebar;
-        height: 100%;
+        width: $width_sidebar;
         background: white;
-        padding: 24px;
-
-        #tab-profile {
-
-            .profile_header {
-
-            }
-        }
+        border: 1px solid #ebebeb;
     }
 }
