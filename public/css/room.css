@@ -1,0 +1,41 @@
+#room .room__content {
+  overflow: auto;
+}
+#room .room__content::-webkit-scrollbar {
+  display: none;
+}
+#room .room__content .room__chat {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+#room .room__content .room__chat .room__chat--avatar {
+  flex-shrink: 1;
+  align-self: flex-end;
+}
+#room .room__content .room__chat .room__chat--content {
+  width: 45%;
+  display: flex;
+}
+#room .room__content .room__chat .room__chat--content .room__chat--text {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+#room .room__content .room__chat--right {
+  flex-direction: row-reverse;
+}
+#room .room__content .room__chat--right .room__chat--content {
+  justify-content: flex-end;
+}
+#room .room__content .room__chat--right .room__chat--content .room__chat--text {
+  background: #0a80ff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+}
+#room .room__content .room__chat--left .room__chat--content .room__chat--text {
+  background: #ebebeb;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
