@@ -1,0 +1,57 @@
+#room {
+    .room__header {
+
+    }
+    .room__content {
+        overflow: auto;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        .room__chat {
+            width: 100%;
+            display: flex;
+            gap: 10px;
+
+            .room__chat--avatar {
+                flex-shrink: 1;
+                align-self: flex-end;
+            }
+
+            .room__chat--content {
+                width: 45%;
+                display: flex;
+                .room__chat--text {
+                    width: fit-content;
+                }
+            }
+        }
+
+        .room__chat--right {
+            flex-direction: row-reverse;
+            .room__chat--content {
+                justify-content: flex-end;
+                .room__chat--text {
+                    background: #0a80ff;
+                    padding: 6px 12px;
+                    border-radius: 6px;
+                    color: white;
+                }
+            }
+        }
+
+        .room__chat--left {
+            .room__chat--content {
+                .room__chat--text {
+                    background: #ebebeb;
+                    padding: 6px 12px;
+                    border-radius: 6px;
+                }
+            }
+        }
+    }
+    .room__footer {
+
+    }
+}
