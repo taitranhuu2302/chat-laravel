@@ -60,7 +60,7 @@
             <li>
                 <button data-dropdown-toggle="dropdown_user" data-dropdown-placement="top">
                     <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                         src="{{ Auth::user()->profile->avatar }}" alt="Bordered avatar">
+                         src="{{ Auth::user()->avatar }}" alt="Bordered avatar">
                 </button>
                 <div id="dropdown_user"
                      class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">

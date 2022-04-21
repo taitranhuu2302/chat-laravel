@@ -19,8 +19,6 @@ class ProfileFactory extends Factory
     {
         static $fake_id = 1;
         return [
-            'avatar' => 'https://picsum.photos/1200/800',
-            'full_name' => $this->faker->name(),
             'user_id' => $fake_id++,
         ];
     }

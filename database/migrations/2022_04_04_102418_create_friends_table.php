@@ -16,6 +16,7 @@ return new class extends Migration
     {
         Schema::create('friends', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('friend_id')->constrained('users')->cascadeOnDelete();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->string('status')->default('PENDING'); // Pending, Accepted, Rejected
             $table->timestamps();

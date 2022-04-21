@@ -27,7 +27,9 @@ class User extends Authenticatable
         'email',
         'password',
         'google_id',
-        'login_first'
+        'login_first',
+        'full_name',
+        'avatar'
     ];
 
     /**
@@ -46,9 +48,9 @@ class User extends Authenticatable
             ->select('full_name', 'avatar', 'phone', 'address', 'city', 'country', 'postal_code');
     }
 
-    public function friends(): BelongsTo
+    public function friends(): BelongsToMany
     {
-        return $this->belongsTo(Friend::class);
+        return $this->belongsToMany(User::class,  'friends', 'user_id', 'friend_id');
     }
 
     public function rooms(): BelongsToMany

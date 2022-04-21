@@ -11,10 +11,10 @@
     <ul class="friend-request__rooms flex flex-col border-t overflow-y-auto flex-grow">
         <li class="rooms__item border-b py-3 w-full px-8 flex items-center">
             <div class="flex overflow-hidden items-center w-full gap-3">
-                <img class="w-10 h-10 rounded-full" src="{{ Auth::user()->profile->avatar }}"
+                <img class="w-10 h-10 rounded-full" src="{{ Auth::user()->avatar }}"
                      alt="Rounded avatar">
                 <div class="w-full overflow-hidden">
-                    <p class="text-lg overflow-hidden whitespace-nowrap w-2/4 text-ellipsis text-blue-600 font-semibold">{{ Auth::user()->profile->full_name }}</p>
+                    <p class="text-lg overflow-hidden whitespace-nowrap w-2/4 text-ellipsis text-blue-600 font-semibold">{{ Auth::user()->full_name }}</p>
                     <p class="text-md overflow-hidden whitespace-nowrap w-2/4 text-ellipsis">Lorem ipsum dolor
                         sit amet, consectetur adipisicing elit. Animi asperiores corporis repudiandae? Ab
                         dignissimos doloremque expedita ipsa iure minus qui similique tempora vero voluptatem.

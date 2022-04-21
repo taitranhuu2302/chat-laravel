@@ -17,6 +17,7 @@ Profile
 Friends
 	id int
 	user_id int
+	friend_id int
 	status enum
 
 Room (Group)
@@ -35,4 +36,3 @@ message
 	room_id int
 	text string
 	image string
-	

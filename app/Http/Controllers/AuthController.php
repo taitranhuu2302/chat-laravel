@@ -76,16 +76,14 @@ class AuthController extends Controller
             $user = User::create([
                 'email' => $googleUser->getEmail(),
                 'google_id' => $googleUser->getId(),
-                'password' => Hash::make('password')
-            ]);
-
-            $profile = Profile::create([
-                'user_id' => $user->id,
+                'password' => Hash::make('password'),
                 'full_name' => $googleUser->getName(),
                 'avatar' => $googleUser->getAvatar()
             ]);
 
-            $user->profile()->save($profile);
+            Profile::create([
+                'user_id' => $user->id,
+            ]);
 
             Auth::login($user);
             return redirect('/auth/change-password');
