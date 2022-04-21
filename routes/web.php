@@ -35,4 +35,8 @@ Route::middleware('auth')->group(function() {
     Route::get('/', function() {
         return view('pages.dashboard');
     });
+
+    Route::get('/room/{id}', function ($id) {
+       return view('pages.room')->with('id', $id);
+    });
 });
