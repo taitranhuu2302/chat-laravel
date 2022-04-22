@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -31,12 +32,18 @@ Route::prefix('auth')->group(function () {
     Route::get('/google/callback', [AuthController::class, 'googleCallback']);
 });
 
-Route::middleware('auth')->group(function() {
-    Route::get('/', function() {
+Route::middleware('auth')->group(function () {
+    Route::get('/', function () {
         return view('pages.dashboard');
     });
 
     Route::get('/room/{id}', function ($id) {
-       return view('pages.room')->with('id', $id);
+        return view('pages.room')->with('id', $id);
+    });
+
+    Route::prefix('user')->group(function () {
+
+        Route::post('/add-friend', [UserController::class, 'addFriendRequest']);
+        Route::get('/', [UserController::class, 'index']);
     });
 });
