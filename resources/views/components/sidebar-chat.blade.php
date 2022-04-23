@@ -32,23 +32,39 @@
             <button data-dropdown-toggle="dropdown-chat" data-dropdown-placement="right">
                 <i class="fas fa-ellipsis-h-alt"></i>
             </button>
-            <div id="dropdown-chat"
-                 class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
-                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRightButton">
-                    <li>
-                        <a href="#"
-                           class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Open</a>
-                    </li>
-                    <li>
-                        <a href="#"
-                           class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
-                    </li>
-                    <li>
-                        <a href="#"
-                           class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Block</a>
-                    </li>
-                </ul>
+        </li>
+        <li class="rooms__item border-b py-3 w-full px-8 flex items-center">
+            <div class="flex overflow-hidden items-center w-full gap-3">
+                <img class="w-10 h-10 rounded-full" src="{{ Auth::user()->avatar }}"
+                     alt="Rounded avatar">
+                <div class="w-full overflow-hidden">
+                    <p class="text-lg overflow-hidden whitespace-nowrap w-2/4 text-ellipsis text-blue-600 font-semibold">{{ Auth::user()->full_name }}</p>
+                    <p class="text-md overflow-hidden whitespace-nowrap w-2/4 text-ellipsis">Lorem ipsum dolor
+                        sit amet, consectetur adipisicing elit. Animi asperiores corporis repudiandae? Ab
+                        dignissimos doloremque expedita ipsa iure minus qui similique tempora vero voluptatem.
+                        Adipisci corporis enim nesciunt provident tempora!</p>
+                </div>
             </div>
+            <button data-dropdown-toggle="dropdown-chat" data-dropdown-placement="right">
+                <i class="fas fa-ellipsis-h-alt"></i>
+            </button>
         </li>
     </ul>
+    <div id="dropdown-chat"
+         class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
+        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRightButton">
+            <li>
+                <a href="#"
+                   class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Open</a>
+            </li>
+            <li>
+                <a href="#"
+                   class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
+            </li>
+            <li>
+                <a href="#"
+                   class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Block</a>
+            </li>
+        </ul>
+    </div>
 </div>

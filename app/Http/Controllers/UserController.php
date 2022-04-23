@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AddFriendEvent;
 use App\Http\Requests\AddFriendRequest;
 use App\Models\Friend;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -24,10 +26,11 @@ class UserController extends Controller
         return User::with('friends')->get();
     }
 
-    public function addFriendRequest(AddFriendRequest $request)
+    public function addFriendRequest(AddFriendRequest $request): \Illuminate\Http\JsonResponse
     {
         try {
-            $userId = Auth::user()->id;
+            $userId = $request->userId;
+            $userCurrent = $this->userRepository->findById($userId);
             $userTo = $this->userRepository->findByEmail($request->email);
 
             if (!$userTo) {
@@ -35,9 +38,11 @@ class UserController extends Controller
             }
 
             Friend::create([
-                'user_id' => $userId,
+                'user_id' => $userCurrent->id,
                 'friend_id' => $userTo->id
             ]);
+
+            AddFriendEvent::dispatch($userTo->id, $userCurrent);
 
             return response()->json(['message' => 'Success'], 200);
         } catch (\Exception $exception) {

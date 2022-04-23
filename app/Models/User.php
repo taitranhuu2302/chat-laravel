@@ -50,7 +50,8 @@ class User extends Authenticatable
 
     public function friends(): BelongsToMany
     {
-        return $this->belongsToMany(User::class,  'friends', 'user_id', 'friend_id');
+        return $this->belongsToMany(User::class,  'friends', 'user_id', 'friend_id')
+            ->withPivot('status');
     }
 
     public function rooms(): BelongsToMany

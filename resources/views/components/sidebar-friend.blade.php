@@ -43,14 +43,6 @@
         </li>
     </ul>
 </div>
-<script src="{{ asset('js/app.js') }}"></script>
 
-<script>
-    const Echo = window.Echo;
-    const userId = document.getElementById('user_id').value;
 
-    let channel = Echo.channel(`add-friend.${userId}`);
-    channel.listen('AddFriend', (e) => {
-        console.log(e);
-    });
-</script>
+

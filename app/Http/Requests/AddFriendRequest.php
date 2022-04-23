@@ -24,6 +24,7 @@ class AddFriendRequest extends FormRequest
     public function rules()
     {
         return [
+            'userId' => 'required|exists:users,id',
             'email' => 'required|email'
         ];
     }

@@ -85,17 +85,3 @@
     </div>
 </div>
 <x-add-friend-modal></x-add-friend-modal>
-
-<script src="{{ asset('js/navigation.js') }}"></script>
-<script>
-    const buttonTabs = Array.from(document.querySelectorAll('.nav__top--button'));
-
-    buttonTabs.forEach(button => {
-        button.addEventListener('click', () => {
-            buttonTabs.forEach(btn => {
-                btn.classList.remove('nav__top--active');
-            })
-            button.classList.add('nav__top--active');
-        })
-    })
-</script>

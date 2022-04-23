@@ -12,7 +12,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use phpDocumentor\Reflection\Types\Integer;
 
-class AddFriend implements ShouldBroadcast
+class AddFriendEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
