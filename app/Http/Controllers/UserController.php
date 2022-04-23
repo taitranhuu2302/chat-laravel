@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\AddFriendEvent;
 use App\Http\Requests\AddFriendRequest;
 use App\Models\Friend;
+use App\Models\FriendRequest;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
@@ -37,9 +38,9 @@ class UserController extends Controller
                 return response()->json(['message' => 'Failed'], 404);
             }
 
-            Friend::create([
-                'user_id' => $userCurrent->id,
-                'friend_id' => $userTo->id
+            FriendRequest::create([
+                'user_id' => $userTo->id, // 
+                'request_id' => $userCurrent->id
             ]);
 
             AddFriendEvent::dispatch($userTo->id, $userCurrent);

@@ -48,10 +48,14 @@ class User extends Authenticatable
             ->select('full_name', 'avatar', 'phone', 'address', 'city', 'country', 'postal_code');
     }
 
-    public function friends(): BelongsToMany
+    public function friends(): HasMany
     {
-        return $this->belongsToMany(User::class,  'friends', 'user_id', 'friend_id')
-            ->withPivot('status');
+        return $this->hasMany(Friend::class);
+    }
+
+    public function friendRequests(): HasMany
+    {
+        return $this->hasMany(FriendRequest::class, 'request_id', 'id');
     }
 
     public function rooms(): BelongsToMany
