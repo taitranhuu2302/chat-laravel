@@ -4,7 +4,6 @@ namespace App\Repositories\FriendRequest;
 
 use App\Models\FriendRequest;
 use App\Repositories\BaseRepository;
-use App\Repositories\RepositoryInterface;
 
 class FriendRequestRepository extends BaseRepository implements FriendRequestInterface
 {
@@ -14,10 +13,24 @@ class FriendRequestRepository extends BaseRepository implements FriendRequestInt
         return FriendRequest::class;
     }
 
-    public function findFriendRequestByUserId($id)
+    public function findAllFriendRequestByUserId($id)
     {
-        return FriendRequest::where('user_id', $id)
+        return $this->model->where('user_id', $id)
             ->where('status', '=', 'PENDING')
             ->with('user')->get()->sortByDesc('id');
+    }
+
+    public function changeStatusFriendRequest($userId, $requestId, $status)
+    {
+        return $this->model->where('user_id', $userId)
+            ->where('request_id', $requestId)
+            ->update(['status' => $status]);
+    }
+
+    public function findFriendRequest($userId, $requestId)
+    {
+        return $this->model->where('user_id', $userId)
+            ->where('request_id', $requestId)
+            ->first();
     }
 }

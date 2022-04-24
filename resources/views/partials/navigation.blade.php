@@ -88,7 +88,7 @@
             <x-sidebar-chat></x-sidebar-chat>
         </div>
         <div id="friend" class="hidden" role="tabpanel" aria-labelledby="button-friend">
-            <x-sidebar-friend></x-sidebar-friend>
+            <x-sidebar-friend :friends="$friends"></x-sidebar-friend>
         </div>
         <div id="group" class="hidden" role="tabpanel" aria-labelledby="button-group">
             <x-sidebar-group></x-sidebar-group>

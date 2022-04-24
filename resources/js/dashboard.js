@@ -4,10 +4,15 @@ $(() => {
     const axios = window.axios;
     const buttonTabs = Array.from(document.querySelectorAll('.nav__top--button'));
 
-    const channel = Echo.channel(`add-friend.${userId}`);
-    channel.listen('AddFriendEvent', (data) => {
+    Echo.channel(`add-friend.${userId}`).listen('AddFriendEvent', (data) => {
         $('#list-request-friend').append(renderFriendRequest(data.friend.avatar, data.friend.full_name, data.friend.id, `Xin chào ${data.friend.full_name}`));
         addEventDropdown();
+    })
+
+    Echo.channel(`accept-friend.${userId}`).listen('AcceptFriendEvent', (data) => {
+        console.log(data)
+        // $('#list-request-friend').append(renderFriendRequest(data.friend.avatar, data.friend.full_name, data.friend.id, `Xin chào ${data.friend.full_name}`));
+        // addEventDropdown();
     })
 
     // Change Tab Active
@@ -60,11 +65,11 @@ $(() => {
                     aria-labelledby="dropdownRightButton">
                     <li>
                         <a data-user-id="${id}" href="#"
-                            class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Accept</a>
+                            class="accept-friend-request block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Accept</a>
                     </li>
                     <li>
                         <a data-user-id="${id}" href="#"
-                            class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Block</a>
+                            class="block-friend-request block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Block</a>
                     </li>
                 </ul>
             </div>
@@ -74,8 +79,9 @@ $(() => {
     }
 
     function addEventDropdown() {
-        $('.button-friend-request i').unbind();
-        $('.button-friend-request i').click(function (e) {
+        const button = $('.button-friend-request i');
+        button.unbind();
+        button.click(function (e) {
             e.preventDefault();
             const button = $(this).parent();
             const parent = button.children('.dropdown-friend-request');
@@ -91,13 +97,16 @@ $(() => {
         $('.accept-friend-request').click(function (e) {
             e.preventDefault();
             const id = $(this).attr('data-user-id');
-            console.log('Accept: ', id)
+
+            const parent = $(this).parent().parent().parent().parent().parent();
 
             axios.post('/user/accept-friend-request', {
                 user_id: userId,
                 user_accept_id: id
             }).then((response) => {
-                console.log(response)
+                if (response.data.status === 200) {
+                    parent.remove();
+                }
             }).catch((error) => {
                 console.log(error)
             })

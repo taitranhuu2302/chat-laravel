@@ -36,7 +36,7 @@ abstract class BaseRepository implements RepositoryInterface
         return $this->model->create($attributes);
     }
 
-    public function update($id, $attributes = [])
+    public function update($id, $attributes = []): bool
     {
         $result = $this->model->findOrFail($id);
         if ($result) {
@@ -47,7 +47,7 @@ abstract class BaseRepository implements RepositoryInterface
         return false;
     }
 
-    public function delete($id)
+    public function delete($id): bool
     {
         $result = $this->model->findOrFail($id);
         if ($result) {
