@@ -15,6 +15,7 @@
 </head>
 
 <body>
+
     <div id="main_wrapper">
         <input type="text" hidden id="user_id" value={{ Auth::user()->id }}>
         @include('partials.navigation')

@@ -933,9 +933,6 @@ input:checked + .toggle-bg {
 .w-1\/2 {
   width: 50%;
 }
-.w-3\/4 {
-  width: 75%;
-}
 .max-w-md {
   max-width: 28rem;
 }
@@ -1251,9 +1248,6 @@ input:checked + .toggle-bg {
 }
 .text-center {
   text-align: center;
-}
-.text-right {
-  text-align: right;
 }
 .text-lg {
   font-size: 1.125rem;

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\FriendRequest\FriendRequestInterface;
+use App\Repositories\FriendRequest\FriendRequestRepository;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -18,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             UserRepositoryInterface::class,
             UserRepository::class
+        );
+
+        $this->app->singleton(
+            FriendRequestInterface::class,
+            FriendRequestRepository::class
         );
     }
 

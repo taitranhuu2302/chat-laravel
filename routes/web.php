@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Models\Friend;
 use App\Models\FriendRequest;
@@ -37,18 +38,15 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        $friendRequests = FriendRequest::where('user_id', Auth::id())->with('user')->get()->sortByDesc('id');
-        return view('pages.dashboard')->with('friendRequests', $friendRequests);
-    });
-
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/room/{id}', function ($id) {
         return view('pages.room')->with('id', $id);
     });
 
     Route::prefix('user')->group(function () {
 
-        Route::post('/add-friend', [UserController::class, 'addFriendRequest']);
+        Route::post('/add-friend-request', [UserController::class, 'addFriendRequest']);
+        Route::post('/accept-friend-request', [UserController::class, 'acceptFriendRequest']);
         Route::get('/', [UserController::class, 'index']);
     });
 });

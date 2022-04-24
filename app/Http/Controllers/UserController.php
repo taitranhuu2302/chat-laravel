@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\AddFriendEvent;
+use App\Http\Requests\AcceptFriendRequest;
 use App\Http\Requests\AddFriendRequest;
 use App\Models\Friend;
 use App\Models\FriendRequest;
@@ -23,8 +24,7 @@ class UserController extends Controller
 
     public function index()
     {
-        //        return $this->userRepository->findAll();
-        return User::with('friends')->get();
+        return $this->userRepository->findAll();
     }
 
     public function addFriendRequest(AddFriendRequest $request): \Illuminate\Http\JsonResponse
@@ -49,5 +49,29 @@ class UserController extends Controller
         } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 500);
         }
+    }
+
+    public function acceptFriendRequest(AcceptFriendRequest $request)
+    {
+        $userId = $request->user_id;
+        $userAcceptId = $request->user_accept_id;
+
+        $friendRequest = FriendRequest::where('user_id', $userId)
+            ->where('request_id', $userAcceptId)->first();
+
+        $friendRequest->status = 'ACCEPTED';
+        $friendRequest->save();
+
+        Friend::create([
+            'user_id' => $userId,
+            'friend_id' => $userAcceptId
+        ]);
+
+        Friend::create([
+            'user_id' => $userAcceptId,
+            'friend_id' => $userId
+        ]);
+
+        return response()->json(['message' => 'Success'], 200);
     }
 }

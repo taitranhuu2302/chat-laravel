@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('request_id')->constrained('users')->cascadeOnDelete();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->string('status')->default('PENDING'); // PENDING, ACEPTED, REJECTED
+            $table->string('status')->default('PENDING'); // PENDING, ACCEPTED, REJECTED
             $table->timestamps();
         });
     }
