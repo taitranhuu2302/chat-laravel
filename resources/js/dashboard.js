@@ -93,7 +93,7 @@ $(() => {
                 }
             })
         })
-
+        $('.accept-friend-request').unbind();
         $('.accept-friend-request').click(function (e) {
             e.preventDefault();
             const id = $(this).attr('data-user-id');
@@ -111,7 +111,7 @@ $(() => {
                 console.log(error)
             })
         })
-
+        $('.block-friend-request').unbind();
         $('.block-friend-request').click(function (e) {
             e.preventDefault();
             const id = $(this).attr('data-user-id');
