@@ -232,5 +232,40 @@ $(() => {
         })
     }
 
+    $('#user_avatar').change((e) => {
+        const file = e.target.files[0];
+        const fr = new FileReader();
+        fr.readAsDataURL(file);
+        fr.onload = (e) => {
+            $('#user_avatar_preview').attr('src', e.target.result);
+        }
+    })
+
+    $('#form_edit_profile').submit(function (e) {
+        e.preventDefault();
+        const full_name = $('#txt_full_name').val();
+        const email = $('#txt_email').val();
+        const avatar = $('#user_avatar_preview').attr('src');
+        const phone = $('#txt_phone').val();
+        const address = $('#txt_address').val();
+        const country = $('#txt_country').val();
+        const data = {
+            full_name: full_name,
+            email: email,
+            avatar: avatar,
+            phone: phone,
+            address: address,
+            country: country
+        }
+        axios.put('/user/edit-profile', data)
+            .then((response) => {
+                if (response.data.status === 200) {
+                    Swal.fire('Profile updated successfully!', '', 'success')
+                }
+            })
+            .catch((error) => {
+                Swal.fire('Error! An error occurred. Please try again later!', '', 'error')
+            })
+    })
 })
 

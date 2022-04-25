@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/accept-friend-request', [UserController::class, 'acceptFriendRequest']);
         Route::post('/block-friend-request', [UserController::class, 'blockFriendRequest']);
         Route::post('/block-friend', [UserController::class, 'blockFriend']);
+        Route::put('/edit-profile', [UserController::class, 'editProfile']);
         Route::get('/', [UserController::class, 'index']);
     });
 });

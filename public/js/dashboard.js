@@ -4100,6 +4100,40 @@ $(function () {
       });
     });
   }
+
+  $('#user_avatar').change(function (e) {
+    var file = e.target.files[0];
+    var fr = new FileReader();
+    fr.readAsDataURL(file);
+
+    fr.onload = function (e) {
+      $('#user_avatar_preview').attr('src', e.target.result);
+    };
+  });
+  $('#form_edit_profile').submit(function (e) {
+    e.preventDefault();
+    var full_name = $('#txt_full_name').val();
+    var email = $('#txt_email').val();
+    var avatar = $('#user_avatar_preview').attr('src');
+    var phone = $('#txt_phone').val();
+    var address = $('#txt_address').val();
+    var country = $('#txt_country').val();
+    var data = {
+      full_name: full_name,
+      email: email,
+      avatar: avatar,
+      phone: phone,
+      address: address,
+      country: country
+    };
+    axios.put('/user/edit-profile', data).then(function (response) {
+      if (response.data.status === 200) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Profile updated successfully!', '', 'success');
+      }
+    })["catch"](function (error) {
+      sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Error! An error occurred. Please try again later!', '', 'error');
+    });
+  });
 });
 })();
 

@@ -9,11 +9,14 @@ use App\Events\AddFriendEvent;
 use App\Http\Requests\AcceptFriendRequest;
 use App\Http\Requests\AddFriendRequest;
 use App\Http\Requests\BlockFriendRequest;
+use App\Http\Requests\EditProfileRequest;
 use App\Repositories\Friend\FriendRepositoryInterface;
 use App\Repositories\FriendRequest\FriendRequestInterface;
 use App\Repositories\User\UserRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use function MongoDB\BSON\toJSON;
 
 class UserController extends Controller
 {
@@ -37,7 +40,20 @@ class UserController extends Controller
         return $this->userRepository->findAll();
     }
 
-    public function addFriendRequest(AddFriendRequest $request): \Illuminate\Http\JsonResponse
+    public function editProfile(EditProfileRequest $request)
+    {
+        try {
+            $file = handleImage($request->avatar);
+            return response()->json(['message' => 'success', 'status' => 200], 200);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+
+
+    }
+
+    public function addFriendRequest(AddFriendRequest $request): JsonResponse
     {
         try {
             $userId = Auth::id();
@@ -67,7 +83,7 @@ class UserController extends Controller
         }
     }
 
-    public function acceptFriendRequest(AcceptFriendRequest $request): \Illuminate\Http\JsonResponse
+    public function acceptFriendRequest(AcceptFriendRequest $request): JsonResponse
     {
         try {
             $userId = Auth::id();
@@ -97,7 +113,7 @@ class UserController extends Controller
         }
     }
 
-    public function blockFriendRequest(BlockFriendRequest $request): \Illuminate\Http\JsonResponse
+    public function blockFriendRequest(BlockFriendRequest $request): JsonResponse
     {
         try {
             $userId = Auth::id();
@@ -112,7 +128,7 @@ class UserController extends Controller
         }
     }
 
-    public function blockFriend(BlockFriendRequest $request)
+    public function blockFriend(BlockFriendRequest $request): JsonResponse
     {
         try {
 
