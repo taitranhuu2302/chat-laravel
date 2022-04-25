@@ -2,6 +2,7 @@
 
 namespace App\Repositories\FriendRequest;
 
+use App\Enums\FriendRequestStatus;
 use App\Models\FriendRequest;
 use App\Repositories\BaseRepository;
 
@@ -16,7 +17,7 @@ class FriendRequestRepository extends BaseRepository implements FriendRequestInt
     public function findAllFriendRequestByUserId($id)
     {
         return $this->model->where('user_id', $id)
-            ->where('status', '=', 'PENDING')
+            ->where('status', '=', FriendRequestStatus::PENDING)
             ->with('user')->get()->sortByDesc('id');
     }
 

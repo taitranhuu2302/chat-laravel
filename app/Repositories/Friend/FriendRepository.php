@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Friend;
 
+use App\Enums\FriendStatus;
 use App\Models\Friend;
 use App\Repositories\BaseRepository;
 
@@ -19,7 +20,7 @@ class FriendRepository extends BaseRepository implements FriendRepositoryInterfa
     public function findAllFriendsByUserId($id)
     {
         return $this->model->where('user_id', $id)
-            ->where('status', '=', 'FRIEND')
+            ->where('status', '=', FriendStatus::FRIEND)
             ->with('user')->get()->sortByDesc('updated_at');
     }
 

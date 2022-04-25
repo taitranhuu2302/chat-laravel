@@ -13,7 +13,7 @@
                class="text-lg bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
     </div>
 
-    <ul class="friend__rooms flex flex-col border-t overflow-y-auto flex-grow">
+    <ul id="sidebar_friend_list" class="friend__rooms flex flex-col border-t overflow-y-auto flex-grow">
         @foreach($friends as $item)
             <li class="rooms__item border-b py-3 w-full px-8 flex items-center">
                 <div class="flex overflow-hidden items-center w-full gap-3">
@@ -43,7 +43,7 @@
                             </li>
                             <li>
                                 <a data-user-id="{{ $item->user->id }}" href="#"
-                                   class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Block</a>
+                                   class="btn-block-friend block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Block</a>
                             </li>
                         </ul>
                     </div>

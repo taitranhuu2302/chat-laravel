@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\FriendRequestStatus;
+use App\Enums\FriendStatus;
 use App\Events\AcceptFriendEvent;
 use App\Events\AddFriendEvent;
 use App\Http\Requests\AcceptFriendRequest;
 use App\Http\Requests\AddFriendRequest;
-use App\Models\Friend;
-use App\Models\FriendRequest;
-use App\Models\User;
+use App\Http\Requests\BlockFriendRequest;
 use App\Repositories\Friend\FriendRepositoryInterface;
 use App\Repositories\FriendRequest\FriendRequestInterface;
 use App\Repositories\User\UserRepositoryInterface;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -41,7 +40,7 @@ class UserController extends Controller
     public function addFriendRequest(AddFriendRequest $request): \Illuminate\Http\JsonResponse
     {
         try {
-            $userId = $request->userId;
+            $userId = Auth::id();
             $userCurrent = $this->userRepository->findById($userId);
             $userTo = $this->userRepository->findByEmail($request->email);
 
@@ -49,12 +48,18 @@ class UserController extends Controller
                 return response()->json(['message' => 'Failed'], 404);
             }
 
+            $checkExist = $this->friendRepository->findAllFriendsByUserId($userId, $userTo->id);
+            Log::info($checkExist);
+            if (count($checkExist) > 0) {
+                return response()->json(['message' => 'Bạn không thể kết bạn lại', 'status' => 400], 400);
+            }
+
             $this->friendRequestRepository->create([
                 'user_id' => $userTo->id, //
                 'request_id' => $userCurrent->id
             ]);
 
-            AddFriendEvent::dispatch($userTo->id, $userCurrent);
+            event(new AddFriendEvent($userTo->id, $userCurrent));
 
             return response()->json(['message' => 'Success'], 200);
         } catch (\Exception $exception) {
@@ -64,26 +69,63 @@ class UserController extends Controller
 
     public function acceptFriendRequest(AcceptFriendRequest $request): \Illuminate\Http\JsonResponse
     {
-        $userId = $request->user_id;
-        $userAcceptId = $request->user_accept_id;
+        try {
+            $userId = Auth::id();
+            $userAcceptId = $request->user_accept_id;
 
-        $userCurrent = $this->userRepository->findById($userId);
-        $userTo = $this->userRepository->findById($userAcceptId);
+            $userCurrent = $this->userRepository->findById($userId);
+            $userTo = $this->userRepository->findById($userAcceptId);
 
-        $this->friendRequestRepository->changeStatusFriendRequest($userId, $userAcceptId, 'ACCEPTED');
+            $this->friendRequestRepository->changeStatusFriendRequest($userId, $userAcceptId, FriendRequestStatus::ACCEPTED);
 
-        $this->friendRepository->create([
-            'user_id' => $userId,
-            'friend_id' => $userAcceptId
-        ]);
-        $this->friendRepository->create([
-            'user_id' => $userAcceptId,
-            'friend_id' => $userId
-        ]);
+            $this->friendRepository->create([
+                'user_id' => $userId,
+                'friend_id' => $userAcceptId
+            ]);
 
-        AcceptFriendEvent::dispatch($userCurrent->id, $userTo);
-        AcceptFriendEvent::dispatch($userTo->id, $userCurrent);
+            $this->friendRepository->create([
+                'user_id' => $userAcceptId,
+                'friend_id' => $userId
+            ]);
 
-        return response()->json(['message' => 'Success', 'status' => 200], 200);
+            event(new AcceptFriendEvent($userTo->id, $userCurrent));
+            event(new AcceptFriendEvent($userCurrent->id, $userTo));
+
+            return response()->json(['message' => 'Success', 'status' => 200], 200);
+        } catch (\Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], 500);
+        }
+    }
+
+    public function blockFriendRequest(BlockFriendRequest $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $userId = Auth::id();
+            $userBlockId = $request->user_block_id;
+
+            $this->friendRequestRepository->changeStatusFriendRequest($userId, $userBlockId, FriendRequestStatus::REJECTED);
+
+            return response()->json(['message' => 'Success', 'status' => 200], 200);
+
+        } catch (\Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], 500);
+        }
+    }
+
+    public function blockFriend(BlockFriendRequest $request)
+    {
+        try {
+
+            $userId = Auth::id();
+            $userBlockId = $request->user_block_id;
+
+            $this->friendRepository->changeStatusFriend($userId, $userBlockId, FriendStatus::BLOCKED);
+            $this->friendRepository->changeStatusFriend($userBlockId, $userId, FriendStatus::BLOCKED);
+
+            return response()->json(['message' => 'Success', 'status' => 200], 200);
+
+        } catch (\Exception $exception) {
+            return response()->json(['message' => $exception->getMessage()], 500);
+        }
     }
 }
