@@ -1,3 +1,6 @@
+import Swal from 'sweetalert2';
+import 'sweetalert2/src/sweetalert2.scss';
+
 $(() => {
     const userId = document.getElementById('user_id').value;
     const Echo = window.Echo;
@@ -41,6 +44,7 @@ $(() => {
             'X-Requested-With': 'XMLHttpRequest',
         }).then((response) => {
             email.val('');
+            Swal.fire('Success', 'Friend request has been sent', 'success');
         }).catch((error) => {
             console.log(error)
         })
@@ -148,15 +152,27 @@ $(() => {
 
             const parent = $(this).parent().parent().parent().parent().parent();
 
-            axios.post('/user/accept-friend-request', {
-                user_accept_id: id
-            }).then((response) => {
-                if (response.data.status === 200) {
-                    parent.remove();
+            Swal.fire({
+                title: 'Want to accept a friend request??',
+                showCancelButton: true,
+                confirmButtonText: 'Ok',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    axios.post('/user/accept-friend-request', {
+                        user_accept_id: id
+                    }).then((response) => {
+                        if (response.data.status === 200) {
+                            parent.remove();
+                            Swal.fire('Accepted friend request!', '', 'success')
+                        }
+                    }).catch((error) => {
+                        console.log(error)
+                    })
                 }
-            }).catch((error) => {
-                console.log(error)
             })
+
+
         })
 
         buttonBlockFriendRequest.click(function (e) {
@@ -165,31 +181,53 @@ $(() => {
 
             const parent = $(this).parent().parent().parent().parent().parent();
 
-            axios.post('/user/block-friend-request', {
-                user_block_id: id
-            }).then((response) => {
-                if (response.data.status === 200) {
-                    parent.remove();
+            Swal.fire({
+                title: 'You want to cancel the friend request?',
+                showCancelButton: true,
+                confirmButtonText: 'Ok',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    axios.post('/user/block-friend-request', {
+                        user_block_id: id
+                    }).then((response) => {
+                        if (response.data.status === 200) {
+                            parent.remove();
+                        }
+                        Swal.fire('Cancellation of friend request successfully!', '', 'success')
+                    }).catch((error) => {
+                        Swal.fire('Error! An error occurred. Please try again later!', '', 'error')
+                    })
                 }
-            }).catch((error) => {
-                console.log(error)
             })
+
+
         })
 
-        buttonBlockFriend.click(function(e) {
+        buttonBlockFriend.click(function (e) {
             e.preventDefault();
             const id = $(this).attr('data-user-id');
 
             const parent = $(this).parent().parent().parent().parent().parent();
 
-            axios.post('/user/block-friend', {
-                user_block_id: id
-            }).then((response) => {
-                if (response.data.status === 200) {
-                    parent.remove();
+            Swal.fire({
+                title: 'You want to unfriend?',
+                showCancelButton: true,
+                confirmButtonText: 'Ok',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    axios.post('/user/block-friend', {
+                        user_block_id: id
+                    }).then((response) => {
+                        if (response.data.status === 200) {
+                            parent.remove();
+                            Swal.fire('Unfriended successfully!', '', 'success')
+                        }
+                    }).catch((error) => {
+                        Swal.fire('Error! An error occurred. Please try again later!', '', 'error')
+                    })
                 }
-            }).catch((error) => {
-                console.log(error)
             })
         })
     }
