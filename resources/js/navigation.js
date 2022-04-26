@@ -20,6 +20,22 @@ $(() => {
         addEventDropdown();
     })
 
+    Echo.channel(`create-room.${userId}`).listen('CreateRoomEvent', (data) => {
+        console.log(data);
+        let roomName = null;
+        let avatar = null;
+
+        data.room.users.forEach(item => {
+            if (item.user_id !== userId) {
+                roomName = item.full_name;
+                avatar = item.avatar;
+            }
+        })
+
+        $('#chat_rooms').append(renderChatRoom(avatar, roomName, data.room.id, `Xin chào ${roomName}`));
+        addEventDropdown();
+    });
+
     // Change Tab Active
     buttonTabs.forEach(button => {
         button.addEventListener('click', () => {
@@ -49,6 +65,44 @@ $(() => {
             console.log(error)
         })
     })
+
+    function renderChatRoom(avatar, full_name, id, message) {
+        return `
+        <li class="rooms__item border-b py-3 w-full px-8 flex items-center">
+            <a href="{{ url('/room/${id}') }}" class="block w-full">
+                <div class="flex overflow-hidden items-center w-full gap-3">
+                    <img class="w-10 h-10 rounded-full" src="${avatar}" alt="Rounded avatar">
+                    <div class="w-full overflow-hidden">
+                        <p
+                            class="text-lg overflow-hidden whitespace-nowrap w-2/4 text-ellipsis text-blue-600 font-semibold">
+                            ${full_name}
+                        </p>
+                        <p class="text-md overflow-hidden whitespace-nowrap w-2/4 text-ellipsis">
+                            ${message}
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <button class="button-friend-request" data-dropdown-placement="right">
+                <i class="fas fa-ellipsis-h-alt"></i>
+                <div
+                    class="hidden absolute z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dropdown-friend-request">
+                    <ul class="text-left py-1 w-full text-sm text-gray-700 dark:text-gray-200"
+                        aria-labelledby="dropdownRightButton">
+                        <li>
+                            <a href="{{ url('/room/${id}') }}"
+                            class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Open Room</a>
+                        </li>
+                        <li>
+                            <a data-user-id="{{ ${id} }}" href="#"
+                            class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Block</a>
+                        </li>
+                    </ul>
+                </div>
+            </button>
+        </li>
+        `
+    }
 
     function renderFriendRequest(avatar, full_name, id, message) {
         return `
@@ -244,7 +298,7 @@ $(() => {
                     window.location.href = '/room/' + response.data.data.id;
                 }
             }).catch((error) => {
-                if (error.response.data.status === 409){
+                if (error.response.data.status === 409) {
                     window.location.href = '/room/' + error.response.data.data.id;
                 }
             })

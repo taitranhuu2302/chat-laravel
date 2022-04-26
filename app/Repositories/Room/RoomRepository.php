@@ -51,4 +51,17 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
             $query->where('room_type', RoomType::PRIVATE_ROOM)->where('user_id', $userTwoId);
         })->first();
     }
+
+    public function isRoomExists($userId, $roomId)
+    {
+        $room = $this->model->where('id', $roomId)->whereHas('users', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->first();
+
+        if ($room) {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -11,4 +11,6 @@ interface RoomRepositoryInterface extends RepositoryInterface
     public function findAllRoomByUserId($id);
 
     public function checkRoomPrivateAlreadyExists($userOneId, $userTwoId);
+
+    public function isRoomExists($userId, $roomId);
 }

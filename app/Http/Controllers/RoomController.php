@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\RoomType;
+use App\Events\CreateRoomEvent;
 use App\Http\Requests\CreateRoomPrivateRequest;
 use App\Models\Room;
 use App\Repositories\Room\RoomRepositoryInterface;
@@ -27,6 +28,12 @@ class RoomController extends Controller
 
     public function showRoomById($id)
     {
+        $checkRoom = $this->roomRepository->isRoomExists(Auth::id(), $id);
+
+        if (!$checkRoom) {
+            return redirect('/');
+        }
+
         $room = $this->roomRepository->findById($id);
 
         $roomByUserId = $this->roomRepository->findAllRoomByUserId(Auth::id());
@@ -47,10 +54,13 @@ class RoomController extends Controller
                 return response()->json(['message' => 'Room already exists', 'status' => 409, 'data' => $checkRoom], 409);
             }
 
-            $room = $this->roomRepository->createRoomPrivate($userOneId, $userTwoId);
+            $newRoom = $this->roomRepository->createRoomPrivate($userOneId, $userTwoId);
+
+            $room = $this->roomRepository->findById($newRoom->id);
+
+            event(new CreateRoomEvent($userTwoId, $room));
 
             return response()->json(['message' => 'success', 'status' => 200, 'data' => $room]);
-
         } catch (\Exception $e) {
             return response()->json(['message' => 'error', 'status' => 500, 'data' => $e->getMessage()]);
         }
