@@ -16,7 +16,7 @@ use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use function MongoDB\BSON\toJSON;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -28,8 +28,7 @@ class UserController extends Controller
         UserRepositoryInterface   $userRepo,
         FriendRequestInterface    $friendRequestRepo,
         FriendRepositoryInterface $friendRepo
-    )
-    {
+    ) {
         $this->userRepository = $userRepo;
         $this->friendRequestRepository = $friendRequestRepo;
         $this->friendRepository = $friendRepo;
@@ -43,14 +42,42 @@ class UserController extends Controller
     public function editProfile(EditProfileRequest $request)
     {
         try {
-            $file = handleImage($request->avatar);
+
+            $checkBase64 = isBase64($request->avatar);
+            $file = null;
+            if ($checkBase64 === 1) {
+                $file = handleImageBase64($request->avatar);
+                Storage::put('public/images/' . $file['file_name'], $file['image_base64']);
+            }
+
+            // Auth::user()->id,
+            //     $request->full_name,
+            //     $request->email,
+            //     $request->phone,
+            //     $request->address,
+            //     $file['path_file'] ?? null,
+            //     $request->country
+
+            // $update = [
+            //     'id' => Auth::id(),
+            //     'full_name' => $request->full_name,
+            //     'email' => $request->email,
+            //     'phone' => $request->phone,
+            //     'address' => $request->address,
+            //     'avatar' => $file['path_file'] ?? null,
+            //     'country' => $request->country,
+            // ];
+
+            // ProfileRepository
+
+            // $this->userRepository->update(Auth::id(), $update);
+
+
             return response()->json(['message' => 'success', 'status' => 200], 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['message' => $e->getMessage()], 500);
         }
-
-
     }
 
     public function addFriendRequest(AddFriendRequest $request): JsonResponse
@@ -122,7 +149,6 @@ class UserController extends Controller
             $this->friendRequestRepository->changeStatusFriendRequest($userId, $userBlockId, FriendRequestStatus::REJECTED);
 
             return response()->json(['message' => 'Success', 'status' => 200], 200);
-
         } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 500);
         }
@@ -139,7 +165,6 @@ class UserController extends Controller
             $this->friendRepository->changeStatusFriend($userBlockId, $userId, FriendStatus::BLOCKED);
 
             return response()->json(['message' => 'Success', 'status' => 200], 200);
-
         } catch (\Exception $exception) {
             return response()->json(['message' => $exception->getMessage()], 500);
         }
