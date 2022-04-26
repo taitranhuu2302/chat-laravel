@@ -20,13 +20,18 @@ function handleImageBase64($base64)
     ];
 }
 
-function isBase64($base64)
+function isBase64(string $base64): bool
 {
-    $image_parts = explode(";base64,", $base64);
 
-    if (base64_encode(base64_decode($image_parts[1], true)) === $image_parts[1]) {
-        return true;
-    } else {
+    try {
+        $image_parts = explode(";base64,", $base64);
+
+        if (base64_encode(base64_decode($image_parts[1], true)) === $image_parts[1]) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (\Exception $e) {
         return false;
     }
 }

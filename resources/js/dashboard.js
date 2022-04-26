@@ -260,6 +260,8 @@ $(() => {
         axios.put('/user/edit-profile', data)
             .then((response) => {
                 if (response.data.status === 200) {
+                    $('#avatar_user_navigation').attr('src', avatar);
+                    // $('#avatar_user_navigation')= avatar;
                     Swal.fire('Profile updated successfully!', '', 'success')
                 }
             })

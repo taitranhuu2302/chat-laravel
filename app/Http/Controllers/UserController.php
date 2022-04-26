@@ -12,6 +12,7 @@ use App\Http\Requests\BlockFriendRequest;
 use App\Http\Requests\EditProfileRequest;
 use App\Repositories\Friend\FriendRepositoryInterface;
 use App\Repositories\FriendRequest\FriendRequestInterface;
+use App\Repositories\Profile\ProfileRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -23,15 +24,19 @@ class UserController extends Controller
     protected UserRepositoryInterface $userRepository;
     protected FriendRequestInterface $friendRequestRepository;
     protected FriendRepositoryInterface $friendRepository;
+    protected ProfileRepositoryInterface $profileRepository;
 
     public function __construct(
-        UserRepositoryInterface   $userRepo,
-        FriendRequestInterface    $friendRequestRepo,
-        FriendRepositoryInterface $friendRepo
-    ) {
+        UserRepositoryInterface    $userRepo,
+        FriendRequestInterface     $friendRequestRepo,
+        FriendRepositoryInterface  $friendRepo,
+        ProfileRepositoryInterface $profileRepo
+    )
+    {
         $this->userRepository = $userRepo;
         $this->friendRequestRepository = $friendRequestRepo;
         $this->friendRepository = $friendRepo;
+        $this->profileRepository = $profileRepo;
     }
 
     public function index()
@@ -41,37 +46,28 @@ class UserController extends Controller
 
     public function editProfile(EditProfileRequest $request)
     {
-        try {
 
-            $checkBase64 = isBase64($request->avatar);
+        try {
             $file = null;
-            if ($checkBase64 === 1) {
+            $checkBase64 = isBase64($request->avatar);
+
+            if ($checkBase64) {
                 $file = handleImageBase64($request->avatar);
                 Storage::put('public/images/' . $file['file_name'], $file['image_base64']);
             }
 
-            // Auth::user()->id,
-            //     $request->full_name,
-            //     $request->email,
-            //     $request->phone,
-            //     $request->address,
-            //     $file['path_file'] ?? null,
-            //     $request->country
+            $avatar = $file !== null ? $file['path_file'] : Auth::user()->avatar;
 
-            // $update = [
-            //     'id' => Auth::id(),
-            //     'full_name' => $request->full_name,
-            //     'email' => $request->email,
-            //     'phone' => $request->phone,
-            //     'address' => $request->address,
-            //     'avatar' => $file['path_file'] ?? null,
-            //     'country' => $request->country,
-            // ];
+            $user = $this->userRepository->findById(Auth::user()->id)->update([
+                'full_name' => $request->full_name,
+                'avatar' => $avatar,
+            ]);
 
-            // ProfileRepository
-
-            // $this->userRepository->update(Auth::id(), $update);
-
+            $profile = $this->profileRepository->updateByUserId(Auth::id(), [
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'country' => $request->country,
+            ]);
 
             return response()->json(['message' => 'success', 'status' => 200], 200);
         } catch (\Exception $e) {

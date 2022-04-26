@@ -4128,6 +4128,8 @@ $(function () {
     };
     axios.put('/user/edit-profile', data).then(function (response) {
       if (response.data.status === 200) {
+        $('#avatar_user_navigation').attr('src', avatar); // $('#avatar_user_navigation')= avatar;
+
         sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Profile updated successfully!', '', 'success');
       }
     })["catch"](function (error) {
