@@ -14,7 +14,7 @@
     </div>
 
     <ul id="sidebar_friend_list" class="friend__rooms flex flex-col border-t overflow-y-auto flex-grow">
-        @foreach($friends as $item)
+        @foreach(Auth::user()->friends as $item)
             <li class="rooms__item border-b py-3 w-full px-8 flex items-center">
                 <div class="flex overflow-hidden items-center w-full gap-3">
                     <img class="w-10 h-10 rounded-full" src="{{ $item->user->avatar }}" alt="Rounded avatar">
@@ -35,7 +35,7 @@
                             aria-labelledby="dropdownRightButton">
                             <li>
                                 <a data-user-id="{{ $item->user->id }}" href="#"
-                                   class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">New Chat</a>
+                                   class="btn-create-private block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">New Chat</a>
                             </li>
                             <li>
                                 <a data-user-id="{{ $item->user->id }}" href="#"

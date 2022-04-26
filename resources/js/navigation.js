@@ -127,11 +127,13 @@ $(() => {
         const buttonAcceptFriendRequest = $('.accept-friend-request');
         const buttonBlockFriendRequest = $('.block-friend-request');
         const buttonBlockFriend = $('.btn-block-friend');
+        const buttonCreateRoomPrivate = $('.btn-create-private');
 
         buttonDropdown.unbind();
         buttonAcceptFriendRequest.unbind();
         buttonBlockFriendRequest.unbind();
         buttonBlockFriend.unbind();
+        buttonCreateRoomPrivate.unbind();
 
         buttonDropdown.click(function (e) {
             e.preventDefault();
@@ -230,6 +232,29 @@ $(() => {
                 }
             })
         })
+
+        buttonCreateRoomPrivate.click(function (e) {
+            e.preventDefault();
+            const id = $(this).attr('data-user-id');
+
+            axios.post('/room/create-room-private', {
+                user_id: id
+            }).then((response) => {
+                if (response.data.status === 200) {
+                    window.location.href = '/room/' + response.data.data.id;
+                }
+            }).catch((error) => {
+                if (error.response.data.status === 409){
+                    window.location.href = '/room/' + error.response.data.data.id;
+                }
+            })
+
+            $(document).click(function (e) {
+                if (!buttonCreateRoomPrivate.is(e.target) && buttonCreateRoomPrivate.has(e.target).length === 0) {
+                    parent.addClass('hidden')
+                }
+            })
+        })
     }
 
     $('#user_avatar').change((e) => {
@@ -269,5 +294,7 @@ $(() => {
                 Swal.fire('Error! An error occurred. Please try again later!', '', 'error')
             })
     })
+
+
 })
 

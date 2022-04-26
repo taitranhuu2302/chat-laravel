@@ -3,26 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\FriendRequest;
+use App\Models\Room;
+use App\Models\User;
 use App\Repositories\Friend\FriendRepositoryInterface;
 use App\Repositories\FriendRequest\FriendRequestInterface;
+use App\Repositories\Room\RoomRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    protected FriendRequestInterface $friendRequestRepository;
-    protected FriendRepositoryInterface $friendRepository;
+    protected RoomRepositoryInterface $roomRepository;
 
-    public function __construct(FriendRequestInterface $friendRequestRepo, FriendRepositoryInterface $friendRepo)
+    public function __construct(RoomRepositoryInterface $roomRepo)
     {
-        $this->friendRequestRepository = $friendRequestRepo;
-        $this->friendRepository = $friendRepo;
+        $this->roomRepository = $roomRepo;
     }
 
     public function index()
     {
-        $friendRequests = $this->friendRequestRepository->findAllFriendRequestByUserId(Auth::id());
-        $friends = $this->friendRepository->findAllFriendsByUserId(Auth::id());
-        return view('pages.dashboard')->with('friendRequests', $friendRequests)->with('friends', $friends);
+        $rooms = $this->roomRepository->findAllRoomByUserId(Auth::id());
+        return view('pages.dashboard')->with('rooms', $rooms);
     }
 }

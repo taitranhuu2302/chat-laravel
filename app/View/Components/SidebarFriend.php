@@ -6,15 +6,13 @@ use Illuminate\View\Component;
 
 class SidebarFriend extends Component
 {
-    public $friends;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($friends)
+    public function __construct()
     {
-        $this->friends = $friends;
     }
 
     /**

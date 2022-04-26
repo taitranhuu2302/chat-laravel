@@ -116,7 +116,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _css_loader_dist_cjs_js_ruleSet_1_rules_10_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_10_oneOf_1_use_2_sass_loader_dist_cjs_js_ruleSet_1_rules_10_oneOf_1_use_3_sweetalert2_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../css-loader/dist/cjs.js??ruleSet[1].rules[10].oneOf[1].use[1]!../../postcss-loader/dist/cjs.js??ruleSet[1].rules[10].oneOf[1].use[2]!../../sass-loader/dist/cjs.js??ruleSet[1].rules[10].oneOf[1].use[3]!./sweetalert2.scss */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[10].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[10].oneOf[1].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[10].oneOf[1].use[3]!./node_modules/sweetalert2/src/sweetalert2.scss");
 
-            
+
 
 var options = {};
 
@@ -3879,7 +3879,7 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -3893,14 +3893,14 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
@@ -3913,7 +3913,7 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 /******/ 			return getter;
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -3925,12 +3925,12 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 /******/ 			}
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -3941,14 +3941,14 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
 /*!***********************************!*\
-  !*** ./resources/js/dashboard.js ***!
+  !*** ./resources/js/navigation.js ***!
   \***********************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
@@ -4011,10 +4011,12 @@ $(function () {
     var buttonAcceptFriendRequest = $('.accept-friend-request');
     var buttonBlockFriendRequest = $('.block-friend-request');
     var buttonBlockFriend = $('.btn-block-friend');
+    var buttonCreateRoomPrivate = $('.btn-create-private');
     buttonDropdown.unbind();
     buttonAcceptFriendRequest.unbind();
     buttonBlockFriendRequest.unbind();
     buttonBlockFriend.unbind();
+    buttonCreateRoomPrivate.unbind();
     buttonDropdown.click(function (e) {
       e.preventDefault();
       var button = $(this).parent();
@@ -4096,6 +4098,25 @@ $(function () {
           })["catch"](function (error) {
             sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Error! An error occurred. Please try again later!', '', 'error');
           });
+        }
+      });
+    });
+    buttonCreateRoomPrivate.click(function (e) {
+      e.preventDefault();
+      var id = $(this).attr('data-user-id');
+      console.log(id);
+      axios.post('/room/create-room-private', {
+        user_id: id
+      }).then(function (response) {
+        if (response.data.status === 200) {
+          window.location.href = '/room/' + response.data.data.id;
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+      $(document).click(function (e) {
+        if (!buttonCreateRoomPrivate.is(e.target) && buttonCreateRoomPrivate.has(e.target).length === 0) {
+          parent.addClass('hidden');
         }
       });
     });

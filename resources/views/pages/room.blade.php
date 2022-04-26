@@ -1,17 +1,18 @@
 @extends('layouts.main_layout')
 
 @section('title', 'Room')
-@section('style-lib')
+@section('styles')
     <link rel="stylesheet" href="{{ asset('css/room.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 @endsection
 
 @section('content')
     <div id="room" class="flex flex-col h-full w-full">
         <div class="room__header flex-shrink flex items-center border-b p-4 justify-between">
             <div class="header__left flex items-center gap-4 ">
-                <img class="w-9 h-9 rounded-full" src="{{ Auth::user()->profile->avatar }}" alt="Rounded avatar">
+                <img class="w-9 h-9 rounded-full" src="{{ Auth::user()->avatar }}" alt="Rounded avatar">
                 <div>
-                    <p class="text-md font-semibold">{{ Auth::user()->profile->full_name }}</p>
+                    <p class="text-md font-semibold">{{ Auth::user()->full_name }}</p>
                     <p class="text-sm">Online</p>
                 </div>
             </div>
@@ -30,7 +31,7 @@
         <div class="room__content gap-4 flex-grow flex flex-col-reverse px-5">
             <div class="room__chat room__chat--left">
                 <div class="room__chat--avatar">
-                    <img class="w-10 h-10 rounded-full" src="{{ Auth::user()->profile->avatar }}" alt="Rounded avatar">
+                    <img class="w-10 h-10 rounded-full" src="{{ Auth::user()->avatar }}" alt="Rounded avatar">
                 </div>
                 <div class="room__chat--content">
                     <p class="room__chat--text">
@@ -42,7 +43,7 @@
             </div>
             <div class="room__chat room__chat--right">
                 <div class="room__chat--avatar">
-                    <img class="w-10 h-10 rounded-full" src="{{ Auth::user()->profile->avatar }}" alt="Rounded avatar">
+                    <img class="w-10 h-10 rounded-full" src="{{ Auth::user()->avatar }}" alt="Rounded avatar">
                 </div>
                 <div class="room__chat--content">
                     <p class="room__chat--text">
@@ -78,3 +79,8 @@
         </div>
     </div>
 @endsection
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<script src="{{ asset('js/navigation.js') }}"></script>

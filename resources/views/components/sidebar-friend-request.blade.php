@@ -9,7 +9,7 @@
     </div>
 
     <ul id="list-request-friend" class="friend-request__rooms flex flex-col border-t overflow-y-auto flex-grow">
-        @foreach ($friendRequests as $item)
+        @foreach (Auth::user()->friendRequests as $item)
             <li class="rooms__item border-b py-3 w-full px-8 flex items-center">
                 <div class="flex overflow-hidden items-center w-full gap-3">
                     <img class="w-10 h-10 rounded-full" src="{{ $item->user->avatar }}" alt="Rounded avatar">

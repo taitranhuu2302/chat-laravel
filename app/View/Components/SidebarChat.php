@@ -11,9 +11,11 @@ class SidebarChat extends Component
      *
      * @return void
      */
-    public function __construct()
+    public $rooms;
+
+    public function __construct($rooms)
     {
-        //
+        $this->rooms = $rooms;
     }
 
     /**

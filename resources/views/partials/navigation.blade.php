@@ -15,7 +15,7 @@
                         aria-selected="false" data-tooltip-target="tooltip-chat"
                         class="nav__top--button nav__top--active">
                     <i class="nav__top--icon far fa-comment"></i>
-                    <div id="tooltip-button" role="tooltip"
+                    <div id="tooltip-chat" role="tooltip"
                          class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                         Chats
                         <div class="tooltip-arrow" data-popper-arrow></div>
@@ -92,16 +92,16 @@
     </div>
     <div id="sidebar">
         <div id="chat" class="hidden" role="tabpanel" aria-labelledby="button-chat">
-            <x-sidebar-chat></x-sidebar-chat>
+            <x-sidebar-chat :rooms="$rooms"></x-sidebar-chat>
         </div>
         <div id="friend" class="hidden" role="tabpanel" aria-labelledby="button-friend">
-            <x-sidebar-friend :friends="$friends"></x-sidebar-friend>
+            <x-sidebar-friend></x-sidebar-friend>
         </div>
         <div id="group" class="hidden" role="tabpanel" aria-labelledby="button-group">
             <x-sidebar-group></x-sidebar-group>
         </div>
         <div id="friend-request" class="hidden" role="tabpanel" aria-labelledby="button-friend-request">
-            <x-sidebar-friend-request :friendRequests="$friendRequests"></x-sidebar-friend-request>
+            <x-sidebar-friend-request></x-sidebar-friend-request>
         </div>
     </div>
 </div>

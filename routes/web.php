@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use App\Models\Friend;
 use App\Models\FriendRequest;
@@ -51,5 +52,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/block-friend', [UserController::class, 'blockFriend']);
         Route::put('/edit-profile', [UserController::class, 'editProfile']);
         Route::get('/', [UserController::class, 'index']);
+    });
+
+    Route::prefix('room')->group(function() {
+        Route::get('/', [RoomController::class, 'index']);
+//        Route::get('/{id}', [RoomController::class, 'show']);
+        Route::post('/create-room-private', [RoomController::class, 'createRoomPrivate']);
+        Route::get('/{id}', [RoomController::class, 'showRoomById']);
     });
 });
