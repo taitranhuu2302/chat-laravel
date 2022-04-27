@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\FriendRequestStatus;
+use App\Enums\FriendStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -50,12 +52,13 @@ class User extends Authenticatable
 
     public function friends(): HasMany
     {
-        return $this->hasMany(Friend::class);
+        return $this->hasMany(Friend::class)->where('status', FriendStatus::FRIEND);
     }
 
     public function friendRequests(): HasMany
     {
-        return $this->hasMany(FriendRequest::class, 'request_id', 'id');
+        return $this->hasMany(FriendRequest::class, 'request_id', 'id')
+            ->where('status', FriendRequestStatus::PENDING);
     }
 
     public function rooms(): BelongsToMany

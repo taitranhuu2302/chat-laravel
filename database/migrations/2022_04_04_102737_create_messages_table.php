@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Room::class)->constrained()->cascadeOnDelete();
             $table->string('text')->nullable();
+            $table->string('message_type')->default('MESSAGE'); // MESSAGE, NOTIFICATION, SYSTEM_MESSAGE
             $table->timestamps();
         });
     }

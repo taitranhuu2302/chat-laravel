@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use App\Models\Friend;
@@ -59,5 +60,10 @@ Route::middleware('auth')->group(function () {
 //        Route::get('/{id}', [RoomController::class, 'show']);
         Route::post('/create-room-private', [RoomController::class, 'createRoomPrivate']);
         Route::get('/{id}', [RoomController::class, 'showRoomById']);
+    });
+
+    Route::prefix('message')->group(function() {
+        Route::post('/send-message', [MessageController::class, 'sendMessage']);
+//        Route::get('/get-message', [MessageController::class, 'getMessage']);
     });
 });

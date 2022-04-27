@@ -13,7 +13,6 @@ $(() => {
     })
 
     Echo.channel(`accept-friend.${userId}`).listen('AcceptFriendEvent', (data) => {
-        console.log(data)
         $('#sidebar_friend_list')
             .append(renderFriendItem(
                 data.friend.avatar, data.friend.full_name, data.friend.id, `Xin chào ${data.friend.full_name}`));
@@ -21,7 +20,6 @@ $(() => {
     })
 
     Echo.channel(`create-room.${userId}`).listen('CreateRoomEvent', (data) => {
-        console.log(data);
         let roomName = null;
         let avatar = null;
 
@@ -90,7 +88,7 @@ $(() => {
                     <ul class="text-left py-1 w-full text-sm text-gray-700 dark:text-gray-200"
                         aria-labelledby="dropdownRightButton">
                         <li>
-                            <a href="{{ url('/room/${id}') }}"
+                            <a href='/room/${id}'
                             class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Open Room</a>
                         </li>
                         <li>
@@ -159,7 +157,7 @@ $(() => {
                             aria-labelledby="dropdownRightButton">
                             <li>
                                 <a data-user-id="${id}" href="#"
-                                   class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">New Chat</a>
+                                   class="btn-create-private block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">New Chat</a>
                             </li>
                             <li>
                                 <a data-user-id="${id}" href="#"
@@ -256,8 +254,6 @@ $(() => {
                     })
                 }
             })
-
-
         })
 
         buttonBlockFriend.click(function (e) {
@@ -347,6 +343,12 @@ $(() => {
             .catch((error) => {
                 Swal.fire('Error! An error occurred. Please try again later!', '', 'error')
             })
+    })
+
+    $('#form-chat').submit(function (e) {
+        e.preventDefault();
+        const text = $('#txt_message').val();
+        console.log(text);
     })
 
 
