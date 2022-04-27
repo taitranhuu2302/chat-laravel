@@ -344,13 +344,5 @@ $(() => {
                 Swal.fire('Error! An error occurred. Please try again later!', '', 'error')
             })
     })
-
-    $('#form-chat').submit(function (e) {
-        e.preventDefault();
-        const text = $('#txt_message').val();
-        console.log(text);
-    })
-
-
 })
 

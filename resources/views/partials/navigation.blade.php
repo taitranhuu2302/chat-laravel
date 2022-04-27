@@ -108,3 +108,8 @@
 <x-add-friend-modal></x-add-friend-modal>
 <x-profile-modal></x-profile-modal>
 
+<script>
+    const user = @json(Auth::user());
+    const rooms = @json($rooms);
+</script>
+

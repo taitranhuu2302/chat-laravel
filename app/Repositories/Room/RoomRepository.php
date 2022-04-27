@@ -20,7 +20,7 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
 
     public function findById($id)
     {
-        return $this->model->with('users')->findOrFail($id);
+        return $this->model->with('users')->with('messages')->findOrFail($id);
     }
 
     public function createRoomPrivate($userOne, $userTwo): Room
@@ -38,7 +38,7 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
 
     public function findAllRoomByUserId($id)
     {
-        return $this->model->with('users')->whereHas('users', function ($query) use ($id) {
+        return $this->model->with('users')->with('messages')->whereHas('users', function ($query) use ($id) {
             $query->where('user_id', $id);
         })->get();
     }

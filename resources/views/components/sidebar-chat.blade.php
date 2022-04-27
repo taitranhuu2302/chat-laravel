@@ -28,11 +28,11 @@
                             <img class="w-10 h-10 rounded-full" src="{{ $user->avatar }}" alt="Rounded avatar">
                             <div class="w-full overflow-hidden">
                                 <p
-                                    class="text-lg overflow-hidden whitespace-nowrap w-2/4 text-ellipsis text-blue-600 font-semibold">
+                                    class="text-lg overflow-hidden whitespace-nowrap w-3/4 text-ellipsis text-blue-600 font-semibold">
                                     {{ $user->full_name }}
                                 </p>
-                                <p class="text-md overflow-hidden whitespace-nowrap w-2/4 text-ellipsis">
-                                    Xin chào {{ $user->full_name }}
+                                <p class="text-md overflow-hidden whitespace-nowrap w-3/4 text-ellipsis">
+                                    {{ $item->messages->first()->text }}
                                 </p>
                             </div>
                         </div>
@@ -60,3 +60,7 @@
         @endforeach
     </ul>
 </div>
+
+<script>
+    console.log(@json($rooms));
+</script>

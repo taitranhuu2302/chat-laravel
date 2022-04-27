@@ -23,6 +23,7 @@ class DashboardController extends Controller
     public function index()
     {
         $rooms = $this->roomRepository->findAllRoomByUserId(Auth::id());
+
         return view('pages.dashboard')->with('rooms', $rooms);
     }
 }

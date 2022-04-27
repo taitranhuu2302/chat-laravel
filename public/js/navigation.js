@@ -4173,11 +4173,6 @@ $(function () {
       sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Error! An error occurred. Please try again later!', '', 'error');
     });
   });
-  $('#form-chat').submit(function (e) {
-    e.preventDefault();
-    var text = $('#txt_message').val();
-    console.log(text);
-  });
 });
 })();
 

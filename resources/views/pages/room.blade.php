@@ -7,12 +7,25 @@
 @endsection
 
 @section('content')
+    @php
+        $roomName = '';
+        $roomAvatar = '';
+
+        if ($roomById->room_type === \App\Enums\RoomType::PRIVATE_ROOM) {
+            foreach ($roomById->users as $user) {
+                if ($user->id !== Auth::id()) {
+                    $roomName = $user->full_name;
+                    $roomAvatar = $user->avatar;
+                }
+            }
+        }
+    @endphp
     <div id="room" class="flex flex-col h-full w-full">
         <div class="room__header flex-shrink flex items-center border-b p-4 justify-between">
             <div class="header__left flex items-center gap-4 ">
-                <img class="w-9 h-9 rounded-full" src="{{ Auth::user()->avatar }}" alt="Rounded avatar">
+                <img class="w-9 h-9 rounded-full" src="{{ $roomAvatar }}" alt="Rounded avatar">
                 <div>
-                    <p class="text-md font-semibold">{{ Auth::user()->full_name }}</p>
+                    <p class="text-md font-semibold">{{ $roomName }}</p>
                     <p class="text-sm">Online</p>
                 </div>
             </div>
@@ -28,36 +41,40 @@
                 </button>
             </div>
         </div>
-        <div class="room__content gap-4 flex-grow flex flex-col-reverse px-5">
-            <div class="room__chat room__chat--left">
-                <div class="room__chat--avatar">
-                    <img class="w-10 h-10 rounded-full" src="{{ Auth::user()->avatar }}" alt="Rounded avatar">
-                </div>
-                <div class="room__chat--content">
-                    <p class="room__chat--text">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquid animi asperiores doloremque
-                        ea eius eligendi error et fugit iste nesciunt nihil, obcaecati omnis optio, reiciendis suscipit
-                        totam veniam voluptatum.
-                    </p>
-                </div>
-            </div>
-            <div class="room__chat room__chat--right">
-                <div class="room__chat--avatar">
-                    <img class="w-10 h-10 rounded-full" src="{{ Auth::user()->avatar }}" alt="Rounded avatar">
-                </div>
-                <div class="room__chat--content">
-                    <p class="room__chat--text">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquid animi asperiores doloremque
-                        ea eius eligendi error et fugit iste nesciunt nihil, obcaecati omnis optio, reiciendis suscipit
-                        totam veniam voluptatum.
-                    </p>
-                </div>
-            </div>
-            <div class="chat__message flex justify-center my-2">
-                <p class="chat__message--notify text-gray-500 text-md">
-                    Thông báo
-                </p>
-            </div>
+        <div id="chat-message-list" class="room__content gap-4 flex-grow flex flex-col-reverse px-5 pt-2">
+            @foreach($roomById->messages as $message)
+                @if($message->user->id !== Auth::id())
+                    <div class="room__chat room__chat--left">
+                        <div class="room__chat--avatar">
+                            <img class="w-10 h-10 rounded-full" src="{{ $message->user->avatar }}" alt="Rounded avatar">
+                        </div>
+                        <div class="room__chat--content">
+                            <p class="room__chat--text">
+                                {{ $message->text }}
+                            </p>
+                        </div>
+                    </div>
+                @elseif ($message->user->id === Auth::id())
+                    <div class="room__chat room__chat--right">
+                        <div class="room__chat--avatar">
+                            <img class="w-10 h-10 rounded-full" src="{{ $message->user->avatar }}" alt="Rounded avatar">
+                        </div>
+                        <div class="room__chat--content">
+                            <p class="room__chat--text">
+                                {{ $message->text }}
+                            </p>
+                        </div>
+                    </div>
+                @else
+                    <div class="chat__message flex justify-center my-2">
+                        <p class="chat__message--notify text-gray-500 text-md">
+                            {{$message->text}}
+                        </p>
+                    </div>
+                @endif
+            @endforeach
+
+
         </div>
         <div class="room__footer flex-shrink">
             <form id="form-chat" class="footer__input flex-grow px-5 py-3 flex items-center gap-5">
@@ -85,3 +102,8 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 <script src="{{ asset('js/navigation.js') }}"></script>
+<script>
+    const roomId = @json(request()->route('id'));
+    const user = @json(Auth::user());
+</script>
+<script src="{{ asset('js/chat.js') }}"></script>

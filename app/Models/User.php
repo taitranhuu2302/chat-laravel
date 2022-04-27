@@ -79,6 +79,7 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'login_first' => 'boolean'
+        'login_first' => 'boolean',
+        'is_active' => 'boolean',
     ];
 }

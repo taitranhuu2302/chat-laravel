@@ -6,6 +6,8 @@ use App\Repositories\Friend\FriendRepository;
 use App\Repositories\Friend\FriendRepositoryInterface;
 use App\Repositories\FriendRequest\FriendRequestInterface;
 use App\Repositories\FriendRequest\FriendRequestRepository;
+use App\Repositories\Message\MessageRepository;
+use App\Repositories\Message\MessageRepositoryInterface;
 use App\Repositories\Profile\ProfileRepository;
 use App\Repositories\Profile\ProfileRepositoryInterface;
 use App\Repositories\Room\RoomRepository;
@@ -46,6 +48,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             RoomRepositoryInterface::class,
             RoomRepository::class
+        );
+
+        $this->app->singleton(
+            MessageRepositoryInterface::class,
+            MessageRepository::class
         );
     }
 
