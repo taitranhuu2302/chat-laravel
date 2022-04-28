@@ -104,6 +104,6 @@
 <script src="{{ asset('js/navigation.js') }}"></script>
 <script>
     const roomId = @json(request()->route('id'));
-    const user = @json(Auth::user());
+    const userCurrent = @json(Auth::user());
 </script>
 <script src="{{ asset('js/chat.js') }}"></script>

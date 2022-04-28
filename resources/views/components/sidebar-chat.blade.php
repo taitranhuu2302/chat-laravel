@@ -22,7 +22,7 @@
                 @php
                     $user = $item->users->where('id', '!=', Auth::user()->id)->first();
                 @endphp
-                <li class="rooms__item border-b py-3 w-full px-8 flex items-center">
+                <li data-room-id="{{ $item->id }}" class="room rooms__item border-b py-3 w-full px-8 flex items-center">
                     <a href="{{ url('/room/' . $item->id) }}" class="block w-full">
                         <div class="flex overflow-hidden items-center w-full gap-3">
                             <img class="w-10 h-10 rounded-full" src="{{ $user->avatar }}" alt="Rounded avatar">
@@ -31,7 +31,7 @@
                                     class="text-lg overflow-hidden whitespace-nowrap w-3/4 text-ellipsis text-blue-600 font-semibold">
                                     {{ $user->full_name }}
                                 </p>
-                                <p class="text-md overflow-hidden whitespace-nowrap w-3/4 text-ellipsis">
+                                <p class="message-description text-md overflow-hidden whitespace-nowrap w-3/4 text-ellipsis">
                                     {{ $item->messages->first() ? $item->messages->first()->text : 'No messages yet' }}
                                 </p>
                             </div>

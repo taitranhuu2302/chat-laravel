@@ -8,6 +8,14 @@ $(function () {
   var axios = window.axios;
   Echo.channel("chat-room.".concat(roomId)).listen('ChatEvent', function (data) {
     renderMessage(data.message, data.user);
+    Array.from($('.room')).forEach(function (room) {
+      var attr = $(room).attr('data-room-id');
+
+      if (attr === roomId) {
+        var child = room.getElementsByClassName('message-description')[0];
+        child.innerHTML = data.message.text;
+      }
+    });
   });
   $('#form-chat').submit(function (e) {
     e.preventDefault();
@@ -28,7 +36,7 @@ function renderMessage(message, userChat) {
   var text = message.text;
   var html = '';
 
-  if (userChat.id !== user.id) {
+  if (userChat.id !== userCurrent.id) {
     html = "\n            <div class=\"room__chat room__chat--left\">\n                <div class=\"room__chat--avatar\">\n                    <img class=\"w-10 h-10 rounded-full\" src=\"".concat(userChat.avatar, "\" alt=\"Rounded avatar\">\n                </div>\n                <div class=\"room__chat--content\">\n                    <p class=\"room__chat--text\">\n                        ").concat(text, "\n                    </p>\n                </div>\n            </div>\n        ");
   } else if (userChat.id === user.id) {
     html = "\n             <div class=\"room__chat room__chat--right\">\n                <div class=\"room__chat--avatar\">\n                    <img class=\"w-10 h-10 rounded-full\" src=\"".concat(userChat.avatar, "\" alt=\"Rounded avatar\">\n                </div>\n                <div class=\"room__chat--content\">\n                    <p class=\"room__chat--text\">\n                        ").concat(text, "\n                    </p>\n                </div>\n             </div>\n        ");

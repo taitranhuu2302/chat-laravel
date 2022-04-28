@@ -4,7 +4,16 @@ $(() => {
 
     Echo.channel(`chat-room.${roomId}`).listen('ChatEvent', (data) => {
         renderMessage(data.message, data.user);
+        Array.from($('.room')).forEach((room) => {
+            const attr = $(room).attr('data-room-id');
+            if (attr === roomId) {
+                const child = room.getElementsByClassName('message-description')[0];
+                child.innerHTML = data.message.text;
+            }
+        });
     })
+
+
 
     $('#form-chat').submit(function (e) {
         e.preventDefault();
@@ -26,7 +35,7 @@ function renderMessage(message, userChat) {
     const {text} = message;
     let html = '';
 
-    if (userChat.id !== user.id) {
+    if (userChat.id !== userCurrent.id) {
         html = `
             <div class="room__chat room__chat--left">
                 <div class="room__chat--avatar">

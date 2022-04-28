@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('country')->nullable();
             $table->string('postal_code')->nullable();
+            $table->string('work')->nullable();
+            $table->string('about_myself')->nullable();
             $table->timestamps();
         });
     }

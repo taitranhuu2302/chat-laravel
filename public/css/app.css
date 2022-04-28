@@ -827,6 +827,9 @@ input:checked + .toggle-bg {
 .col-span-8 {
   grid-column: span 8 / span 8;
 }
+.col-span-12 {
+  grid-column: span 12 / span 12;
+}
 .my-2 {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -1669,6 +1672,18 @@ input:checked + .toggle-bg {
 
 @media (min-width: 640px) {
 
+  .sm\:col-span-12 {
+    grid-column: span 12 / span 12;
+  }
+
+  .sm\:col-span-1 {
+    grid-column: span 1 / span 1;
+  }
+
+  .sm\:hidden {
+    display: none;
+  }
+
   .sm\:pb-6 {
     padding-bottom: 1.5rem;
   }
@@ -1687,6 +1702,18 @@ input:checked + .toggle-bg {
     grid-column: span 12 / span 12;
   }
 
+  .md\:col-span-4 {
+    grid-column: span 4 / span 4;
+  }
+
+  .md\:col-span-8 {
+    grid-column: span 8 / span 8;
+  }
+
+  .md\:block {
+    display: block;
+  }
+
   .md\:hidden {
     display: none;
   }
@@ -1701,6 +1728,22 @@ input:checked + .toggle-bg {
 }
 
 @media (min-width: 1024px) {
+
+  .lg\:col-span-4 {
+    grid-column: span 4 / span 4;
+  }
+
+  .lg\:col-span-8 {
+    grid-column: span 8 / span 8;
+  }
+
+  .lg\:block {
+    display: block;
+  }
+
+  .lg\:hidden {
+    display: none;
+  }
 
   .lg\:px-8 {
     padding-left: 2rem;

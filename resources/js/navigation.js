@@ -108,7 +108,7 @@ $(() => {
 
     function renderChatRoom(avatar, full_name, id, message) {
         return `
-        <li class="rooms__item border-b py-3 w-full px-8 flex items-center">
+        <li data-room-id="${id}" class="room rooms__item border-b py-3 w-full px-8 flex items-center">
             <a href="/room/${id}" class="block w-full">
                 <div class="flex overflow-hidden items-center w-full gap-3">
                     <img class="w-10 h-10 rounded-full" src="${avatar}" alt="Rounded avatar">
