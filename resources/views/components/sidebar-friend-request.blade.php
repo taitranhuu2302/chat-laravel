@@ -9,7 +9,7 @@
     </div>
 
     <ul id="list-request-friend" class="friend-request__rooms flex flex-col border-t overflow-y-auto flex-grow">
-        @foreach (Auth::user()->friendRequests as $item)
+        @foreach ($friendRequests as $item)
             <li class="rooms__item border-b py-3 w-full px-8 flex items-center">
                 <div class="flex overflow-hidden items-center w-full gap-3">
                     <img class="w-10 h-10 rounded-full" src="{{ $item->user->avatar }}" alt="Rounded avatar">
@@ -17,8 +17,9 @@
                         <p
                             class="text-lg overflow-hidden whitespace-nowrap w-3/4 text-ellipsis text-blue-600 font-semibold">
                             {{ $item->user->full_name }}</p>
-                        <p class="text-md overflow-hidden whitespace-nowrap w-3/4 text-ellipsis">Xin chào
-                            {{ $item->user->full_name }}</p>
+                        <p class="text-md overflow-hidden whitespace-nowrap w-3/4 text-ellipsis">
+                            {{ $item->description }}
+                        </p>
                     </div>
                 </div>
                 <button class="button-friend-request" data-dropdown-placement="right">
@@ -42,3 +43,4 @@
         @endforeach
     </ul>
 </div>
+

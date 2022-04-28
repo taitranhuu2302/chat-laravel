@@ -14,6 +14,7 @@ class FriendRequest extends Model
         'user_id',
         'request_id',
         'status',
+        'description',
     ];
 
     public function user(): BelongsTo

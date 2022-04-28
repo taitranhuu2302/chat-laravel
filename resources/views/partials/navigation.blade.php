@@ -101,7 +101,7 @@
             <x-sidebar-group></x-sidebar-group>
         </div>
         <div id="friend-request" class="hidden" role="tabpanel" aria-labelledby="button-friend-request">
-            <x-sidebar-friend-request></x-sidebar-friend-request>
+            <x-sidebar-friend-request :friendRequests="$friendRequests"></x-sidebar-friend-request>
         </div>
     </div>
 </div>
@@ -111,5 +111,6 @@
 <script>
     const user = @json(Auth::user());
     const rooms = @json($rooms);
+    {{--console.log(@json($friendRequests));--}}
 </script>
 

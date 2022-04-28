@@ -18,16 +18,18 @@ class AddFriendEvent implements ShouldBroadcast
 
     public int $userId;
     public User $friend;
+    public string $description;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($userId, User $friend)
+    public function __construct($userId, User $friend, string $description)
     {
         $this->userId = $userId;
         $this->friend = $friend;
+        $this->description = $description;
     }
 
     /**

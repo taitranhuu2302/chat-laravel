@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Enums\RoomType;
 use App\Events\CreateRoomEvent;
 use App\Http\Requests\CreateRoomPrivateRequest;
+use App\Models\FriendRequest;
 use App\Models\Room;
+use App\Repositories\Friend\FriendRepositoryInterface;
+use App\Repositories\FriendRequest\FriendRequestInterface;
+use App\Repositories\FriendRequest\FriendRequestRepository;
 use App\Repositories\Room\RoomRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,10 +19,12 @@ use Illuminate\Support\Facades\Log;
 class RoomController extends Controller
 {
     protected RoomRepositoryInterface $roomRepository;
+    protected FriendRequestInterface $friendRequestRepository;
 
-    public function __construct(RoomRepositoryInterface $roomRepo)
+    public function __construct(RoomRepositoryInterface $roomRepo, FriendRequestInterface $friendRequestRepo)
     {
         $this->roomRepository = $roomRepo;
+        $this->friendRequestRepository = $friendRequestRepo;
     }
 
     public function index(): JsonResponse
@@ -37,8 +43,9 @@ class RoomController extends Controller
         $room = $this->roomRepository->findById($id);
 
         $roomByUserId = $this->roomRepository->findAllRoomByUserId(Auth::id());
+        $friendRequests = $this->friendRequestRepository->findAllFriendRequestByUserId(Auth::id());
 
-        return view('pages.room')->with('roomById', $room)->with('rooms', $roomByUserId);
+        return view('pages.room')->with('roomById', $room)->with('rooms', $roomByUserId)->with('friendRequests', $friendRequests);
     }
 
     public function createRoomPrivate(CreateRoomPrivateRequest $request)

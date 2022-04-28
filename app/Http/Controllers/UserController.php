@@ -82,23 +82,30 @@ class UserController extends Controller
             $userId = Auth::id();
             $userCurrent = $this->userRepository->findById($userId);
             $userTo = $this->userRepository->findByEmail($request->email);
+            $description = $request->description ? $request->description : 'Xin chào ' . $userCurrent->full_name;
 
             if (!$userTo) {
                 return response()->json(['message' => 'Failed'], 404);
             }
 
-            $checkExist = $this->friendRepository->findAllFriendsByUserId($userId, $userTo->id);
-            Log::info($checkExist);
-            if (count($checkExist) > 0) {
-                return response()->json(['message' => 'Bạn không thể kết bạn lại', 'status' => 400], 400);
+            $checkFriendExist = $this->friendRepository->findAllFriendsByUserId($userId, $userTo->id);
+            $checkFriendRequest = $this->friendRequestRepository->findFriendRequest($userId, $userTo->id);
+
+            if (count($checkFriendRequest) > 0) {
+                return response()->json(['message' => 'Friend request already sent'], 400);
+            }
+
+            if (count($checkFriendExist) > 0) {
+                return response()->json(['message' => "You can't make friends again", 'status' => 400], 400);
             }
 
             $this->friendRequestRepository->create([
                 'user_id' => $userTo->id, //
-                'request_id' => $userCurrent->id
+                'request_id' => $userCurrent->id,
+                'description' => $description,
             ]);
 
-            event(new AddFriendEvent($userTo->id, $userCurrent));
+            event(new AddFriendEvent($userTo->id, $userCurrent, $description));
 
             return response()->json(['message' => 'Success'], 200);
         } catch (\Exception $exception) {

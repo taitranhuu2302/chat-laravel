@@ -30,8 +30,8 @@ class FriendRequestRepository extends BaseRepository implements FriendRequestInt
 
     public function findFriendRequest($userId, $requestId)
     {
-        return $this->model->where('user_id', $userId)
-            ->where('request_id', $requestId)
-            ->first();
+        return $this->model->where('user_id', $requestId)
+            ->where('request_id', $userId)
+            ->where('status', '=', FriendRequestStatus::PENDING)->get();
     }
 }

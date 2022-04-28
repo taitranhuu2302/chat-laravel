@@ -22,6 +22,6 @@ class Room extends Model
 
     public function messages(): HasMany
     {
-        return $this->hasMany(Message::class)->with('user')->orderBy('created_at', 'desc')->limit(20);
+        return $this->hasMany(Message::class)->with('user')->orderBy('created_at', 'desc')->limit(15);
     }
 }

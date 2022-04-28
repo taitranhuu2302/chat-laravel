@@ -1,5 +1,7 @@
 import Swal from 'sweetalert2';
+import Toastify from 'toastify-js'
 import 'sweetalert2/src/sweetalert2.scss';
+import "toastify-js/src/toastify.css"
 
 $(() => {
     const userId = document.getElementById('user_id').value;
@@ -7,8 +9,18 @@ $(() => {
     const axios = window.axios;
     const buttonTabs = Array.from(document.querySelectorAll('.nav__top--button'));
 
+
     Echo.channel(`add-friend.${userId}`).listen('AddFriendEvent', (data) => {
-        $('#list-request-friend').append(renderFriendRequest(data.friend.avatar, data.friend.full_name, data.friend.id, `Xin chào ${data.friend.full_name}`));
+        $('#list-request-friend').append(renderFriendRequest(data.friend.avatar, data.friend.full_name, data.friend.id, data.description));
+        Toastify({
+            text: `${data.friend.full_name} sent a friend request`,
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top",
+            position: "right",
+            className: 'toastify-info'
+        }).showToast();
         addEventDropdown();
     })
 
@@ -16,6 +28,15 @@ $(() => {
         $('#sidebar_friend_list')
             .append(renderFriendItem(
                 data.friend.avatar, data.friend.full_name, data.friend.id, `Xin chào ${data.friend.full_name}`));
+        Toastify({
+            text: `You and ${data.friend.full_name} have become friends`,
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top",
+            position: "right",
+            className: 'toastify-info'
+        }).showToast();
         addEventDropdown();
     })
 
@@ -49,25 +70,46 @@ $(() => {
     $('#form-add-friend').submit((e) => {
         e.preventDefault();
         const email = $('#email-add-friend');
+        const description = $('#description-add-friend');
 
         axios.post('/user/add-friend-request', {
-            email: email.val()
+            email: email.val(),
+            description: description.val()
         }, {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             'X-Requested-With': 'XMLHttpRequest',
         }).then((response) => {
             email.val('');
-            Swal.fire('Success', 'Friend request has been sent', 'success');
+            description.val('');
+            Toastify({
+                text: `Friend request has been sent`,
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "right",
+                className: 'toastify-success'
+            }).showToast();
         }).catch((error) => {
-            console.log(error)
+            Toastify({
+                text: error.response.data.message,
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "right",
+                className: 'toastify-error'
+            }).showToast();
+            email.val('');
+            description.val('');
         })
     })
 
     function renderChatRoom(avatar, full_name, id, message) {
         return `
         <li class="rooms__item border-b py-3 w-full px-8 flex items-center">
-            <a href="{{ url('/room/${id}') }}" class="block w-full">
+            <a href="/room/${id}" class="block w-full">
                 <div class="flex overflow-hidden items-center w-full gap-3">
                     <img class="w-10 h-10 rounded-full" src="${avatar}" alt="Rounded avatar">
                     <div class="w-full overflow-hidden">
@@ -218,10 +260,24 @@ $(() => {
                     }).then((response) => {
                         if (response.data.status === 200) {
                             parent.remove();
-                            Swal.fire('Accepted friend request!', '', 'success')
+                            Toastify({
+                                text: `Accepted friend request!`,
+                                duration: 3000,
+                                close: true,
+                                gravity: "top",
+                                position: "right",
+                                className: 'toastify-success'
+                            }).showToast();
                         }
                     }).catch((error) => {
-                        console.log(error)
+                        Toastify({
+                            text: `${error.response.data.message}`,
+                            duration: 3000,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            className: 'toastify-error'
+                        }).showToast();
                     })
                 }
             })
@@ -240,7 +296,6 @@ $(() => {
                 showCancelButton: true,
                 confirmButtonText: 'Ok',
             }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     axios.post('/user/block-friend-request', {
                         user_block_id: id
@@ -248,9 +303,23 @@ $(() => {
                         if (response.data.status === 200) {
                             parent.remove();
                         }
-                        Swal.fire('Cancellation of friend request successfully!', '', 'success')
+                        Toastify({
+                            text: `Cancellation of friend request successfully!`,
+                            duration: 3000,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            className: 'toastify-success'
+                        }).showToast();
                     }).catch((error) => {
-                        Swal.fire('Error! An error occurred. Please try again later!', '', 'error')
+                        Toastify({
+                            text: `${error.response.data.message}`,
+                            duration: 3000,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            className: 'toastify-error'
+                        }).showToast();
                     })
                 }
             })
@@ -267,17 +336,30 @@ $(() => {
                 showCancelButton: true,
                 confirmButtonText: 'Ok',
             }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     axios.post('/user/block-friend', {
                         user_block_id: id
                     }).then((response) => {
                         if (response.data.status === 200) {
                             parent.remove();
-                            Swal.fire('Unfriended successfully!', '', 'success')
+                            Toastify({
+                                text: `Unfriended successfully!`,
+                                duration: 3000,
+                                close: true,
+                                gravity: "top",
+                                position: "right",
+                                className: 'toastify-success'
+                            }).showToast();
                         }
                     }).catch((error) => {
-                        Swal.fire('Error! An error occurred. Please try again later!', '', 'error')
+                        Toastify({
+                            text: `${error.response.data.message}`,
+                            duration: 3000,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            className: 'toastify-error'
+                        }).showToast();
                     })
                 }
             })
@@ -336,12 +418,25 @@ $(() => {
             .then((response) => {
                 if (response.data.status === 200) {
                     $('#avatar_user_navigation').attr('src', avatar);
-                    // $('#avatar_user_navigation')= avatar;
-                    Swal.fire('Profile updated successfully!', '', 'success')
+                    Toastify({
+                        text: `Profile updated successfully!`,
+                        duration: 3000,
+                        close: true,
+                        gravity: "top",
+                        position: "right",
+                        className: 'toastify-success'
+                    }).showToast();
                 }
             })
             .catch((error) => {
-                Swal.fire('Error! An error occurred. Please try again later!', '', 'error')
+                Toastify({
+                    text: `${error.response.data.message}`,
+                    duration: 3000,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    className: 'toastify-error'
+                }).showToast();
             })
     })
 })

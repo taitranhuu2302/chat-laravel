@@ -13,7 +13,7 @@
 <body>
 <div id="wrapper">
     <div class="grid grid-cols-12 h-full">
-        <div class="col-span-4">
+        <div class="col-span-4 md:hidden">
             <div class="flex items-center gap-2">
                 <svg class="w-8 h-8 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                      xmlns="http://www.w3.org/2000/svg">
@@ -24,7 +24,7 @@
             </div>
             <img class="bgr" src="https://doot-light.react.themesbrand.com/static/media/auth-img.9302755e.png" alt="">
         </div>
-        <div class="col-span-8 h-full bg-white content flex flex-col">
+        <div class="col-span-8 md:col-span-12 h-full bg-white content flex flex-col">
             <div class="mx-auto flex items-center justify-center flex-col h-full w-full">
                 <p class="text-2xl font-semibold mb-6">Change Password</p>
                 <form action="{{ url('/auth/change-password') }}" method="POST" role="form" class="wrapper-form mb-6">

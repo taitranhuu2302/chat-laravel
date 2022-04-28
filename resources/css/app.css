@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.toastify-info {
+    background: -webkit-linear-gradient(315deg, #73a5ff, #5477f5) !important;
+    background: linear-gradient(135deg, #73a5ff, #5477f5) !important;
+    color: white !important;
+}
+
+.toastify-success {
+    background: -webkit-linear-gradient(315deg, #5cdb95, #48c774) !important;
+    background: linear-gradient(135deg, #5cdb95, #48c774) !important;
+    color: white !important;
+}
+
+.toastify-error {
+    background: -webkit-linear-gradient(315deg, #ff7676, #ff3d3d) !important;
+    background: linear-gradient(135deg, #ff7676, #ff3d3d) !important;
+    color: white !important;
+}
+
+.toastify-warning {
+    background: -webkit-linear-gradient(315deg, #ffb822, #ff8b00) !important;
+    background: linear-gradient(135deg, #ffb822, #ff8b00) !important;
+    color: white !important;
+}

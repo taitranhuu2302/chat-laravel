@@ -32,7 +32,7 @@
                                     {{ $user->full_name }}
                                 </p>
                                 <p class="text-md overflow-hidden whitespace-nowrap w-3/4 text-ellipsis">
-                                    {{ $item->messages->first()->text }}
+                                    {{ $item->messages->first() ? $item->messages->first()->text : 'No messages yet' }}
                                 </p>
                             </div>
                         </div>
@@ -60,7 +60,3 @@
         @endforeach
     </ul>
 </div>
-
-<script>
-    console.log(@json($rooms));
-</script>
