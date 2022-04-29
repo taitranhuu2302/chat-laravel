@@ -46,8 +46,8 @@ class User extends Authenticatable
 
     public function profile(): HasOne
     {
-        return $this->hasOne(Profile::class)
-            ->select( 'phone', 'address', 'city', 'country', 'postal_code');
+        return $this->hasOne(Profile::class);
+
     }
 
     public function friends(): HasMany

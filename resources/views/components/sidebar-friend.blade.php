@@ -1,6 +1,6 @@
 <div class="h-full flex flex-col">
     <div class="friend__header flex-shrink px-8 pt-5 flex justify-between items-center">
-        <p class="text-2xl font-semibold">Friends</p>
+        <p class="text-2xl font-semibold">Bạn bè</p>
         <div class="friend__header--button flex gap-3">
             <button class="border-gray-300 border px-3 py-0.5 rounded" data-modal-toggle="add-friend-modal">
                 <i class="text-xl far fa-user-plus"></i>
@@ -23,7 +23,7 @@
                             class="text-lg overflow-hidden whitespace-nowrap w-3/4 text-ellipsis text-blue-600 font-semibold">
                             {{ $item->user->full_name }}</p>
                         <p class="text-md overflow-hidden whitespace-nowrap w-3/4 text-ellipsis">
-                            Xin chào {{ $item->user->full_name }}
+                            {{ $item->description }}
                         </p>
                     </div>
                 </div>
@@ -35,15 +35,15 @@
                             aria-labelledby="dropdownRightButton">
                             <li>
                                 <a data-user-id="{{ $item->user->id }}" href="#"
-                                   class="btn-create-private block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">New Chat</a>
+                                   class="btn-create-private block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mở chat</a>
                             </li>
                             <li>
                                 <a data-user-id="{{ $item->user->id }}" href="#"
-                                   class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
+                                   class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Xem hồ sơ</a>
                             </li>
                             <li>
                                 <a data-user-id="{{ $item->user->id }}" href="#"
-                                   class="btn-block-friend block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Block</a>
+                                   class="btn-block-friend block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Huỷ kết bạn</a>
                             </li>
                         </ul>
                     </div>

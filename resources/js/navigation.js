@@ -13,7 +13,7 @@ $(() => {
     Echo.channel(`add-friend.${userId}`).listen('AddFriendEvent', (data) => {
         $('#list-request-friend').append(renderFriendRequest(data.friend.avatar, data.friend.full_name, data.friend.id, data.description));
         Toastify({
-            text: `${data.friend.full_name} sent a friend request`,
+            text: `${data.friend.full_name} đã gửi lời mời kết bạn`,
             duration: 3000,
             newWindow: true,
             close: true,
@@ -29,7 +29,7 @@ $(() => {
             .append(renderFriendItem(
                 data.friend.avatar, data.friend.full_name, data.friend.id, `Xin chào ${data.friend.full_name}`));
         Toastify({
-            text: `You and ${data.friend.full_name} have become friends`,
+            text: `Bạn và ${data.friend.full_name} đã trở thành bạn bè`,
             duration: 3000,
             newWindow: true,
             close: true,
@@ -83,7 +83,7 @@ $(() => {
             email.val('');
             description.val('');
             Toastify({
-                text: `Friend request has been sent`,
+                text: `Đã gửi lời mời kết bạn`,
                 duration: 3000,
                 newWindow: true,
                 close: true,
@@ -131,11 +131,11 @@ $(() => {
                         aria-labelledby="dropdownRightButton">
                         <li>
                             <a href='/room/${id}'
-                            class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Open Room</a>
+                            class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mở chat</a>
                         </li>
                         <li>
                             <a data-user-id="{{ ${id} }}" href="#"
-                            class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Block</a>
+                            class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chặn</a>
                         </li>
                     </ul>
                 </div>
@@ -199,15 +199,15 @@ $(() => {
                             aria-labelledby="dropdownRightButton">
                             <li>
                                 <a data-user-id="${id}" href="#"
-                                   class="btn-create-private block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">New Chat</a>
+                                   class="btn-create-private block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mở chat</a>
                             </li>
                             <li>
                                 <a data-user-id="${id}" href="#"
-                                   class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
+                                   class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Xem hồ sơ</a>
                             </li>
                             <li>
                                 <a data-user-id="${id}" href="#"
-                                   class="btn-block-friend block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Block</a>
+                                   class="btn-block-friend block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Huỷ kết bạn</a>
                             </li>
                         </ul>
                     </div>
@@ -261,7 +261,7 @@ $(() => {
                         if (response.data.status === 200) {
                             parent.remove();
                             Toastify({
-                                text: `Accepted friend request!`,
+                                text: `Bạn đã chấp nhận lời mời kết bạn!`,
                                 duration: 3000,
                                 close: true,
                                 gravity: "top",
@@ -292,7 +292,7 @@ $(() => {
             const parent = $(this).parent().parent().parent().parent().parent();
 
             Swal.fire({
-                title: 'You want to cancel the friend request?',
+                title: 'Bạn muốn huỷ lời mời kết bạn?',
                 showCancelButton: true,
                 confirmButtonText: 'Ok',
             }).then((result) => {
@@ -304,7 +304,7 @@ $(() => {
                             parent.remove();
                         }
                         Toastify({
-                            text: `Cancellation of friend request successfully!`,
+                            text: `Bạn đã huỷ lời mời kết bạn!`,
                             duration: 3000,
                             close: true,
                             gravity: "top",
@@ -343,7 +343,7 @@ $(() => {
                         if (response.data.status === 200) {
                             parent.remove();
                             Toastify({
-                                text: `Unfriended successfully!`,
+                                text: `Bạn đã huỷ kết bạn thành công!`,
                                 duration: 3000,
                                 close: true,
                                 gravity: "top",
@@ -419,7 +419,7 @@ $(() => {
                 if (response.data.status === 200) {
                     $('#avatar_user_navigation').attr('src', avatar);
                     Toastify({
-                        text: `Profile updated successfully!`,
+                        text: `Chỉnh sửa hồ sơ thành công!`,
                         duration: 3000,
                         close: true,
                         gravity: "top",

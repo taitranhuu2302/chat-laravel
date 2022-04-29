@@ -3,6 +3,7 @@
     "/js/navigation.js": "/js/navigation.js",
     "/js/chat.js": "/js/chat.js",
     "/css/app.css": "/css/app.css",
+    "/css/sidebar-profile-private.css": "/css/sidebar-profile-private.css",
     "/css/room.css": "/css/room.css",
     "/css/navigation.css": "/css/navigation.css",
     "/css/login.css": "/css/login.css"

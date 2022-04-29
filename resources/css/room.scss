@@ -2,6 +2,7 @@
     .room__header {
 
     }
+
     .room__content {
         overflow: auto;
 
@@ -22,6 +23,7 @@
             .room__chat--content {
                 width: 45%;
                 display: flex;
+
                 .room__chat--text {
                     width: fit-content;
                 }
@@ -30,8 +32,10 @@
 
         .room__chat--right {
             flex-direction: row-reverse;
+
             .room__chat--content {
                 justify-content: flex-end;
+
                 .room__chat--text {
                     background: #0a80ff;
                     padding: 6px 12px;
@@ -51,7 +55,9 @@
             }
         }
     }
+
     .room__footer {
 
     }
 }
+

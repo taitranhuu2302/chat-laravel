@@ -92,11 +92,11 @@ class UserController extends Controller
             $checkFriendRequest = $this->friendRequestRepository->findFriendRequest($userId, $userTo->id);
 
             if (count($checkFriendRequest) > 0) {
-                return response()->json(['message' => 'Friend request already sent'], 400);
+                return response()->json(['message' => 'Bạn đã gửi lời mời kết bạn'], 400);
             }
 
             if (count($checkFriendExist) > 0) {
-                return response()->json(['message' => "You can't make friends again", 'status' => 400], 400);
+                return response()->json(['message' => "Hai bạn đã trở thành bạn bè", 'status' => 400], 400);
             }
 
             $this->friendRequestRepository->create([

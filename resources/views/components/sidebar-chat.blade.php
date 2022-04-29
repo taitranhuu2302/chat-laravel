@@ -45,12 +45,13 @@
                                 aria-labelledby="dropdownRightButton">
                                 <li>
                                     <a href="{{ url('/room/' . $item->id) }}"
-                                        class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Open
-                                        Room</a>
+                                        class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                        Mở chat
+                                    </a>
                                 </li>
                                 <li>
                                     <a data-user-id="{{ $user->id }}" href="#"
-                                        class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Block</a>
+                                        class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chặn</a>
                                 </li>
                             </ul>
                         </div>

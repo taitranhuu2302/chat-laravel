@@ -1,6 +1,6 @@
 <div class="h-full flex flex-col">
     <div class="friend-request__header flex-shrink px-8 pt-5 flex justify-between items-center">
-        <p class="text-2xl font-semibold">Friend Request</p>
+        <p class="text-2xl font-semibold">Lời mời yêu cầu kết bạn</p>
     </div>
 
     <div class="friend-request__search flex-shrink p-8">
@@ -30,11 +30,11 @@
                             aria-labelledby="dropdownRightButton">
                             <li>
                                 <a data-user-id="{{ $item->user->id }}"
-                                    class="accept-friend-request block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Accept</a>
+                                    class="accept-friend-request block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chấp nhận</a>
                             </li>
                             <li>
                                 <a data-user-id="{{ $item->user->id }}"
-                                    class="block-friend-request block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Block</a>
+                                    class="block-friend-request block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Huỷ bỏ</a>
                             </li>
                         </ul>
                     </div>
@@ -43,4 +43,3 @@
         @endforeach
     </ul>
 </div>
-

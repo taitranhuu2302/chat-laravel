@@ -28,7 +28,7 @@
                     <i class="nav__top--icon far fa-user"></i>
                     <div id="tooltip-friend" role="tooltip"
                          class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        Friend
+                        Bạn bè
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
                 </button>
@@ -39,7 +39,7 @@
                     <i class="nav__top--icon far fa-users"></i>
                     <div id="tooltip-group" role="tooltip"
                          class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        Group
+                        Nhóm
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
                 </button>
@@ -52,7 +52,7 @@
                     <i class="nav__top--icon far fa-star"></i>
                     <div id="tooltip-friend-pending" role="tooltip"
                          class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        Friend Request
+                        Lời mời kết bạn
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
                 </button>
@@ -111,6 +111,5 @@
 <script>
     const user = @json(Auth::user());
     const rooms = @json($rooms);
-    {{--console.log(@json($friendRequests));--}}
 </script>
 

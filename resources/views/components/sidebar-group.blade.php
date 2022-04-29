@@ -1,6 +1,6 @@
 <div class="h-full flex flex-col">
     <div class="group__header flex-shrink px-8 pt-5 flex justify-between items-center">
-        <p class="text-2xl font-semibold">Groups</p>
+        <p class="text-2xl font-semibold">Nhóm</p>
         <div class="group__header--button flex gap-3">
             <button class="border-gray-300 border px-3 py-0.5 rounded">
                 <i class="text-xl far fa-user-plus"></i>

@@ -19,7 +19,9 @@ class Profile extends Model
         'city',
         'country',
         'postal_code',
-        'user_id'
+        'user_id',
+        'about_myself',
+        'work'
     ];
 
     public function user(): BelongsTo

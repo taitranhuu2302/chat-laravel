@@ -16,7 +16,7 @@
                 </button>
             </div>
             <form id="form-add-friend" class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-6 xl:pb-8">
-                <h3 class="text-xl font-medium text-gray-900 dark:text-white">Add Friend</h3>
+                <h3 class="text-xl font-medium text-gray-900 dark:text-white">Thêm bạn</h3>
                 <div>
                     <label for="email"
                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email</label>
@@ -25,14 +25,14 @@
                            placeholder="name@company.com" required>
                 </div>
                 <div>
-                    <label for="description-add-friend" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Invitation message</label>
+                    <label for="description-add-friend" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Tin nhắn mời</label>
                     <textarea
                         name="description"
-                        id="description-add-friend" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Let's say something..."></textarea>
+                        id="description-add-friend" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Hãy nói gì đó..."></textarea>
                 </div>
                 <button type="submit" id="button-add-friend"
                         class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Add Friend
+                    Gửi
                 </button>
             </form>
         </div>
