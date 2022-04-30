@@ -67,6 +67,7 @@ class UserController extends Controller
                 'phone' => $request->phone,
                 'address' => $request->address,
                 'country' => $request->country,
+                'about_myself' => trim($request->about_myself),
             ]);
 
             return response()->json(['message' => 'success', 'status' => 200], 200);

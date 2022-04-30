@@ -1,6 +1,18 @@
 #offcanvas-profile {
-    width: 400px;
-
+    width: 0;
+    transition: width 0.3s ease-in-out;
+    
     .offcanvas__header {
+
+        .offcanvas__header--avatar {
+            img {
+                width: 100px;
+                height: 100px;
+            }
+        }
     }
+}
+
+.offcanvas__open {
+    width: 400px !important;
 }

@@ -34,17 +34,6 @@
                 </button>
             </li>
             <li>
-                <button id="button-group" data-tabs-target="#group" type="button" role="tab" aria-controls="group"
-                        aria-selected="false" data-tooltip-target="tooltip-group" class="nav__top--button">
-                    <i class="nav__top--icon far fa-users"></i>
-                    <div id="tooltip-group" role="tooltip"
-                         class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        Nhóm
-                        <div class="tooltip-arrow" data-popper-arrow></div>
-                    </div>
-                </button>
-            </li>
-            <li>
                 <button id="button-friend-request" data-tabs-target="#friend-request" type="button" role="tab"
                         aria-controls="friend-request" aria-selected="false"
                         data-tooltip-target="tooltip-friend-pending"
@@ -96,9 +85,6 @@
         </div>
         <div id="friend" class="hidden" role="tabpanel" aria-labelledby="button-friend">
             <x-sidebar-friend></x-sidebar-friend>
-        </div>
-        <div id="group" class="hidden" role="tabpanel" aria-labelledby="button-group">
-            <x-sidebar-group></x-sidebar-group>
         </div>
         <div id="friend-request" class="hidden" role="tabpanel" aria-labelledby="button-friend-request">
             <x-sidebar-friend-request :friendRequests="$friendRequests"></x-sidebar-friend-request>

@@ -17,6 +17,10 @@ $(function () {
       }
     });
   });
+  $('.offcanvas__toggle').click(function () {
+    console.log('click');
+    $('#offcanvas-profile').toggleClass('offcanvas__open');
+  });
   $('#form-chat').submit(function (e) {
     e.preventDefault();
     var message = $('#txt_message').val();

@@ -406,13 +406,16 @@ $(() => {
         const phone = $('#txt_phone').val();
         const address = $('#txt_address').val();
         const country = $('#txt_country').val();
+        const about_me = $('#about_myself').val();
+
         const data = {
             full_name: full_name,
             email: email,
             avatar: avatar,
             phone: phone,
             address: address,
-            country: country
+            country: country,
+            about_myself: about_me
         }
         axios.put('/user/edit-profile', data)
             .then((response) => {
