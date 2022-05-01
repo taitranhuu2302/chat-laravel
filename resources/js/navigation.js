@@ -2,13 +2,14 @@ import Swal from 'sweetalert2';
 import Toastify from 'toastify-js'
 import 'sweetalert2/src/sweetalert2.scss';
 import "toastify-js/src/toastify.css"
+import { list } from 'postcss';
 
 $(() => {
     const userId = document.getElementById('user_id').value;
     const Echo = window.Echo;
     const axios = window.axios;
     const buttonTabs = Array.from(document.querySelectorAll('.nav__top--button'));
-
+    const listFriendCreateRoom = [];
 
     Echo.channel(`add-friend.${userId}`).listen('AddFriendEvent', (data) => {
         $('#list-request-friend').append(renderFriendRequest(data.friend.avatar, data.friend.full_name, data.friend.id, data.description));
@@ -23,6 +24,7 @@ $(() => {
         }).showToast();
         addEventDropdown();
     })
+
 
     Echo.channel(`accept-friend.${userId}`).listen('AcceptFriendEvent', (data) => {
         $('#sidebar_friend_list')
@@ -65,6 +67,60 @@ $(() => {
         })
     })
     addEventDropdown();
+
+    // Filter Friend
+    $('#search-add-friend').autocomplete({
+        source: function (request, response) {
+            response($.map(friends, function (item, index) {
+
+                const fullName = item.user.full_name;
+                const email = item.user.email;
+
+                if (fullName.toLowerCase().indexOf(request.term.toLowerCase()) > -1 || email.toLowerCase().indexOf(request.term.toLowerCase()) > -1) {
+                    return {
+                        label: `${item.user.email} (${item.user.full_name})`,
+                        value: item.user.email
+                    }
+                } else {
+                    return null;
+                }
+            }))
+        }
+    }, {});
+
+    // Add Friend To Room
+    $('#btn-add-friend-to-room').click(function (e) {
+        e.preventDefault();
+
+        const email = $('#search-add-friend').val();
+        const friendObj = friends.filter(item => item.user.email === email)[0];
+
+        if (friendObj) {
+            listFriendCreateRoom.push(friendObj.user.id);
+
+
+            if (listFriendCreateRoom.length < 4) {
+                const html = `
+                    <img data-user-id=${friendObj.user.id} class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800"
+                        src="${friendObj.user.avatar}" alt="">
+                 `  ;
+                $('#list-avatar-user-to-room').prepend(html);
+            }
+
+            $('#list-user-in-room-count').text(listFriendCreateRoom.length);
+        }
+    })
+
+    $('#btn-create-group').click(function (e) {
+        e.preventDefault();
+
+        const roomName = $('#group_name').val();
+        const description = $('#message_group').val();
+
+        console.log(`roomName: ${roomName}`);
+        console.log(`description: ${description}`);
+        console.log(`listFriendCreateRoom: ${listFriendCreateRoom}`);
+    })
 
     // Submit form add friend
     $('#form-add-friend').submit((e) => {

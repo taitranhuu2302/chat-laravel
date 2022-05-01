@@ -2,7 +2,7 @@
     <div class="chat__header flex-shrink px-8 pt-5 flex justify-between items-center">
         <p class="text-2xl font-semibold">Chats</p>
         <div class="chat__header--button flex gap-3">
-            <button class="border-gray-300 border px-3 py-0.5 rounded">
+            <button class="border-gray-300 border px-3 py-0.5 rounded" type="button" data-modal-toggle="create-group-modal">
                 <i class="text-xl far fa-users"></i>
             </button>
             <button class="border-gray-300 border px-3 py-0.5 rounded">
@@ -61,3 +61,5 @@
         @endforeach
     </ul>
 </div>
+
+
