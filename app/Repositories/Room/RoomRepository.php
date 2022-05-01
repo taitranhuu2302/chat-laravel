@@ -36,6 +36,14 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
         return $room;
     }
 
+    public function addUserToRoom($roomId, $userId)
+    {
+        $room = $this->findById($roomId);
+        $room->users()->attach($userId);
+        return $room;
+    }
+
+
     public function findAllRoomByUserId($id)
     {
         return $this->model->with('users')->with('messages')->whereHas('users', function ($query) use ($id) {

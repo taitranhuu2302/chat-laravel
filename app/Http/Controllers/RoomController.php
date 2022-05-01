@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\RoomType;
 use App\Events\CreateRoomEvent;
+use App\Http\Requests\CreateGroupRequest;
 use App\Http\Requests\CreateRoomPrivateRequest;
 use App\Models\FriendRequest;
 use App\Models\Room;
@@ -46,6 +47,28 @@ class RoomController extends Controller
         $friendRequests = $this->friendRequestRepository->findAllFriendRequestByUserId(Auth::id());
 
         return view('pages.room')->with('roomById', $room)->with('rooms', $roomByUserId)->with('friendRequests', $friendRequests);
+    }
+
+    public function createRoomGroup(CreateGroupRequest $request)
+    {
+        try {
+            $room = $this->roomRepository->create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'type' => RoomType::GROUP_ROOM,
+            ]);
+
+            $this->roomRepository->addUserToRoom($room->id, Auth::id());
+            foreach ($request->members as $user) {
+                $this->roomRepository->addUserToRoom($room->id, $user);
+            }
+
+
+            return response()->json(['message' => 'success', 'status' => 200, 'data' => $room]);
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return response()->json(['message' => $exception->getMessage(), 'status' => 500], 500);
+        }
     }
 
     public function createRoomPrivate(CreateRoomPrivateRequest $request)

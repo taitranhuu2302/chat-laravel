@@ -12,5 +12,5 @@ use BenSampo\Enum\Enum;
 final class RoomType extends Enum
 {
     const PRIVATE_ROOM = 'PRIVATE_ROOM';
-    const PUBLIC_ROOM = 'PUBLIC_ROOM';
+    const GROUP_ROOM = 'GROUP_ROOM';
 }
