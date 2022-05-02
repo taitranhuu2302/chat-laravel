@@ -123,6 +123,7 @@
             <x-sidebar-profile-private :userProfile="$userProfile" :roomName="$roomName" :roomAvatar="$roomAvatar"/>
         @else
             {{--  Sidebar Profile Group   --}}
+            <x-sidebar-profile-group :room="$roomById" :roomName="$roomName" :roomAvatar="$roomAvatar"></x-sidebar-profile-group>
         @endif
     </div>
 
