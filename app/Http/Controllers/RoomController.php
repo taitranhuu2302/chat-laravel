@@ -55,14 +55,15 @@ class RoomController extends Controller
             $room = $this->roomRepository->create([
                 'name' => $request->name,
                 'description' => $request->description,
-                'type' => RoomType::GROUP_ROOM,
+                'room_type' => RoomType::GROUP_ROOM,
             ]);
 
             $this->roomRepository->addUserToRoom($room->id, Auth::id());
-            foreach ($request->members as $user) {
-                $this->roomRepository->addUserToRoom($room->id, $user);
-            }
 
+            foreach ($request->members as $userId) {
+                $this->roomRepository->addUserToRoom($room->id, $userId);
+                event(new CreateRoomEvent($userId, $room));
+            }
 
             return response()->json(['message' => 'success', 'status' => 200, 'data' => $room]);
         } catch (\Exception $exception) {

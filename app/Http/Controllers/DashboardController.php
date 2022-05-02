@@ -25,7 +25,6 @@ class DashboardController extends Controller
     public function index()
     {
         $rooms = $this->roomRepository->findAllRoomByUserId(Auth::id());
-
         $friendRequests = $this->friendRequestRepository->findAllFriendRequestByUserId(Auth::id());
 
         return view('pages.dashboard')->with('rooms', $rooms)->with('friendRequests', $friendRequests);

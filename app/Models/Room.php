@@ -12,7 +12,11 @@ class Room extends Model
     use HasFactory;
 
     protected $fillable = [
-      'name', 'description', 'image', 'is_active', 'room_type'
+      'name', 'description', 'image', 'is_active', 'room_type', 'created_at', 'updated_at',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
     ];
 
     public function users(): BelongsToMany
