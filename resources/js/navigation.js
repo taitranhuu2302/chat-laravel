@@ -2,14 +2,13 @@ import Swal from 'sweetalert2';
 import Toastify from 'toastify-js'
 import 'sweetalert2/src/sweetalert2.scss';
 import "toastify-js/src/toastify.css"
-import { list } from 'postcss';
 
 $(() => {
     const userId = document.getElementById('user_id').value;
     const Echo = window.Echo;
     const axios = window.axios;
     const buttonTabs = Array.from(document.querySelectorAll('.nav__top--button'));
-    const listFriendCreateRoom = [];
+    let listFriendCreateRoom = [];
 
     Echo.channel(`add-friend.${userId}`).listen('AddFriendEvent', (data) => {
         $('#list-request-friend').append(renderFriendRequest(data.friend.avatar, data.friend.full_name, data.friend.id, data.description));
@@ -43,17 +42,18 @@ $(() => {
     })
 
     Echo.channel(`create-room.${userId}`).listen('CreateRoomEvent', (data) => {
-        let roomName = null;
-        let avatar = null;
-
-        data.room.users.forEach(item => {
-            if (item.user_id !== userId) {
-                roomName = item.full_name;
-                avatar = item.avatar;
-            }
-        })
-
-        $('#chat_rooms').append(renderChatRoom(avatar, roomName, data.room.id, `Xin chào ${roomName}`));
+        $('#chat_rooms').append(renderChatRoom(data.room));
+        if (data.room.room_type === 'GROUP_ROOM') {
+            Toastify({
+                text: `Ban được mời vào phòng chat ${data.room.name}`,
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "right",
+                className: 'toastify-info'
+            }).showToast();
+        }
         addEventDropdown();
     });
 
@@ -92,8 +92,8 @@ $(() => {
     $('#btn-add-friend-to-room').click(function (e) {
         e.preventDefault();
 
-        const email = $('#search-add-friend').val();
-        const friendObj = friends.filter(item => item.user.email === email)[0];
+        const email = $('#search-add-friend');
+        const friendObj = friends.filter(item => item.user.email === email.val())[0];
 
         if (friendObj) {
             listFriendCreateRoom.push(friendObj.user.id);
@@ -101,15 +101,25 @@ $(() => {
 
             if (listFriendCreateRoom.length < 4) {
                 const html = `
-                    <img data-user-id=${friendObj.user.id} class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800"
+                    <img data-user-id=${friendObj.user.id} class="avatar-user-to-room cursor-pointer w-10 h-10 border-2 border-white rounded-full dark:border-gray-800"
                         src="${friendObj.user.avatar}" alt="">
-                 `  ;
+                 `;
                 $('#list-avatar-user-to-room').prepend(html);
             }
 
             $('#list-user-in-room-count').text(listFriendCreateRoom.length);
+            email.val('');
+            const avatarUser = $('.avatar-user-to-room');
+            avatarUser.unbind('click');
+            avatarUser.click(function (e) {
+                const userId = $(this).attr('data-user-id');
+                $(this).remove();
+                listFriendCreateRoom = listFriendCreateRoom.filter(item => item != userId);
+                $('#list-user-in-room-count').text(listFriendCreateRoom.length);
+            })
         }
     })
+
 
     $('#btn-create-group').click(function (e) {
         e.preventDefault();
@@ -145,9 +155,34 @@ $(() => {
             return;
         }
 
-        console.log(`roomName: ${roomName.val()}`);
-        console.log(`description: ${description.val()}`);
-        console.log(`listFriendCreateRoom: ${listFriendCreateRoom}`);
+        axios.post('/room/create-room-group', {
+            name: roomName.val(),
+            description: description.val(),
+            members: listFriendCreateRoom
+        }).then((response) => {
+            roomName.val('');
+            description.val('');
+            listFriendCreateRoom = [];
+            $('#chat_rooms').prepend(renderChatRoom(response.data.data))
+            const wrapperListAvatar = $('#list-avatar-user-to-room');
+            wrapperListAvatar.empty();
+            wrapperListAvatar.append(`
+                <a id="list-user-in-room-count"
+                   class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
+                   href="#">+0</a>
+            `)
+            Toastify({
+                text: 'Tạo nhóm thành công',
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "right",
+                className: 'toastify-success'
+            }).showToast();
+        }).catch((error) => {
+            console.log(error)
+        })
     })
 
     // Submit form add friend
@@ -190,19 +225,34 @@ $(() => {
         })
     })
 
-    function renderChatRoom(avatar, full_name, id, message) {
+    function renderChatRoom(room) {
+        let roomName = '';
+        let avatar = '';
+
+        if (room.room_type === 'PRIVATE_ROOM') {
+            room.users.forEach(item => {
+                if (item.user_id !== userId) {
+                    roomName = item.full_name;
+                    avatar = item.avatar;
+                }
+            })
+        } else if (room.room_type === 'GROUP_ROOM') {
+            roomName = room.name;
+            avatar = room.image ? room.image : '/images/default-avatar.png';
+        }
+
         return `
-        <li data-room-id="${id}" class="room rooms__item border-b py-3 w-full px-8 flex items-center">
-            <a href="/room/${id}" class="block w-full">
+        <li data-room-id="${room.id}" class="room rooms__item border-b py-3 w-full px-8 flex items-center">
+            <a href="/room/${room.id}" class="block w-full">
                 <div class="flex overflow-hidden items-center w-full gap-3">
                     <img class="w-10 h-10 rounded-full" src="${avatar}" alt="Rounded avatar">
                     <div class="w-full overflow-hidden">
                         <p
                             class="text-lg overflow-hidden whitespace-nowrap w-2/4 text-ellipsis text-blue-600 font-semibold">
-                            ${full_name}
+                            ${roomName}
                         </p>
                         <p class="text-md overflow-hidden whitespace-nowrap w-2/4 text-ellipsis">
-                            ${message}
+                            No messages yet
                         </p>
                     </div>
                 </div>
@@ -214,12 +264,14 @@ $(() => {
                     <ul class="text-left py-1 w-full text-sm text-gray-700 dark:text-gray-200"
                         aria-labelledby="dropdownRightButton">
                         <li>
-                            <a href='/room/${id}'
+                            <a href='/room/${room.id}'
                             class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mở chat</a>
                         </li>
                         <li>
-                            <a data-user-id="{{ ${id} }}" href="#"
-                            class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chặn</a>
+                            <a data-user-id="${room.id}" href="#"
+                            class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            ${room.room_type === 'PRIVATE_ROOM' ? 'Chặn' : 'Rời phòng'}
+                            </a>
                         </li>
                     </ul>
                 </div>

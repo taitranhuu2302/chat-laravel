@@ -86,9 +86,9 @@
         </div>
     </div>
 </div>
-<x-add-friend-modal />
-<x-profile-modal />
-<x-create-group-modal />
+<x-add-friend-modal></x-add-friend-modal>
+<x-profile-modal></x-profile-modal>
+<x-create-group-modal></x-create-group-modal>
 
 <script>
     const user = @json(Auth::user());

@@ -63,7 +63,8 @@ class User extends Authenticatable
 
     public function rooms(): BelongsToMany
     {
-        return $this->belongsToMany(Room::class, 'rooms_users');
+        return $this->belongsToMany(Room::class, 'rooms_users')
+            ->where('is_active', true)->orderBy('updated_at', 'desc');
     }
 
     public function messages(): HasMany

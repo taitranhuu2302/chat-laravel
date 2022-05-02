@@ -46,9 +46,13 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
 
     public function findAllRoomByUserId($id)
     {
-        return $this->model->with('users')->with('messages')->whereHas('users', function ($query) use ($id) {
-            $query->where('user_id', $id);
-        })->get();
+        return $this->model
+            ->with('users')
+            ->with('messages')
+            ->orderBy('updated_at', 'desc')
+            ->whereHas('users', function ($query) use ($id) {
+                $query->where('user_id', $id);
+            })->get();
     }
 
     public function checkRoomPrivateAlreadyExists($userOneId, $userTwoId)
