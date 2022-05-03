@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Storage;
+
 function handleImageBase64($base64)
 {
     $folderPath = 'public/images';
@@ -12,6 +14,8 @@ function handleImageBase64($base64)
     $image_base64 = base64_decode($image_parts[1]);
     $file_name = uniqid() . time() . '.' . $image_type;
     $path_file = env('URL_SERVER') . '/storage/images/' . $file_name;
+
+    Storage::put('public/images/' . $file_name, $image_base64);
 
     return [
         'path_file' => $path_file,

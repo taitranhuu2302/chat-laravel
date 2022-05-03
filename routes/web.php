@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/create-room-private', [RoomController::class, 'createRoomPrivate']);
         Route::get('/{id}', [RoomController::class, 'showRoomById']);
         Route::post('/create-room-group', [RoomController::class, 'createRoomGroup']);
+        Route::put('/edit-room', [RoomController::class, 'editGroupRoom']);
     });
 
     Route::prefix('message')->group(function() {

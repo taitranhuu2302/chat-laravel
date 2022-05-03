@@ -10,8 +10,8 @@
             </button>
         </div>
         <div class="offcanvas__header--avatar flex gap-5 flex-col items-center my-5">
-            <img class="rounded-full" src="{{ $roomAvatar }}" alt="">
-            <p class="text-xl font-semibold">{{ $roomName }}</p>
+            <img class="rounded-full image-group-room-preview" src="{{ $roomAvatar }}" alt="">
+            <p class="room-name text-xl font-semibold">{{ $roomName }}</p>
         </div>
     </div>
     <div class="offcanvas__content my-3 px-5">
@@ -34,6 +34,7 @@
                 <div
                     class="w-full text-sm font-medium text-gray-900 bg-white rounded rounded-t-none dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <button
+                        id="btn-change-name-group"
                         class="w-full flex items-center gap-3 text-left px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 text-lg font-semibold">
                         <i class="fas fa-edit"></i>
                         Đổi tên đoạn chat

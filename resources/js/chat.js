@@ -1,9 +1,14 @@
+import Swal from "sweetalert2";
+import Toastify from "toastify-js";
+import "toastify-js/src/toastify.css"
+
 $(() => {
     const Echo = window.Echo;
     const axios = window.axios;
 
     Echo.channel(`chat-room.${roomId}`).listen('ChatEvent', (data) => {
         renderMessage(data.message, data.user);
+
         Array.from($('.room')).forEach((room) => {
             const attr = $(room).attr('data-room-id');
             if (attr === roomId) {
@@ -11,10 +16,81 @@ $(() => {
                 child.innerHTML = data.message.text;
             }
         });
+    });
+
+    Echo.channel('room-update.' + roomId).listen('UpdateRoomEvent', (data) => {
+        $('.room-name').text(data.room.name);
+        $('.image-group-room-preview').attr('src', data.room.image);
+
+        Array.from($('.room')).forEach((room) => {
+            const attr = $(room).attr('data-room-id');
+            if (attr === roomId) {
+                const child = room.getElementsByClassName('group-name')[0];
+                child.innerHTML = data.room.name;
+            }
+        });
+    });
+
+    $('#image-group-room').change(function (e) {
+        const file = e.target.files[0];
+        const fr = new FileReader();
+
+        fr.readAsDataURL(file);
+        fr.onload = (e) => {
+            axios.put('/room/edit-room', {
+                roomId: roomId,
+                roomAvatar: e.target.result
+            }).then((response) => {
+                Toastify({
+                    text: `Bạn đã thay đổi ảnh nhóm thành công`,
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    className: 'toastify-success'
+                }).showToast();
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+    })
+
+    $('#btn-change-name-group').click(function (e) {
+
+        Swal.fire({
+            title: 'Đổi tên đoạn chat',
+            input: 'text',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Đổi',
+            showLoaderOnConfirm: true,
+            preConfirm: (data) => {
+                const request = {
+                    roomName: data,
+                    roomId: roomId
+                }
+                return axios.put('/room/edit-room', request)
+                    .then(function (response) {
+                        Toastify({
+                            text: `Bạn đã đổi tên đoạn chat thành công`,
+                            duration: 3000,
+                            newWindow: true,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            className: 'toastify-success'
+                        }).showToast();
+                    }).catch(function (error) {
+                        console.log(error)
+                    })
+            },
+        })
     })
 
     $('.offcanvas__toggle').click(() => {
-        console.log('click');
         $('#offcanvas-profile').toggleClass('offcanvas__open');
     });
 
@@ -38,7 +114,15 @@ function renderMessage(message, userChat) {
     const {text} = message;
     let html = '';
 
-    if (userChat.id !== userCurrent.id) {
+    if (!userChat) {
+        html = `
+            <div class="chat__message flex justify-center my-2">
+                <p class="chat__message--notify text-gray-500 text-md">
+                    ${text}
+                </p>
+            </div>
+        `;
+    } else if (userChat.id !== userCurrent.id) {
         html = `
             <div class="room__chat room__chat--left">
                 <div class="room__chat--avatar">
@@ -63,14 +147,6 @@ function renderMessage(message, userChat) {
                     </p>
                 </div>
              </div>
-        `
-    } else {
-        html = `
-            <div class="chat__message flex justify-center my-2">
-                <p class="chat__message--notify text-gray-500 text-md">
-                    ${text}
-                </p>
-            </div>
         `
     }
 

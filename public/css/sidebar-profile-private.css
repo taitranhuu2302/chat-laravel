@@ -1,5 +1,5 @@
 #offcanvas-profile {
-  width: 400px;
+  width: 0;
   transition: width 0.3s ease-in-out;
 }
 #offcanvas-profile .offcanvas__header .offcanvas__header--avatar img {

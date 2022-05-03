@@ -27,9 +27,9 @@
         <div id="room" class="flex flex-col h-full w-full border-r">
             <div class="room__header flex-shrink flex items-center border-b p-4 justify-between">
                 <div class="header__left flex items-center gap-4 ">
-                    <img class="w-9 h-9 rounded-full" src="{{ $roomAvatar }}" alt="Rounded avatar">
+                    <img class="w-9 h-9 rounded-full image-group-room-preview" src="{{ $roomAvatar }}" alt="Rounded avatar">
                     <div>
-                        <p class="text-md font-semibold">{{ $roomName }}</p>
+                        <p class="text-md room-name font-semibold">{{ $roomName }}</p>
                         <p class="text-sm">Online</p>
                     </div>
                 </div>
@@ -65,7 +65,13 @@
             </div>
             <div id="chat-message-list" class="room__content gap-4 flex-grow flex flex-col-reverse px-5 pt-2">
                 @foreach ($roomById->messages as $message)
-                    @if ($message->user->id !== Auth::id())
+                    @if($message->user === null)
+                        <div class="chat__message flex justify-center my-2">
+                            <p class="chat__message--notify text-gray-500 text-md">
+                                {{ $message->text }}
+                            </p>
+                        </div>
+                    @elseif ($message->user->id !== Auth::id())
                         <div class="room__chat room__chat--left">
                             <div class="room__chat--avatar">
                                 <img class="w-10 h-10 rounded-full" src="{{ $message->user->avatar }}"
@@ -88,12 +94,6 @@
                                     {{ $message->text }}
                                 </p>
                             </div>
-                        </div>
-                    @else
-                        <div class="chat__message flex justify-center my-2">
-                            <p class="chat__message--notify text-gray-500 text-md">
-                                {{ $message->text }}
-                            </p>
                         </div>
                     @endif
                 @endforeach
@@ -123,7 +123,8 @@
             <x-sidebar-profile-private :userProfile="$userProfile" :roomName="$roomName" :roomAvatar="$roomAvatar"/>
         @else
             {{--  Sidebar Profile Group   --}}
-            <x-sidebar-profile-group :room="$roomById" :roomName="$roomName" :roomAvatar="$roomAvatar"></x-sidebar-profile-group>
+            <x-sidebar-profile-group :room="$roomById" :roomName="$roomName"
+                                     :roomAvatar="$roomAvatar"></x-sidebar-profile-group>
         @endif
     </div>
 
@@ -135,5 +136,6 @@
     <script>
         const roomId = @json(request()->route('id'));
         const userCurrent = @json(Auth::user());
+
     </script>
 @endsection

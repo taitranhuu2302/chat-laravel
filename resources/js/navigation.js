@@ -24,7 +24,6 @@ $(() => {
         addEventDropdown();
     })
 
-
     Echo.channel(`accept-friend.${userId}`).listen('AcceptFriendEvent', (data) => {
         $('#sidebar_friend_list')
             .append(renderFriendItem(

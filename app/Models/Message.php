@@ -11,7 +11,7 @@ class Message extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'room_id', 'text'];
+    protected $fillable = ['user_id', 'room_id', 'text', 'message_type'];
 
     public function room(): BelongsTo
     {

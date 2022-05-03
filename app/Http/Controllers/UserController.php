@@ -53,17 +53,16 @@ class UserController extends Controller
 
             if ($checkBase64) {
                 $file = handleImageBase64($request->avatar);
-                Storage::put('public/images/' . $file['file_name'], $file['image_base64']);
             }
 
             $avatar = $file !== null ? $file['path_file'] : Auth::user()->avatar;
 
-            $user = $this->userRepository->findById(Auth::user()->id)->update([
+            $this->userRepository->findById(Auth::user()->id)->update([
                 'full_name' => $request->full_name,
                 'avatar' => $avatar,
             ]);
 
-            $profile = $this->profileRepository->updateByUserId(Auth::id(), [
+            $this->profileRepository->updateByUserId(Auth::id(), [
                 'phone' => $request->phone,
                 'address' => $request->address,
                 'country' => $request->country,
