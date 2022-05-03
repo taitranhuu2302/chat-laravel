@@ -47,8 +47,12 @@ class RoomController extends Controller
 
         $roomByUserId = $this->roomRepository->findAllRoomByUserId(Auth::id());
         $friendRequests = $this->friendRequestRepository->findAllFriendRequestByUserId(Auth::id());
+        $messages = $this->messageRepository->getMessageByRoom($id);
 
-        return view('pages.room')->with('roomById', $room)->with('rooms', $roomByUserId)->with('friendRequests', $friendRequests);
+        return view('pages.room')->with('roomById', $room)
+            ->with('messages', $messages)
+            ->with('rooms', $roomByUserId)
+            ->with('friendRequests', $friendRequests);
     }
 
     public function editGroupRoom(Request $request)

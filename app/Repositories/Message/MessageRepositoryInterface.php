@@ -6,5 +6,5 @@ use App\Repositories\RepositoryInterface;
 
 interface MessageRepositoryInterface extends RepositoryInterface
 {
-
+    public function getMessageByRoom($roomId);
 }

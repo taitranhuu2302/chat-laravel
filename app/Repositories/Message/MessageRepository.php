@@ -11,4 +11,12 @@ class MessageRepository extends BaseRepository implements MessageRepositoryInter
     {
         return Message::class;
     }
+
+    public function getMessageByRoom($roomId)
+    {
+        return $this->model->where('room_id', $roomId)
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
+    }
 }

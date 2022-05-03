@@ -5,9 +5,10 @@ import "toastify-js/src/toastify.css"
 $(() => {
     const Echo = window.Echo;
     const axios = window.axios;
+    const btnLoadMore = $('#load-more-message');
 
     Echo.channel(`chat-room.${roomId}`).listen('ChatEvent', (data) => {
-        renderMessage(data.message, data.user);
+        $('#chat-message-list').prepend(renderMessage(data.message, data.user));
 
         Array.from($('.room')).forEach((room) => {
             const attr = $(room).attr('data-room-id');
@@ -30,6 +31,33 @@ $(() => {
             }
         });
     });
+
+    btnLoadMore.click(eventLoadMoreMessage);
+
+    async function eventLoadMoreMessage() {
+        const URL = $(this).attr('data-url');
+        const nextPage = URL.split('page=')[1];
+        const messages = await getMessageApi(roomId, nextPage);
+
+        messages.data.forEach((message) => {
+            $('#chat-message-list').append(renderMessage(message, message.user));
+        });
+
+        if (messages.next_page_url === null) {
+            btnLoadMore.remove();
+        } else {
+            btnLoadMore.attr('data-url', messages.next_page_url);
+        }
+    }
+
+    function getMessageApi(roomId, page) {
+        return axios.get(`/message/get-message/${roomId}?page=${page}`).then((res) => {
+            return res.data.messages;
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
 
     $('#image-group-room').change(function (e) {
         const file = e.target.files[0];
@@ -150,5 +178,5 @@ function renderMessage(message, userChat) {
         `
     }
 
-    $('#chat-message-list').prepend(html);
+    return html;
 }

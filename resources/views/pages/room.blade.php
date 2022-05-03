@@ -27,7 +27,8 @@
         <div id="room" class="flex flex-col h-full w-full border-r">
             <div class="room__header flex-shrink flex items-center border-b p-4 justify-between">
                 <div class="header__left flex items-center gap-4 ">
-                    <img class="w-9 h-9 rounded-full image-group-room-preview" src="{{ $roomAvatar }}" alt="Rounded avatar">
+                    <img class="w-9 h-9 rounded-full image-group-room-preview" src="{{ $roomAvatar }}"
+                         alt="Rounded avatar">
                     <div>
                         <p class="text-md room-name font-semibold">{{ $roomName }}</p>
                         <p class="text-sm">Online</p>
@@ -63,40 +64,53 @@
                     </div>
                 </div>
             </div>
-            <div id="chat-message-list" class="room__content gap-4 flex-grow flex flex-col-reverse px-5 pt-2">
-                @foreach ($roomById->messages as $message)
-                    @if($message->user === null)
-                        <div class="chat__message flex justify-center my-2">
-                            <p class="chat__message--notify text-gray-500 text-md">
-                                {{ $message->text }}
-                            </p>
-                        </div>
-                    @elseif ($message->user->id !== Auth::id())
-                        <div class="room__chat room__chat--left">
-                            <div class="room__chat--avatar">
-                                <img class="w-10 h-10 rounded-full" src="{{ $message->user->avatar }}"
-                                     alt="Rounded avatar">
-                            </div>
-                            <div class="room__chat--content">
-                                <p class="room__chat--text">
+            <div class="room__content pt-2 flex flex-col-reverse flex-grow">
+                <div id="chat-message-list" class="gap-4 px-5 pt-2 flex flex-col-reverse">
+                    @foreach ($messages as $message)
+                        @if($message->user === null)
+                            <div class="chat__message flex justify-center my-2">
+                                <p class="chat__message--notify text-gray-500 text-md">
                                     {{ $message->text }}
                                 </p>
                             </div>
-                        </div>
-                    @elseif ($message->user->id === Auth::id())
-                        <div class="room__chat room__chat--right">
-                            <div class="room__chat--avatar">
-                                <img class="w-10 h-10 rounded-full" src="{{ $message->user->avatar }}"
-                                     alt="Rounded avatar">
+                        @elseif ($message->user->id !== Auth::id())
+                            <div class="room__chat room__chat--left">
+                                <div class="room__chat--avatar">
+                                    <img class="w-10 h-10 rounded-full" src="{{ $message->user->avatar }}"
+                                         alt="Rounded avatar">
+                                </div>
+                                <div class="room__chat--content">
+                                    <p class="room__chat--text">
+                                        {{ $message->text }}
+                                    </p>
+                                </div>
                             </div>
-                            <div class="room__chat--content">
-                                <p class="room__chat--text">
-                                    {{ $message->text }}
-                                </p>
+                        @elseif ($message->user->id === Auth::id())
+                            <div class="room__chat room__chat--right">
+                                <div class="room__chat--avatar">
+                                    <img class="w-10 h-10 rounded-full" src="{{ $message->user->avatar }}"
+                                         alt="Rounded avatar">
+                                </div>
+                                <div class="room__chat--content">
+                                    <p class="room__chat--text">
+                                        {{ $message->text }}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        @endif
+                    @endforeach
+                </div>
+                <div class="flex w-full items-center justify-center">
+                    @if($messages->nextPageUrl() !== null)
+                        <button
+                            id="load-more-message"
+                            data-url="{{ $messages->nextPageUrl() }}"
+                            type="button"
+                            class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 mr-2 mb-2">
+                            Xem thêm tin nhắn
+                        </button>
                     @endif
-                @endforeach
+                </div>
             </div>
             <div class="room__footer flex-shrink">
                 <form id="form-chat" class="footer__input flex-grow px-5 py-3 flex items-center gap-5">
@@ -131,11 +145,11 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ asset('js/chat.js') }}"></script>
-
     <script>
         const roomId = @json(request()->route('id'));
         const userCurrent = @json(Auth::user());
-
+        console.log(@json($messages));
     </script>
+
+    <script src="{{ asset('js/chat.js') }}"></script>
 @endsection

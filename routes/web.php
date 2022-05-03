@@ -66,6 +66,6 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('message')->group(function() {
         Route::post('/send-message', [MessageController::class, 'sendMessage']);
-//        Route::get('/get-message', [MessageController::class, 'getMessage']);
+        Route::get('/get-message/{roomId}', [MessageController::class, 'getMessage']);
     });
 });
