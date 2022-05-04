@@ -50,8 +50,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-user-id="{{ $item->id }}" href="#"
-                                       class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chặn</a>
+                                    <a data-user-id="{{ $item->id }}" data-room-type="{{ $item->room_type }}"  href="#"
+                                       class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chặn</a>
                                 </li>
                             </ul>
                         </div>
@@ -83,13 +83,13 @@
                                 aria-labelledby="dropdownRightButton">
                                 <li>
                                     <a href="{{ url('/room/' . $item->id) }}"
-                                       class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                       class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                         Mở chat
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-room-id="{{ $item->id }}" href="#"
-                                       class=" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Rời phòng</a>
+                                    <a data-room-id="{{ $item->id }}" data-room-type="{{ $item->room_type }}" href="#"
+                                       class="btn-leave-group block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Rời phòng</a>
                                 </li>
                             </ul>
                         </div>

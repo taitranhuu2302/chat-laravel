@@ -21,7 +21,7 @@ $(() => {
 
     Echo.channel('room-update.' + roomId).listen('UpdateRoomEvent', (data) => {
         $('.room-name').text(data.room.name);
-        $('.image-group-room-preview').attr('src', data.room.image);
+        $('.image-group-room-preview').attr('src', data.room.image ? data.room.image : '/images/default-avatar.png');
 
         Array.from($('.room')).forEach((room) => {
             const attr = $(room).attr('data-room-id');
@@ -84,6 +84,48 @@ $(() => {
         }
     })
 
+    $('#btn-add-member-group').click(function (e) {
+        Swal.fire({
+            title: 'Thêm thành viên',
+            input: 'email',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+
+            showCancelButton: true,
+            cancelButtonText: 'Hủy',
+            confirmButtonText: 'Thêm',
+            showLoaderOnConfirm: true,
+            preConfirm: (email) => {
+                return axios.post('/room/add-member-group', {
+                    roomId: roomId,
+                    email: email
+                }).then((response) => {
+                    Toastify({
+                        text: `Bạn đã thêm thành công`,
+                        duration: 3000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "top",
+                        position: "right",
+                        className: 'toastify-success'
+                    }).showToast();
+                }).catch((error) => {
+                    console.log(error);
+                    // Toastify({
+                    //     text: `Bạn đã thêm thất bại`,
+                    //     duration: 3000,
+                    //     newWindow: true,
+                    //     close: true,
+                    //     gravity: "top",
+                    //     position: "right",
+                    //     className: 'toastify-error'
+                    // }).showToast();
+                });
+            },
+        })
+    })
+
     $('#btn-change-name-group').click(function (e) {
 
         Swal.fire({
@@ -93,6 +135,7 @@ $(() => {
                 autocapitalize: 'off'
             },
             showCancelButton: true,
+            cancelButtonText: 'Hủy',
             confirmButtonText: 'Đổi',
             showLoaderOnConfirm: true,
             preConfirm: (data) => {

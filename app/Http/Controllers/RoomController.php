@@ -7,11 +7,16 @@ use App\Enums\RoomType;
 use App\Events\ChatEvent;
 use App\Events\CreateRoomEvent;
 use App\Events\UpdateRoomEvent;
+use App\Http\Requests\AddMemberToGroupRequest;
 use App\Http\Requests\CreateGroupRequest;
 use App\Http\Requests\CreateRoomPrivateRequest;
+use App\Http\Requests\LeaveGroupRequest;
+use App\Models\User;
 use App\Repositories\FriendRequest\FriendRequestInterface;
 use App\Repositories\Message\MessageRepositoryInterface;
 use App\Repositories\Room\RoomRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,12 +27,14 @@ class RoomController extends Controller
     protected RoomRepositoryInterface $roomRepository;
     protected FriendRequestInterface $friendRequestRepository;
     protected MessageRepositoryInterface $messageRepository;
+    protected UserRepositoryInterface $userRepository;
 
-    public function __construct(RoomRepositoryInterface $roomRepo, FriendRequestInterface $friendRequestRepo, MessageRepositoryInterface $messageRepo)
+    public function __construct(RoomRepositoryInterface $roomRepo, FriendRequestInterface $friendRequestRepo, MessageRepositoryInterface $messageRepo, UserRepositoryInterface $userRepo)
     {
         $this->roomRepository = $roomRepo;
         $this->friendRequestRepository = $friendRequestRepo;
         $this->messageRepository = $messageRepo;
+        $this->userRepository = $userRepo;
     }
 
     public function index(): JsonResponse
@@ -73,7 +80,6 @@ class RoomController extends Controller
 
             $image = $file ? $file['path_file'] : $room->image;
 
-
             $roomUpdate = $this->roomRepository->update($roomId, [
                 'name' => $roomName ?? $room->name,
                 'image' => $image
@@ -104,6 +110,7 @@ class RoomController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
                 'room_type' => RoomType::GROUP_ROOM,
+                'owner_id' => Auth::id(),
             ]);
 
             $this->roomRepository->addUserToRoom($room->id, Auth::id());
@@ -142,6 +149,94 @@ class RoomController extends Controller
             return response()->json(['message' => 'success', 'status' => 200, 'data' => $room]);
         } catch (\Exception $e) {
             return response()->json(['message' => 'error', 'status' => 500, 'data' => $e->getMessage()]);
+        }
+    }
+
+    public function addMemberGroup(AddMemberToGroupRequest $request)
+    {
+        try {
+            $email = $request->input('email');
+            $roomId = $request->input('roomId');
+
+            $user = $this->userRepository->findByEmail($email);
+
+            if (!$user) {
+                return response()->json(['message' => 'Người dùng không tồn tại', 'status' => 404], 404);
+            }
+
+            $userExistsFromRoom = $this->roomRepository->isRoomExists($roomId, $user->id);
+
+            if ($userExistsFromRoom) {
+                return response()->json(['message' => 'Người dùng đã tồn tại trong phòng', 'status' => 409], 409);
+            }
+
+            $this->roomRepository->addUserToRoom($roomId, $user->id);
+
+            $message = $this->messageRepository->create([
+               'room_id' => $roomId,
+               'message_type' => MessageType::NOTIFICATION,
+               'text' => Auth::user()->full_name . ' đã thêm '. $user->full_name .' vào phòng',
+            ]);
+
+            event(new CreateRoomEvent($user->id, $this->roomRepository->findById($roomId)));
+
+            event(new ChatEvent($message, $roomId, null));
+
+            return response()->json(['message' => 'success', 'status' => 200]);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['message' => $e->getMessage(), 'status' => 500], 500);
+        }
+    }
+
+    public function leaveGroup(LeaveGroupRequest $request)
+    {
+        try {
+            $roomId = $request->input('roomId');
+            $memberId = $request->input('memberId');
+            $userId = Auth::id();
+
+            $checkUserInRoom = $this->roomRepository->isRoomExists($userId, $roomId);
+
+            if (!$checkUserInRoom) {
+                return response()->json(['message' => 'User not in room', 'status' => 404], 404);
+            }
+
+            if ($memberId) {
+                $isOwner = $this->roomRepository->isOwnerFromRoom($roomId, $userId);
+                $member = User::where('id', $memberId)->first();
+
+                if (!$isOwner) {
+                    return response()->json(['message' => 'User is not owner', 'status' => 403], 403);
+                }
+
+                $this->roomRepository->removeUserFromRoom($roomId, $memberId);
+
+                $message = $this->messageRepository->create([
+                    'room_id' => $roomId,
+                    'message_type' => MessageType::NOTIFICATION,
+                    'text' => Auth::user()->full_name . ' đã xoá ' . $member->full_name . ' ra khỏi nhóm',
+                ]);
+
+                event(new ChatEvent($message, $roomId, null));
+
+                return response()->json(['message' => 'Remove user success', 'status' => 200], 200);
+            }
+
+            $this->roomRepository->removeUserFromRoom($roomId, $userId);
+
+            $message = $this->messageRepository->create([
+                'room_id' => $roomId,
+                'message_type' => MessageType::NOTIFICATION,
+                'text' => Auth::user()->full_name . ' đã rời khỏi nhóm',
+            ]);
+
+            event(new ChatEvent($message, $roomId, null));
+
+            return response()->json(['message' => 'success', 'status' => 200]);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['message' => $e->getMessage(), 'status' => 500], 500);
         }
     }
 }

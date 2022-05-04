@@ -15,4 +15,8 @@ interface RoomRepositoryInterface extends RepositoryInterface
     public function isRoomExists($userId, $roomId);
 
     public function addUserToRoom($roomId, $userId);
+
+    public function removeUserFromRoom($roomId, $userId);
+
+    public function isOwnerFromRoom($roomId, $userId);
 }

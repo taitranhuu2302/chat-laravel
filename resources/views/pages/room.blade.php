@@ -148,7 +148,6 @@
     <script>
         const roomId = @json(request()->route('id'));
         const userCurrent = @json(Auth::user());
-        console.log(@json($messages));
     </script>
 
     <script src="{{ asset('js/chat.js') }}"></script>

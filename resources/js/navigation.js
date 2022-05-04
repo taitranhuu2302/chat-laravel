@@ -21,7 +21,7 @@ $(() => {
             position: "right",
             className: 'toastify-info'
         }).showToast();
-        addEventDropdown();
+        addEvent();
     })
 
     Echo.channel(`accept-friend.${userId}`).listen('AcceptFriendEvent', (data) => {
@@ -37,7 +37,7 @@ $(() => {
             position: "right",
             className: 'toastify-info'
         }).showToast();
-        addEventDropdown();
+        addEvent();
     })
 
     Echo.channel(`create-room.${userId}`).listen('CreateRoomEvent', (data) => {
@@ -53,7 +53,7 @@ $(() => {
                 className: 'toastify-info'
             }).showToast();
         }
-        addEventDropdown();
+        addEvent();
     });
 
     // Change Tab Active
@@ -65,7 +65,7 @@ $(() => {
             button.classList.add('nav__top--active');
         })
     })
-    addEventDropdown();
+    addEvent();
 
     // Filter Friend
     $('#search-add-friend').autocomplete({
@@ -351,18 +351,42 @@ $(() => {
         `
     }
 
-    function addEventDropdown() {
+    function addEvent() {
         const buttonDropdown = $('.button-friend-request i');
         const buttonAcceptFriendRequest = $('.accept-friend-request');
         const buttonBlockFriendRequest = $('.block-friend-request');
         const buttonBlockFriend = $('.btn-block-friend');
         const buttonCreateRoomPrivate = $('.btn-create-private');
+        const buttonLeaveGroup = $('.btn-leave-group');
 
-        buttonDropdown.unbind();
-        buttonAcceptFriendRequest.unbind();
-        buttonBlockFriendRequest.unbind();
-        buttonBlockFriend.unbind();
-        buttonCreateRoomPrivate.unbind();
+        buttonDropdown.unbind('click');
+        buttonAcceptFriendRequest.unbind('click');
+        buttonBlockFriendRequest.unbind('click');
+        buttonBlockFriend.unbind('click');
+        buttonCreateRoomPrivate.unbind('click');
+        buttonLeaveGroup.unbind('click');
+
+        buttonLeaveGroup.click(function (e) {
+            e.preventDefault();
+            const roomId = $(this).attr('data-room-id');
+            const parents = $(this).parents('.rooms__item');
+
+
+            axios.post('/room/leave-group', {
+                roomId: roomId
+            }).then(res => {
+                if (res.data) {
+                    parents.remove();
+                    Toastify({
+                        text: 'Đã rời khỏi nhóm',
+                        duration: 3000,
+                        className: 'toastify-success',
+                    }).showToast();
+                }
+            }).catch(err => {
+                console.log(err)
+            })
+        });
 
         buttonDropdown.click(function (e) {
             e.preventDefault();

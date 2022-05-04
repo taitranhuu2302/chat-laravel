@@ -44,12 +44,14 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
     }
 
 
+
     public function findAllRoomByUserId($id)
     {
         return $this->model
             ->with('users')
             ->with('messages')
             ->orderBy('updated_at', 'desc')
+            ->where('is_active', true)
             ->whereHas('users', function ($query) use ($id) {
                 $query->where('user_id', $id);
             })->get();
@@ -76,4 +78,23 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
 
         return false;
     }
+
+    public function removeUserFromRoom($roomId, $userId)
+    {
+        return $this->model->where('id', $roomId)->whereHas('users', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->first()->users()->detach($userId);
+    }
+
+    public function isOwnerFromRoom($roomId, $userId)
+    {
+        $room = $this->model->where('id', $roomId)->where('owner_id', $userId)->first();
+
+        if ($room) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

@@ -18,7 +18,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "/*!\n * Toastify js 1.11.2\n * https://github.com/apvarun/toastify-js\n * @license MIT licensed\n *\n * Copyright (C) 2018 Varun A P\n */\n\n.toastify {\n    padding: 12px 20px;\n    color: #ffffff;\n    display: inline-block;\n    box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.12), 0 10px 36px -4px rgba(77, 96, 232, 0.3);\n    background: linear-gradient(135deg, #73a5ff, #5477f5);\n    position: fixed;\n    opacity: 0;\n    transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);\n    border-radius: 2px;\n    cursor: pointer;\n    text-decoration: none;\n    max-width: calc(50% - 20px);\n    z-index: 2147483647;\n}\n\n.toastify.on {\n    opacity: 1;\n}\n\n.toast-close {\n    opacity: 0.4;\n    padding: 0 5px;\n}\n\n.toastify-right {\n    right: 15px;\n}\n\n.toastify-left {\n    left: 15px;\n}\n\n.toastify-top {\n    top: -150px;\n}\n\n.toastify-bottom {\n    bottom: -150px;\n}\n\n.toastify-rounded {\n    border-radius: 25px;\n}\n\n.toastify-avatar {\n    width: 1.5em;\n    height: 1.5em;\n    margin: -7px 5px;\n    border-radius: 2px;\n}\n\n.toastify-center {\n    margin-left: auto;\n    margin-right: auto;\n    left: 0;\n    right: 0;\n    max-width: -webkit-fit-content;\n    max-width: fit-content;\n    max-width: -moz-fit-content;\n}\n\n@media only screen and (max-width: 360px) {\n    .toastify-right, .toastify-left {\n        margin-left: auto;\n        margin-right: auto;\n        left: 0;\n        right: 0;\n        max-width: -webkit-fit-content;\n        max-width: -moz-fit-content;\n        max-width: fit-content;\n    }\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "/*!\n * Toastify js 1.11.2\n * https://github.com/apvarun/toastify-js\n * @license MIT licensed\n *\n * Copyright (C) 2018 Varun A P\n */\n\n.toastify {\n    padding: 12px 20px;\n    color: #ffffff;\n    display: inline-block;\n    box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.12), 0 10px 36px -4px rgba(77, 96, 232, 0.3);\n    background: linear-gradient(135deg, #73a5ff, #5477f5);\n    position: fixed;\n    opacity: 0;\n    transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);\n    border-radius: 2px;\n    cursor: pointer;\n    text-decoration: none;\n    max-width: calc(50% - 20px);\n    z-index: 2147483647;\n}\n\n.toastify.on {\n    opacity: 1;\n}\n\n.toast-close {\n    opacity: 0.4;\n    padding: 0 5px;\n}\n\n.toastify-right {\n    right: 15px;\n}\n\n.toastify-left {\n    left: 15px;\n}\n\n.toastify-top {\n    top: -150px;\n}\n\n.toastify-bottom {\n    bottom: -150px;\n}\n\n.toastify-rounded {\n    border-radius: 25px;\n}\n\n.toastify-avatar {\n    width: 1.5em;\n    height: 1.5em;\n    margin: -7px 5px;\n    border-radius: 2px;\n}\n\n.toastify-center {\n    margin-left: auto;\n    margin-right: auto;\n    left: 0;\n    right: 0;\n    max-width: -webkit-fit-content;\n    max-width: fit-content;\n    max-width: -moz-fit-content;\n}\n\n@media only screen and (max-width: 360px) {\n    .toastify-right, .toastify-left {\n        margin-left: auto;\n        margin-right: auto;\n        left: 0;\n        right: 0;\n        max-width: -webkit-fit-content;\n        max-width: -moz-fit-content;\n        max-width: fit-content;\n    }\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4479,7 +4479,7 @@ $(function () {
       position: "right",
       className: 'toastify-info'
     }).showToast();
-    addEventDropdown();
+    addEvent();
   });
   Echo.channel("accept-friend.".concat(userId)).listen('AcceptFriendEvent', function (data) {
     $('#sidebar_friend_list').append(renderFriendItem(data.friend.avatar, data.friend.full_name, data.friend.id, "Xin ch\xE0o ".concat(data.friend.full_name)));
@@ -4492,7 +4492,7 @@ $(function () {
       position: "right",
       className: 'toastify-info'
     }).showToast();
-    addEventDropdown();
+    addEvent();
   });
   Echo.channel("create-room.".concat(userId)).listen('CreateRoomEvent', function (data) {
     $('#chat_rooms').append(renderChatRoom(data.room));
@@ -4509,7 +4509,7 @@ $(function () {
       }).showToast();
     }
 
-    addEventDropdown();
+    addEvent();
   }); // Change Tab Active
 
   buttonTabs.forEach(function (button) {
@@ -4520,7 +4520,7 @@ $(function () {
       button.classList.add('nav__top--active');
     });
   });
-  addEventDropdown(); // Filter Friend
+  addEvent(); // Filter Friend
 
   $('#search-add-friend').autocomplete({
     source: function source(request, response) {
@@ -4693,17 +4693,38 @@ $(function () {
     return "\n            <li class=\"rooms__item border-b py-3 w-full px-8 flex items-center\">\n                <div class=\"flex overflow-hidden items-center w-full gap-3\">\n                    <img class=\"w-10 h-10 rounded-full\" src=\"".concat(avatar, "\" alt=\"Rounded avatar\">\n                    <div class=\"w-full overflow-hidden\">\n                        <p\n                            class=\"text-lg overflow-hidden whitespace-nowrap w-2/4 text-ellipsis text-blue-600 font-semibold\">\n                            ").concat(full_name, "</p>\n                        <p class=\"text-md overflow-hidden whitespace-nowrap w-2/4 text-ellipsis\">\n                           ").concat(message, "\n                        </p>\n                    </div>\n                </div>\n                <button class=\"button-friend-request\" data-dropdown-placement=\"right\">\n                    <i class=\"fas fa-ellipsis-h-alt\"></i>\n                    <div\n                        class=\"hidden absolute z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dropdown-friend-request\">\n                        <ul class=\"text-left py-1 w-full text-sm text-gray-700 dark:text-gray-200\"\n                            aria-labelledby=\"dropdownRightButton\">\n                            <li>\n                                <a data-user-id=\"").concat(id, "\" href=\"#\"\n                                   class=\"btn-create-private block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white\">M\u1EDF chat</a>\n                            </li>\n                            <li>\n                                <a data-user-id=\"").concat(id, "\" href=\"#\"\n                                   class=\"block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white\">Xem h\u1ED3 s\u01A1</a>\n                            </li>\n                            <li>\n                                <a data-user-id=\"").concat(id, "\" href=\"#\"\n                                   class=\"btn-block-friend block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white\">Hu\u1EF7 k\u1EBFt b\u1EA1n</a>\n                            </li>\n                        </ul>\n                    </div>\n                </button>\n            </li>\n        ");
   }
 
-  function addEventDropdown() {
+  function addEvent() {
     var buttonDropdown = $('.button-friend-request i');
     var buttonAcceptFriendRequest = $('.accept-friend-request');
     var buttonBlockFriendRequest = $('.block-friend-request');
     var buttonBlockFriend = $('.btn-block-friend');
     var buttonCreateRoomPrivate = $('.btn-create-private');
-    buttonDropdown.unbind();
-    buttonAcceptFriendRequest.unbind();
-    buttonBlockFriendRequest.unbind();
-    buttonBlockFriend.unbind();
-    buttonCreateRoomPrivate.unbind();
+    var buttonLeaveGroup = $('.btn-leave-group');
+    buttonDropdown.unbind('click');
+    buttonAcceptFriendRequest.unbind('click');
+    buttonBlockFriendRequest.unbind('click');
+    buttonBlockFriend.unbind('click');
+    buttonCreateRoomPrivate.unbind('click');
+    buttonLeaveGroup.unbind('click');
+    buttonLeaveGroup.click(function (e) {
+      e.preventDefault();
+      var roomId = $(this).attr('data-room-id');
+      var parents = $(this).parents('.rooms__item');
+      axios.post('/room/leave-group', {
+        roomId: roomId
+      }).then(function (res) {
+        if (res.data) {
+          parents.remove();
+          toastify_js__WEBPACK_IMPORTED_MODULE_1___default()({
+            text: 'Đã rời khỏi nhóm',
+            duration: 3000,
+            className: 'toastify-success'
+          }).showToast();
+        }
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    });
     buttonDropdown.click(function (e) {
       e.preventDefault();
       var button = $(this).parent();

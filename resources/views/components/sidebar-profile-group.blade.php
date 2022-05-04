@@ -40,6 +40,12 @@
                         Đổi tên đoạn chat
                     </button>
                     <button
+                        id="btn-add-member-group"
+                        class="w-full flex items-center gap-3 text-left px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 text-lg font-semibold">
+                        <i class="fas fa-plus-circle"></i>
+                        Thêm thành viên mới
+                    </button>
+                    <button
                         class="w-full relative text-left flex items-center gap-3 px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 text-lg font-semibold">
                         <i class="fas fa-image"></i>
                         Đổi ảnh đại diện
@@ -64,9 +70,9 @@
                 </button>
             </h2>
             <div id="accordion-collapse-body-2" class="hidden" aria-labelledby="accordion-collapse-heading-2">
-                <ul class="text-sm w-full font-medium text-gray-900 bg-white border rounded-t-none border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                <ul class="text-sm w-full font-medium text-gray-900 bg-white rounded-t-none border-gray-200 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     @foreach($room->users as $u)
-                        <li class="w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 flex items-center justify-between">
+                        <li class="w-full px-4 py-2 border-b border-gray-200 rounded-t dark:border-gray-600 flex items-center justify-between">
                             <div class="flex items-center gap-4">
                                 <img class="rounded-full w-8 h-8" src="{{ $u->avatar }}" alt="">
                                 <p class="text-lg font-semibold w-3/4 text-ellipsis overflow-hidden">{{ $u->full_name }}</p>
