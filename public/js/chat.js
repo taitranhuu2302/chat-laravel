@@ -5193,6 +5193,7 @@ $(function () {
   var Echo = window.Echo;
   var axios = window.axios;
   var btnLoadMore = $('#load-more-message');
+  var listMessageImage = [];
   Echo.channel("chat-room.".concat(roomId)).listen('ChatEvent', function (data) {
     $('#chat-message-list').prepend(renderMessage(data.message, data.user));
     Array.from($('.room')).forEach(function (room) {
@@ -5375,8 +5376,32 @@ $(function () {
       console.log(error);
     });
   });
+  $('#input-message-image').change(function (e) {
+    var file = e.target.files[0];
+    var fr = new FileReader();
+    fr.readAsDataURL(file);
+
+    fr.onload = function (e) {
+      $('#list-file-image').append("\n            <div class=\"room__footer--message-images-item relative\">\n                <img src=\"".concat(e.target.result, "\" alt=\"image\"/>\n                <button type=\"button\" class=\"btn-close-image top-1 right-1 absolute w-6 h-6 flex items-center justify-center text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800\">\n                    <i class=\"fas fa-times\"></i>\n                </button>\n            </div>\n            "));
+      btnCloseImage();
+      checkMessageImage();
+    };
+  });
   dropDownEvent();
 });
+
+function btnCloseImage() {
+  var button = $('.btn-close-image');
+  button.click(function () {
+    var item = $(this).parent();
+    item.remove();
+  });
+  checkMessageImage();
+}
+
+function checkMessageImage() {// const check = listMessageImage;
+  // console.log(check)
+}
 
 function dropDownEvent() {
   var btnDropdown = $('.btn-dropdown');

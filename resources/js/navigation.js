@@ -390,7 +390,7 @@ $(() => {
 
         buttonDropdown.click(function (e) {
             e.preventDefault();
-            const button = $(this);
+            const button = $(this).parent();
             const parent = button.children('.dropdown-friend-request');
             parent.toggleClass('hidden')
 

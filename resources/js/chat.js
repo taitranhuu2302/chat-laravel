@@ -6,6 +6,8 @@ $(() => {
     const Echo = window.Echo;
     const axios = window.axios;
     const btnLoadMore = $('#load-more-message');
+    const listMessageImage = [];
+
 
     Echo.channel(`chat-room.${roomId}`).listen('ChatEvent', (data) => {
         $('#chat-message-list').prepend(renderMessage(data.message, data.user));
@@ -179,8 +181,43 @@ $(() => {
         });
     })
 
+    $('#input-message-image').change((e) => {
+        const file = e.target.files[0];
+
+        const fr = new FileReader();
+        fr.readAsDataURL(file);
+
+        fr.onload = function (e) {
+            $('#list-file-image').append(`
+            <div class="room__footer--message-images-item relative">
+                <img src="${e.target.result}" alt="image"/>
+                <button type="button" class="btn-close-image top-1 right-1 absolute w-6 h-6 flex items-center justify-center text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            `)
+            btnCloseImage();
+            checkMessageImage();
+        }
+    })
+
     dropDownEvent();
 })
+
+function btnCloseImage() {
+    const button = $('.btn-close-image');
+    button.click(function () {
+        const item = $(this).parent();
+        item.remove();
+    });
+    checkMessageImage();
+}
+
+function checkMessageImage() {
+    // const check = listMessageImage;
+    // console.log(check)
+
+}
 
 function dropDownEvent() {
     const btnDropdown = $('.btn-dropdown');

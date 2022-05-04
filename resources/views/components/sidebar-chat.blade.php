@@ -6,11 +6,8 @@
                     data-modal-toggle="create-group-modal">
                 <i class="text-xl far fa-users"></i>
             </button>
-            <button class="border-gray-300 border px-3 py-0.5 rounded">
-                <i class="text-xl fal fa-plus-circle"></i>
-            </button>
-        </div>
     </div>
+        </div>
 
     <div class="chat__search flex-shrink p-8">
         <input type="text" placeholder="Search chats"

@@ -4727,7 +4727,7 @@ $(function () {
     });
     buttonDropdown.click(function (e) {
       e.preventDefault();
-      var button = $(this);
+      var button = $(this).parent();
       var parent = button.children('.dropdown-friend-request');
       parent.toggleClass('hidden');
       $(document).click(function (e) {
