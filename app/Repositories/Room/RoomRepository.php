@@ -86,7 +86,7 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
         })->first()->users()->detach($userId);
     }
 
-    public function isOwnerFromRoom($roomId, $userId)
+    public function isOwnerFromRoom($roomId, $userId): bool
     {
         $room = $this->model->where('id', $roomId)->where('owner_id', $userId)->first();
 

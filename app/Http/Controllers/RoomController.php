@@ -164,7 +164,8 @@ class RoomController extends Controller
                 return response()->json(['message' => 'Người dùng không tồn tại', 'status' => 404], 404);
             }
 
-            $userExistsFromRoom = $this->roomRepository->isRoomExists($roomId, $user->id);
+            $userExistsFromRoom = $this->roomRepository->isRoomExists($user->id, $roomId);
+
 
             if ($userExistsFromRoom) {
                 return response()->json(['message' => 'Người dùng đã tồn tại trong phòng', 'status' => 409], 409);

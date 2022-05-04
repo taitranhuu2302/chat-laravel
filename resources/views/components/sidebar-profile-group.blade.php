@@ -72,14 +72,36 @@
             <div id="accordion-collapse-body-2" class="hidden" aria-labelledby="accordion-collapse-heading-2">
                 <ul class="text-sm w-full font-medium text-gray-900 bg-white rounded-t-none border-gray-200 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     @foreach($room->users as $u)
-                        <li class="w-full px-4 py-2 border-b border-gray-200 rounded-t dark:border-gray-600 flex items-center justify-between">
+                        <li class="member w-full px-4 py-2 border-b border-gray-200 rounded-t dark:border-gray-600 flex items-center justify-between">
                             <div class="flex items-center gap-4">
                                 <img class="rounded-full w-8 h-8" src="{{ $u->avatar }}" alt="">
                                 <p class="text-lg font-semibold w-3/4 text-ellipsis overflow-hidden">{{ $u->full_name }}</p>
                             </div>
-                            <button>
-                                <i class="fas fa-ellipsis-h"></i>
-                            </button>
+                            @if($u->id != Auth::user()->id)
+                                <button class="relative btn-dropdown">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                    <div
+                                        class="dropdown-menu hidden top-5 right-0 absolute z-10 whitespace-nowrap bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
+                                        <ul class="text-left py-1 w-full text-sm text-gray-700 dark:text-gray-200"
+                                            aria-labelledby="dropdownRightButton">
+                                            <li>
+                                                <a
+                                                    class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                    Xem thông tin
+                                                </a>
+                                            </li>
+                                            @if($room->owner_id == Auth::user()->id)
+                                                <li>
+                                                    <a
+                                                        data-user-id="{{ $u->id }}"
+                                                        href="#"
+                                                        class="btn-remove-member block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Xoá thành viên</a>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                </button>
+                            @endif
                         </li>
                     @endforeach
                 </ul>
@@ -110,3 +132,5 @@
         </div>
     </div>
 </div>
+
+

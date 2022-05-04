@@ -111,16 +111,15 @@ $(() => {
                         className: 'toastify-success'
                     }).showToast();
                 }).catch((error) => {
-                    console.log(error);
-                    // Toastify({
-                    //     text: `Bạn đã thêm thất bại`,
-                    //     duration: 3000,
-                    //     newWindow: true,
-                    //     close: true,
-                    //     gravity: "top",
-                    //     position: "right",
-                    //     className: 'toastify-error'
-                    // }).showToast();
+                    Toastify({
+                        text: error.response.data.message,
+                        duration: 3000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "top",
+                        position: "right",
+                        className: 'toastify-error'
+                    }).showToast();
                 });
             },
         })
@@ -179,7 +178,65 @@ $(() => {
             console.log(error);
         });
     })
+
+    dropDownEvent();
 })
+
+function dropDownEvent() {
+    const btnDropdown = $('.btn-dropdown');
+    const btnRemoveMember = $('.btn-remove-member');
+
+    btnDropdown.unbind('click');
+    btnRemoveMember.unbind('click');
+
+    btnDropdown.click(function (e) {
+        const button = $(this);
+        const dropdown = $(this).find('.dropdown-menu');
+
+        dropdown.toggleClass('hidden');
+
+        $(document).click(function (e) {
+            if (!button.is(e.target) && button.has(e.target).length === 0) {
+                dropdown.addClass('hidden');
+            }
+        });
+    });
+
+    btnRemoveMember.click(function (e) {
+        const userId = $(this).attr('data-user-id');
+        const parent = $(this).parents('.member');
+
+        Swal.fire({
+            title: 'Bạn muốn xoá người này ra khỏi nhóm ?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Xoá thành viên',
+            denyButtonText: `Huỷ bỏ`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                const request = {
+                    memberId: userId,
+                    roomId
+                }
+                axios.post('/room/leave-group', request).then((response) => {
+                    Toastify({
+                        text: `Bạn đã xoá thành viên thành công`,
+                        duration: 3000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "top",
+                        position: "right",
+                        className: 'toastify-success'
+                    }).showToast();
+                    parent.remove();
+                }).catch((error) => {
+                    console.log(error);
+                })
+            }
+        })
+    })
+}
 
 function renderMessage(message, userChat) {
     const {text} = message;

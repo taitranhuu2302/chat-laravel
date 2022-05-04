@@ -30,6 +30,7 @@ class MessageController extends Controller
                 'user_id' => $user->id,
             ]);
 
+
             event(new ChatEvent($message, $roomId, $user));
 
             return response()->json(['message' => 'success', 'status' => 200], 200);
