@@ -5180,6 +5180,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! toastify-js */ "./node_modules/toastify-js/src/toastify.js");
 /* harmony import */ var toastify_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(toastify_js__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var toastify_js_src_toastify_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! toastify-js/src/toastify.css */ "./node_modules/toastify-js/src/toastify.css");
+var _this = undefined;
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -5193,7 +5195,6 @@ $(function () {
   var Echo = window.Echo;
   var axios = window.axios;
   var btnLoadMore = $('#load-more-message');
-  var listMessageImage = [];
   Echo.channel("chat-room.".concat(roomId)).listen('ChatEvent', function (data) {
     $('#chat-message-list').prepend(renderMessage(data.message, data.user));
     Array.from($('.room')).forEach(function (room) {
@@ -5366,42 +5367,57 @@ $(function () {
   $('#form-chat').submit(function (e) {
     e.preventDefault();
     var message = $('#txt_message').val();
+    var messageImage = [];
+    var imgTag = Array.from($('.room__footer--message-images-item').children('img'));
+    imgTag.forEach(function (item) {
+      messageImage.push(item.src);
+    });
     var data = {
       text: message,
-      room_id: roomId
-    };
-    axios.post('/message/send-message', data).then(function (response) {
-      $('#txt_message').val('');
-    })["catch"](function (error) {
-      console.log(error);
-    });
+      room_id: roomId,
+      images: messageImage
+    }; // axios.post('/message/send-message', data).then((response) => {
+    //     $('#txt_message').val('');
+    // }).catch((error) => {
+    //     console.log(error);
+    // });
   });
   $('#input-message-image').change(function (e) {
+    var input = $(_this);
     var file = e.target.files[0];
     var fr = new FileReader();
     fr.readAsDataURL(file);
 
     fr.onload = function (e) {
       $('#list-file-image').append("\n            <div class=\"room__footer--message-images-item relative\">\n                <img src=\"".concat(e.target.result, "\" alt=\"image\"/>\n                <button type=\"button\" class=\"btn-close-image top-1 right-1 absolute w-6 h-6 flex items-center justify-center text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-blue-800\">\n                    <i class=\"fas fa-times\"></i>\n                </button>\n            </div>\n            "));
+      input.val(null);
       btnCloseImage();
       checkMessageImage();
     };
   });
   dropDownEvent();
-});
-
-function btnCloseImage() {
-  var button = $('.btn-close-image');
-  button.click(function () {
-    var item = $(this).parent();
-    item.remove();
-  });
   checkMessageImage();
-}
 
-function checkMessageImage() {// const check = listMessageImage;
-  // console.log(check)
-}
+  function checkMessageImage() {
+    var list = $('#list-file-image');
+    var child = list.children().length;
+
+    if (child <= 0) {
+      list.addClass('hidden');
+    } else {
+      list.removeClass('hidden');
+    }
+  }
+
+  function btnCloseImage() {
+    var button = $('.btn-close-image');
+    button.click(function () {
+      var item = $(this).parent();
+      item.remove();
+      checkMessageImage();
+    });
+  }
+});
 
 function dropDownEvent() {
   var btnDropdown = $('.btn-dropdown');

@@ -113,7 +113,7 @@
                 </div>
             </div>
             <div class="room__footer flex-shrink px-5">
-                <div id="list-file-image" class="room__footer--message-images flex items-center"></div>
+                <div id="list-file-image" class="room__footer--message-images hidden flex items-center"></div>
                 <form id="form-chat" class="footer__input flex-grow py-3 flex items-center gap-5">
                     <input type="text" id="txt_message"
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">

@@ -6,7 +6,6 @@ $(() => {
     const Echo = window.Echo;
     const axios = window.axios;
     const btnLoadMore = $('#load-more-message');
-    const listMessageImage = [];
 
 
     Echo.channel(`chat-room.${roomId}`).listen('ChatEvent', (data) => {
@@ -169,19 +168,27 @@ $(() => {
     $('#form-chat').submit(function (e) {
         e.preventDefault();
         const message = $('#txt_message').val();
+        const messageImage = [];
+        const imgTag = Array.from($('.room__footer--message-images-item').children('img'));
+        imgTag.forEach((item) => {
+            messageImage.push(item.src);
+        })
+
         const data = {
             text: message,
-            room_id: roomId
+            room_id: roomId,
+            images: messageImage
         }
 
-        axios.post('/message/send-message', data).then((response) => {
-            $('#txt_message').val('');
-        }).catch((error) => {
-            console.log(error);
-        });
+        // axios.post('/message/send-message', data).then((response) => {
+        //     $('#txt_message').val('');
+        // }).catch((error) => {
+        //     console.log(error);
+        // });
     })
 
     $('#input-message-image').change((e) => {
+        const input = $(this);
         const file = e.target.files[0];
 
         const fr = new FileReader();
@@ -196,28 +203,38 @@ $(() => {
                 </button>
             </div>
             `)
+            input.val(null);
             btnCloseImage();
             checkMessageImage();
         }
     })
 
     dropDownEvent();
+    checkMessageImage();
+
+    function checkMessageImage() {
+        const list = $('#list-file-image');
+        const child = list.children().length;
+        if (child <= 0) {
+            list.addClass('hidden');
+        } else {
+            list.removeClass('hidden');
+        }
+    }
+
+    function btnCloseImage() {
+        const button = $('.btn-close-image');
+        button.click(function () {
+            const item = $(this).parent();
+            item.remove();
+            checkMessageImage();
+        });
+    }
 })
 
-function btnCloseImage() {
-    const button = $('.btn-close-image');
-    button.click(function () {
-        const item = $(this).parent();
-        item.remove();
-    });
-    checkMessageImage();
-}
 
-function checkMessageImage() {
-    // const check = listMessageImage;
-    // console.log(check)
 
-}
+
 
 function dropDownEvent() {
     const btnDropdown = $('.btn-dropdown');
