@@ -11,6 +11,7 @@ use App\Http\Requests\AddMemberToGroupRequest;
 use App\Http\Requests\CreateGroupRequest;
 use App\Http\Requests\CreateRoomPrivateRequest;
 use App\Http\Requests\LeaveGroupRequest;
+use App\Models\Message;
 use App\Models\User;
 use App\Repositories\FriendRequest\FriendRequestInterface;
 use App\Repositories\Message\MessageRepositoryInterface;

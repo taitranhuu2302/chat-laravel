@@ -24,8 +24,9 @@ class PostMessageRequest extends FormRequest
     public function rules()
     {
         return [
-            'text' => 'required|max:255',
+            'text' => 'max:255',
             'room_id' => 'required|exists:rooms,id',
+            'images' => 'array',
         ];
     }
 }

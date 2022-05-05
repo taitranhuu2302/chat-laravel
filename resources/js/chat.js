@@ -11,6 +11,7 @@ $(() => {
     Echo.channel(`chat-room.${roomId}`).listen('ChatEvent', (data) => {
         $('#chat-message-list').prepend(renderMessage(data.message, data.user));
 
+
         Array.from($('.room')).forEach((room) => {
             const attr = $(room).attr('data-room-id');
             if (attr === roomId) {
@@ -167,24 +168,34 @@ $(() => {
 
     $('#form-chat').submit(function (e) {
         e.preventDefault();
-        const message = $('#txt_message').val();
-        const messageImage = [];
+        const message = $('#txt_message');
+        let messageImage = [];
         const imgTag = Array.from($('.room__footer--message-images-item').children('img'));
         imgTag.forEach((item) => {
             messageImage.push(item.src);
         })
 
+        if (messageImage.length <= 0 && message.val().trim().length == 0) {
+            message.focus();
+            console.log(message.val().trim().length);
+            console.log(messageImage);
+            return;
+        }
+
         const data = {
-            text: message,
+            text: message.val(),
             room_id: roomId,
             images: messageImage
         }
 
-        // axios.post('/message/send-message', data).then((response) => {
-        //     $('#txt_message').val('');
-        // }).catch((error) => {
-        //     console.log(error);
-        // });
+        axios.post('/message/send-message', data).then((response) => {
+            $('#txt_message').val('');
+            messageImage = [];
+            $('#list-file-image').html('');
+            checkMessageImage();
+        }).catch((error) => {
+            console.log(error);
+        });
     })
 
     $('#input-message-image').change((e) => {
@@ -231,9 +242,6 @@ $(() => {
         });
     }
 })
-
-
-
 
 
 function dropDownEvent() {
@@ -293,7 +301,7 @@ function dropDownEvent() {
 }
 
 function renderMessage(message, userChat) {
-    const {text} = message;
+    const {text, images} = message;
     let html = '';
 
     if (!userChat) {
@@ -311,9 +319,7 @@ function renderMessage(message, userChat) {
                     <img class="w-10 h-10 rounded-full" src="${userChat.avatar}" alt="Rounded avatar">
                 </div>
                 <div class="room__chat--content">
-                    <p class="room__chat--text">
-                        ${text}
-                    </p>
+                    <p className="room__chat--text">${text}</p>
                 </div>
             </div>
         `
@@ -324,9 +330,7 @@ function renderMessage(message, userChat) {
                     <img class="w-10 h-10 rounded-full" src="${userChat.avatar}" alt="Rounded avatar">
                 </div>
                 <div class="room__chat--content">
-                    <p class="room__chat--text">
-                        ${text}
-                    </p>
+                    <p className="room__chat--text">${text}</p>
                 </div>
              </div>
         `

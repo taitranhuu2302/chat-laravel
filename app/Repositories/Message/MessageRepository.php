@@ -16,6 +16,7 @@ class MessageRepository extends BaseRepository implements MessageRepositoryInter
     {
         return $this->model->where('room_id', $roomId)
             ->with('user')
+            ->with('images')
             ->orderBy('created_at', 'desc')
             ->paginate(15);
     }

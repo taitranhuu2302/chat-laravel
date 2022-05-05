@@ -80,9 +80,16 @@
                                          alt="Rounded avatar">
                                 </div>
                                 <div class="room__chat--content">
-                                    <p class="room__chat--text">
-                                        {{ $message->text }}
-                                    </p>
+                                    @if ($message->text)
+                                        <p class="room__chat--text">
+                                            {{ $message->text }}
+                                        </p>
+                                    @endif
+                                    @if (count($message->images) > 0)
+                                        @foreach ($message->images as $image)
+                                            <img src="{{ $image->source }}" alt="">
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                         @elseif ($message->user->id === Auth::id())
@@ -92,9 +99,16 @@
                                          alt="Rounded avatar">
                                 </div>
                                 <div class="room__chat--content">
-                                    <p class="room__chat--text">
-                                        {{ $message->text }}
-                                    </p>
+                                    @if ($message->text)
+                                        <p class="room__chat--text">
+                                            {{ $message->text }}
+                                        </p>
+                                    @endif
+                                    @if (count($message->images) > 0)
+                                        @foreach ($message->images as $image)
+                                            <img src="{{ $image->source }}" alt="">
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                         @endif
@@ -149,6 +163,7 @@
     <script>
         const roomId = @json(request()->route('id'));
         const userCurrent = @json(Auth::user());
+        console.log(@json($messages));
     </script>
 
     <script src="{{ asset('js/chat.js') }}"></script>

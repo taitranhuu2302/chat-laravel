@@ -16,6 +16,13 @@
 #room .room__content .room__chat .room__chat--content {
   width: 45%;
   display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+#room .room__content .room__chat .room__chat--content img {
+  border-radius: 4px;
+  width: 100%;
+  height: auto;
 }
 #room .room__content .room__chat .room__chat--content .room__chat--text {
   width: -webkit-fit-content;
