@@ -21,7 +21,7 @@
 }
 #room .room__content .room__chat .room__chat--content img {
   border-radius: 4px;
-  width: 100%;
+  width: 50%;
   height: auto;
 }
 #room .room__content .room__chat .room__chat--content .room__chat--text {
@@ -33,7 +33,7 @@
   flex-direction: row-reverse;
 }
 #room .room__content .room__chat--right .room__chat--content {
-  justify-content: flex-end;
+  align-items: end;
 }
 #room .room__content .room__chat--right .room__chat--content .room__chat--text {
   background: #0a80ff;

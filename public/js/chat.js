@@ -5485,12 +5485,21 @@ function renderMessage(message, userChat) {
       images = message.images;
   var html = '';
 
+  if (!text && !images) {
+    return;
+  }
+
+  var messageImage = images.map(function (image) {
+    return "\n            <a class=\"w-full flex justify-end\" href=\"".concat(image.source, "\" data-fancybox=\"gallery\">\n                <img src=\"").concat(image.source, "\" alt=\"\">\n            </a>\n        ");
+  }).join('');
+  console.log(messageImage);
+
   if (!userChat) {
     html = "\n            <div class=\"chat__message flex justify-center my-2\">\n                <p class=\"chat__message--notify text-gray-500 text-md\">\n                    ".concat(text, "\n                </p>\n            </div>\n        ");
   } else if (userChat.id !== userCurrent.id) {
-    html = "\n            <div class=\"room__chat room__chat--left\">\n                <div class=\"room__chat--avatar\">\n                    <img class=\"w-10 h-10 rounded-full\" src=\"".concat(userChat.avatar, "\" alt=\"Rounded avatar\">\n                </div>\n                <div class=\"room__chat--content\">\n                    <p className=\"room__chat--text\">").concat(text, "</p>\n                </div>\n            </div>\n        ");
+    html = "\n            <div class=\"room__chat room__chat--left\">\n                <div class=\"room__chat--avatar\">\n                    <img class=\"w-10 h-10 rounded-full\" src=\"".concat(userChat.avatar, "\" alt=\"Rounded avatar\">\n                </div>\n                <div class=\"room__chat--content\">\n                    ").concat(text && "<p class=\"room__chat--text\">".concat(text, "</p>"), "\n                    ").concat(messageImage, "\n                </div>\n            </div>\n        ");
   } else if (userChat.id === user.id) {
-    html = "\n             <div class=\"room__chat room__chat--right\">\n                <div class=\"room__chat--avatar\">\n                    <img class=\"w-10 h-10 rounded-full\" src=\"".concat(userChat.avatar, "\" alt=\"Rounded avatar\">\n                </div>\n                <div class=\"room__chat--content\">\n                    <p className=\"room__chat--text\">").concat(text, "</p>\n                </div>\n             </div>\n        ");
+    html = "\n             <div class=\"room__chat room__chat--right\">\n                <div class=\"room__chat--avatar\">\n                    <img class=\"w-10 h-10 rounded-full\" src=\"".concat(userChat.avatar, "\" alt=\"Rounded avatar\">\n                </div>\n                <div class=\"room__chat--content\">\n                    ").concat(text && "<p class=\"room__chat--text\">".concat(text, "</p>"), "\n                    ").concat(messageImage, "\n                </div>\n             </div>\n        ");
   }
 
   return html;

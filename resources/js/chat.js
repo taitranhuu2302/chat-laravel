@@ -304,6 +304,20 @@ function renderMessage(message, userChat) {
     const {text, images} = message;
     let html = '';
 
+    if (!text && !images) {
+        return;
+    }
+
+    const messageImage = images.map(image => {
+        return `
+            <a class="w-full flex justify-end" href="${image.source}" data-fancybox="gallery">
+                <img src="${image.source}" alt="">
+            </a>
+        `
+    }).join('');
+
+    console.log(messageImage);
+
     if (!userChat) {
         html = `
             <div class="chat__message flex justify-center my-2">
@@ -319,7 +333,8 @@ function renderMessage(message, userChat) {
                     <img class="w-10 h-10 rounded-full" src="${userChat.avatar}" alt="Rounded avatar">
                 </div>
                 <div class="room__chat--content">
-                    <p className="room__chat--text">${text}</p>
+                    ${text && `<p class="room__chat--text">${text}</p>`}
+                    ${messageImage}
                 </div>
             </div>
         `
@@ -330,7 +345,8 @@ function renderMessage(message, userChat) {
                     <img class="w-10 h-10 rounded-full" src="${userChat.avatar}" alt="Rounded avatar">
                 </div>
                 <div class="room__chat--content">
-                    <p className="room__chat--text">${text}</p>
+                    ${text && `<p class="room__chat--text">${text}</p>`}
+                    ${messageImage}
                 </div>
              </div>
         `

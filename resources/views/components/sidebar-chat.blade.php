@@ -29,7 +29,7 @@
                                     {{ $user->full_name }}
                                 </p>
                                 <p class="message-description text-md overflow-hidden whitespace-nowrap w-3/4 text-ellipsis">
-                                    {{ $item->messages->first() ? $item->messages->first()->text : 'No messages yet' }}
+                                    {{ $item->messages->first()->text ?: 'Chưa có tin nhắn nào' }}
                                 </p>
                             </div>
                         </div>

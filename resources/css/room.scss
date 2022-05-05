@@ -26,9 +26,10 @@
                 flex-direction: column;
                 gap: 5px;
 
+
                 img {
                     border-radius: 4px;
-                    width: 100%;
+                    width: 50%;
                     height: auto;
                 }
 
@@ -42,7 +43,7 @@
             flex-direction: row-reverse;
 
             .room__chat--content {
-                justify-content: flex-end;
+                align-items: end;
 
                 .room__chat--text {
                     background: #0a80ff;
