@@ -5490,7 +5490,7 @@ function renderMessage(message, userChat) {
   }
 
   var messageImage = images.map(function (image) {
-    return "\n            <a class=\"w-full flex justify-end\" href=\"".concat(image.source, "\" data-fancybox=\"gallery\">\n                <img src=\"").concat(image.source, "\" alt=\"\">\n            </a>\n        ");
+    return "\n            <a class=\"w-full wrapper-image\" href=\"".concat(image.source, "\" data-fancybox=\"gallery\">\n                <img src=\"").concat(image.source, "\" alt=\"\">\n            </a>\n        ");
   }).join('');
   console.log(messageImage);
 

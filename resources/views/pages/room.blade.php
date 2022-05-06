@@ -87,7 +87,7 @@
                                     @endif
                                     @if (count($message->images) > 0)
                                         @foreach ($message->images as $image)
-                                            <a href="{{ $image->source }}" data-fancybox="gallery">
+                                            <a class="w-full wrapper-image" href="{{ $image->source }}" data-fancybox="gallery">
                                                 <img src="{{ $image->source }}" alt="">
                                             </a>
                                         @endforeach
@@ -108,7 +108,7 @@
                                     @endif
                                     @if (count($message->images) > 0)
                                         @foreach ($message->images as $image)
-                                            <a class="w-full flex justify-end" href="{{ $image->source }}" data-fancybox="gallery">
+                                            <a class="w-full wrapper-image" href="{{ $image->source }}" data-fancybox="gallery">
                                                 <img src="{{ $image->source }}" alt="">
                                             </a>
                                         @endforeach

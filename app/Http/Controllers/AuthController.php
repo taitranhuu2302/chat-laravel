@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostChangePassword;
 use App\Http\Requests\PostLogin;
+use App\Http\Requests\PostRegisterRequest;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
@@ -21,6 +22,11 @@ class AuthController extends Controller
         return View('auth.login');
     }
 
+    public function viewRegister(): View
+    {
+        return View('auth.register');
+    }
+
     public function postLogin(PostLogin $request): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|RedirectResponse
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
@@ -28,6 +34,11 @@ class AuthController extends Controller
         } else {
             return redirect('/auth/login');
         }
+    }
+
+    public function postRegister(PostRegisterRequest $request)
+    {
+        dd($request->all());
     }
 
     public function logout(): RedirectResponse

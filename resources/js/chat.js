@@ -310,7 +310,7 @@ function renderMessage(message, userChat) {
 
     const messageImage = images.map(image => {
         return `
-            <a class="w-full flex justify-end" href="${image.source}" data-fancybox="gallery">
+            <a class="w-full wrapper-image" href="${image.source}" data-fancybox="gallery">
                 <img src="${image.source}" alt="">
             </a>
         `

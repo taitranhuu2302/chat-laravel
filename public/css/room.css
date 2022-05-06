@@ -19,7 +19,11 @@
   flex-direction: column;
   gap: 5px;
 }
-#room .room__content .room__chat .room__chat--content img {
+#room .room__content .room__chat .room__chat--content .wrapper-image {
+  display: flex;
+  width: 100%;
+}
+#room .room__content .room__chat .room__chat--content .wrapper-image img {
   border-radius: 4px;
   width: 50%;
   height: auto;
@@ -41,10 +45,16 @@
   border-radius: 6px;
   color: white;
 }
+#room .room__content .room__chat--right .room__chat--content .wrapper-image {
+  justify-content: flex-end;
+}
 #room .room__content .room__chat--left .room__chat--content .room__chat--text {
   background: #ebebeb;
   padding: 6px 12px;
   border-radius: 6px;
+}
+#room .room__content .room__chat--left .room__chat--content .wrapper-image {
+  justify-content: flex-start;
 }
 #room .room__footer--message-images {
   height: 150px;

@@ -959,11 +959,11 @@ input:checked + .toggle-bg {
 .w-6 {
   width: 1.5rem;
 }
-.w-10 {
-  width: 2.5rem;
-}
 .w-full {
   width: 100%;
+}
+.w-10 {
+  width: 2.5rem;
 }
 .w-2\/4 {
   width: 50%;

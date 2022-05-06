@@ -27,12 +27,13 @@ Route::prefix('auth')->group(function () {
     // View
     Route::get('/login', [AuthController::class, 'viewLogin'])->name('login');
     Route::get('/change-password', [AuthController::class, 'viewChangePassword']);
+    Route::get('/register', [AuthController::class, 'viewRegister']);
 
     // Action
     Route::post('/change-password', [AuthController::class, 'postChangePassword']);
     Route::post('/login', [AuthController::class, 'postLogin']);
+    Route::post('/register', [AuthController::class, 'postRegister']);
     Route::get('/logout', [AuthController::class, 'logout']);
-
 
     // Login Social Google
     Route::get('/google', [AuthController::class, 'googleRedirect']);
