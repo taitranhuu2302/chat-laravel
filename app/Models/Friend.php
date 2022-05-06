@@ -21,6 +21,6 @@ class Friend extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'friend_id', 'id')->select('id', 'full_name', 'email', 'avatar');
+        return $this->belongsTo(User::class, 'friend_id', 'id')->select('id', 'full_name', 'mail', 'avatar');
     }
 }

@@ -40,6 +40,16 @@ Route::prefix('auth')->group(function () {
     Route::get('/google/callback', [AuthController::class, 'googleCallback']);
 });
 
+Route::prefix('mail')->group(function () {
+    Route::get('/send-password-to-mail', function() {
+        $password = '123456';
+        \Illuminate\Support\Facades\Mail::send('mail.send-password-to-mail', compact('password'), function ($email) {
+            $email->to('emlacuaanh1908@gmail.com', 'Anh')->subject('Send Password');
+        });
+        return view('mail.send-password-to-mail');
+    });
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/room/{id}', function ($id) {

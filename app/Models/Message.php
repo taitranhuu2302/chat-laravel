@@ -20,7 +20,7 @@ class Message extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class)->select('id', 'full_name', 'email', 'avatar');
+        return $this->belongsTo(User::class)->select('id', 'full_name', 'mail', 'avatar');
     }
 
     public function images(): HasMany

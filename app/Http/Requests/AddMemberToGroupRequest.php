@@ -24,7 +24,7 @@ class AddMemberToGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
+            'mail' => 'required|mail',
             'roomId' => 'required|exists:rooms,id',
         ];
     }

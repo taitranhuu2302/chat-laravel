@@ -19,7 +19,7 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'email' => $this->faker->unique()->safeEmail(),
+            'mail' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'avatar' => 'https://picsum.photos/1200/800',
@@ -28,7 +28,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * Indicate that the model's mail address should be unverified.
      *
      * @return static
      */

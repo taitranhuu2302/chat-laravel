@@ -30,6 +30,11 @@
                     <h1 class="text-2xl font-semibold">Welcome Back !</h1>
                     <p class="text-lg text-gray-500">Sign in to continue to Doot</p>
                 </div>
+                @if (isset($registerSuccess))
+                    <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+                        <span class="font-medium">Register success</span> {{ $registerSuccess }}
+                    </div>
+                @endif
                 <form action="{{ url('/auth/login') }}" method="POST" role="form" class="wrapper-form mb-6">
                     {{ csrf_field() }}
                     <div class="mb-6">

@@ -4630,7 +4630,7 @@ $(function () {
 
   $('#form-add-friend').submit(function (e) {
     e.preventDefault();
-    var email = $('#email-add-friend');
+    var email = $('#mail-add-friend');
     var description = $('#description-add-friend');
     axios.post('/user/add-friend-request', {
       email: email.val(),
