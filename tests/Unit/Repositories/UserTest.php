@@ -3,6 +3,7 @@
 namespace Tests\Unit\Repositories;
 
 use App\Models\User;
+use App\Repositories\Profile\ProfileRepository;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -31,6 +32,7 @@ class UserTest extends TestCase
 
 
         $this->userRepository = new UserRepository();
+        $this->profileRepository = new ProfileRepository();
     }
 
     public function tearDown(): void
@@ -41,10 +43,15 @@ class UserTest extends TestCase
     public function test_create_user()
     {
         $user = $this->userRepository->create($this->user);
+        $profile = $this->profileRepository->create([
+            'user_id' => $user->id,
+        ]);
+
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals($this->user['full_name'], $user['full_name']);
         $this->assertEquals($this->user['email'], $user['email']);
         $this->assertDatabaseHas('users', $this->user);
+        $this->assertDatabaseHas('profiles', $profile->toArray());
     }
 
     public function test_find_user_by_id()

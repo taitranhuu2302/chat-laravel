@@ -19,11 +19,13 @@ class ProfileRepository extends BaseRepository implements ProfileRepositoryInter
     public function updateByUserId($userId, $data)
     {
         $profile = $this->model->where('user_id', $userId)->first();
+        $updated = null;
         if ($profile) {
-            $profile->update($data);
+            $updated = $profile->update($data);
         } else {
             $data['user_id'] = $userId;
-            $this->create($data);
+            $updated = $this->create($data);
         }
+        return $updated;
     }
 }
