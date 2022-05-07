@@ -17,4 +17,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         return $this->model->where('email', 'like', $email)->first();
     }
+
+    public function deleteById($id)
+    {
+        return $this->update($id, [
+            'is_active' => false,
+        ]);
+    }
 }

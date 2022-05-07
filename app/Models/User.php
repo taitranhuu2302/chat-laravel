@@ -31,7 +31,8 @@ class User extends Authenticatable
         'google_id',
         'login_first',
         'full_name',
-        'avatar'
+        'avatar',
+        'is_active'
     ];
 
     /**

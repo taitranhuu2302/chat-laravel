@@ -44,7 +44,7 @@ abstract class BaseRepository implements RepositoryInterface
             return $result;
         }
 
-        return false;
+        return null;
     }
 
     public function delete($id): bool
