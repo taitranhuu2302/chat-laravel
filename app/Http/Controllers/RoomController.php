@@ -156,7 +156,7 @@ class RoomController extends Controller
     public function addMemberGroup(AddMemberToGroupRequest $request)
     {
         try {
-            $email = $request->input('mail');
+            $email = $request->input('email');
             $roomId = $request->input('roomId');
 
             $user = $this->userRepository->findByEmail($email);

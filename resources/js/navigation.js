@@ -187,7 +187,7 @@ $(() => {
     // Submit form add friend
     $('#form-add-friend').submit((e) => {
         e.preventDefault();
-        const email = $('#mail-add-friend');
+        const email = $('#email-add-friend');
         const description = $('#description-add-friend');
 
         axios.post('/user/add-friend-request', {

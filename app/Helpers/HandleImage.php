@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Storage;
 
 function handleImageBase64($base64)
 {
-    $folderPath = 'public/images';
+    $folderPath = 'public/images/';
     // data:image/png;base64,9jas65d4a...
     // image_parts[0] = data:image/png
     // image_parts[1] = 9jas65d4a... => image
@@ -15,7 +15,11 @@ function handleImageBase64($base64)
     $file_name = uniqid() . time() . '.' . $image_type;
     $path_file = env('URL_SERVER') . '/storage/images/' . $file_name;
 
-    Storage::put('public/images/' . $file_name, $image_base64);
+    if (!Storage::exists($folderPath)) {
+        Storage::makeDirectory($folderPath);
+    }
+
+    Storage::put($folderPath.$file_name, $image_base64);
 
     return [
         'path_file' => $path_file,

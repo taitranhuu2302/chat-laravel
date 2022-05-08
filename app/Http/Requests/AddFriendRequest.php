@@ -24,7 +24,7 @@ class AddFriendRequest extends FormRequest
     public function rules()
     {
         return [
-            'mail' => 'required|mail',
+            'email' => 'required|email',
             'description' => 'max:255',
         ];
     }
