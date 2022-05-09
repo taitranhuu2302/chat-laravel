@@ -104,7 +104,7 @@ class RoomController extends Controller
         }
     }
 
-    public function createRoomGroup(CreateGroupRequest $request)
+    public function createRoomGroup(CreateGroupRequest $request): JsonResponse
     {
         try {
             $room = $this->roomRepository->create([
@@ -116,7 +116,7 @@ class RoomController extends Controller
 
             $this->roomRepository->addUserToRoom($room->id, Auth::id());
 
-            foreach ($request->members as $userId) {
+            foreach ($request->input('members') as $userId) {
                 $this->roomRepository->addUserToRoom($room->id, $userId);
                 event(new CreateRoomEvent($userId, $room));
             }
@@ -128,17 +128,17 @@ class RoomController extends Controller
         }
     }
 
-    public function createRoomPrivate(CreateRoomPrivateRequest $request)
+    public function createRoomPrivate(CreateRoomPrivateRequest $request): JsonResponse
     {
         try {
 
             $userOneId = Auth::id();
-            $userTwoId = $request->user_id;
+            $userTwoId = $request->input('user_id');
 
             $checkRoom = $this->roomRepository->checkRoomPrivateAlreadyExists($userOneId, $userTwoId);
 
             if ($checkRoom) {
-                return response()->json(['message' => 'Room already exists', 'status' => 409, 'data' => $checkRoom], 409);
+                return response()->json(['message' => 'Phòng đã tồn tại', 'status' => 409, 'data' => $checkRoom], 409);
             }
 
             $newRoom = $this->roomRepository->createRoomPrivate($userOneId, $userTwoId);
@@ -153,7 +153,7 @@ class RoomController extends Controller
         }
     }
 
-    public function addMemberGroup(AddMemberToGroupRequest $request)
+    public function addMemberGroup(AddMemberToGroupRequest $request): JsonResponse
     {
         try {
             $email = $request->input('email');
@@ -165,19 +165,16 @@ class RoomController extends Controller
                 return response()->json(['message' => 'Người dùng không tồn tại', 'status' => 404], 404);
             }
 
-            $userExistsFromRoom = $this->roomRepository->isRoomExists($user->id, $roomId);
+            $room = $this->roomRepository->addUserToRoom($roomId, $user->id);
 
-
-            if ($userExistsFromRoom) {
+            if ($room === null) {
                 return response()->json(['message' => 'Người dùng đã tồn tại trong phòng', 'status' => 409], 409);
             }
 
-            $this->roomRepository->addUserToRoom($roomId, $user->id);
-
             $message = $this->messageRepository->create([
-               'room_id' => $roomId,
-               'message_type' => MessageType::NOTIFICATION,
-               'text' => Auth::user()->full_name . ' đã thêm '. $user->full_name .' vào phòng',
+                'room_id' => $roomId,
+                'message_type' => MessageType::NOTIFICATION,
+                'text' => Auth::user()->full_name . ' đã thêm ' . $user->full_name . ' vào phòng',
             ]);
 
             event(new CreateRoomEvent($user->id, $this->roomRepository->findById($roomId)));

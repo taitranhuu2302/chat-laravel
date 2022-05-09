@@ -21,7 +21,7 @@ class Room extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'rooms_users')->select('users.id', 'full_name', 'mail', 'avatar');
+        return $this->belongsToMany(User::class, 'rooms_users')->select('users.id', 'full_name', 'email', 'avatar');
     }
 
     public function messages(): HasMany

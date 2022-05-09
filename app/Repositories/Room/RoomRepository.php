@@ -39,6 +39,15 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
     public function addUserToRoom($roomId, $userId)
     {
         $room = $this->findById($roomId);
+        if ($room->users()->where('user_id', $userId)->exists()) {
+            return null;
+        }
+
+        if ($room->room_type == RoomType::PRIVATE_ROOM) {
+            if ($room->users()->count() == 2) {
+                return null;
+            }
+        }
         $room->users()->attach($userId);
         return $room;
     }
@@ -66,7 +75,7 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
         })->first();
     }
 
-    public function isRoomExists($userId, $roomId)
+    public function isRoomExists($userId, $roomId): bool
     {
         $room = $this->model->where('id', $roomId)->whereHas('users', function ($query) use ($userId) {
             $query->where('user_id', $userId);
@@ -81,14 +90,16 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
 
     public function removeUserFromRoom($roomId, $userId)
     {
-        return $this->model->where('id', $roomId)->whereHas('users', function ($query) use ($userId) {
+        $room = $this->model->where('id', $roomId)->whereHas('users', function ($query) use ($userId) {
             $query->where('user_id', $userId);
-        })->first()->users()->detach($userId);
+        })->first();
+        $room->users()->detach($userId);
+        return $room;
     }
 
     public function isOwnerFromRoom($roomId, $userId): bool
     {
-        $room = $this->model->where('id', $roomId)->where('owner_id', $userId)->first();
+        $room = $this->model->where('id', $roomId)->where('room_type', RoomType::PRIVATE_ROOM)->where('owner_id', $userId)->first();
 
         if ($room) {
             return true;
