@@ -99,7 +99,7 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
 
     public function isOwnerFromRoom($roomId, $userId): bool
     {
-        $room = $this->model->where('id', $roomId)->where('room_type', RoomType::PRIVATE_ROOM)->where('owner_id', $userId)->first();
+        $room = $this->model->where('id', $roomId)->where('room_type', RoomType::GROUP_ROOM)->where('owner_id', $userId)->first();
 
         if ($room) {
             return true;

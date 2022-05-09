@@ -150,4 +150,22 @@ class RoomTest extends TestCase
         $this->assertNotNull($roomGroup);
         $this->assertEquals(1, $roomGroup->users()->count());
     }
+
+    public function test_is_owner_group()
+    {
+        $userOne = $this->userRepository->create($this->userOne);
+        $userTwo = $this->userRepository->create($this->userTwo);
+
+        $roomGroup = $this->roomRepository->create([
+            'name' => 'Group Room',
+            'room_type' => RoomType::GROUP_ROOM,
+            'owner_id' => $userOne->id,
+            'description' => 'Group Room Description',
+        ]);
+
+        $roomGroup = $this->roomRepository->addUserToRoom($roomGroup->id, $userOne->id);
+        $roomGroup = $this->roomRepository->addUserToRoom($roomGroup->id, $userTwo->id);
+
+        $this->assertTrue($this->roomRepository->isOwnerFromRoom($roomGroup->id, $userOne->id));
+    }
 }
