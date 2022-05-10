@@ -5,6 +5,8 @@ namespace Tests\Feature\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class DashboardTest extends TestCase
@@ -14,6 +16,7 @@ class DashboardTest extends TestCase
      *
      * @return void
      */
+
     public function setUp(): void
     {
         parent::setUp();
@@ -26,6 +29,7 @@ class DashboardTest extends TestCase
 
     public function test_get_home_view_not_login()
     {
+        $this->withMiddleware();
         $response = $this->get('/');
 
         $response->assertStatus(302);
@@ -34,8 +38,10 @@ class DashboardTest extends TestCase
 
     public function test_get_home_view_login()
     {
+        $this->withoutMiddleware();
         $user = User::factory()->create();
         $this->actingAs($user);
+
         $response = $this->get('/');
 
         $response->assertStatus(200);

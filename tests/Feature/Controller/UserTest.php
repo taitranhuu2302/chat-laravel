@@ -20,8 +20,8 @@ class UserTest extends TestCase
 
     public function test_edit_profile()
     {
-//        $response = $this->put('/user/edit-profile', [
-//            ''
-//        ]);
+        //        $response = $this->put('/user/edit-profile', [
+        //            ''
+        //        ]);
     }
 }
