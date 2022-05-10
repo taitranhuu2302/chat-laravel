@@ -7,7 +7,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <title>Change Password</title>
+    <title>Tạo mật khẩu</title>
 </head>
 
 <body>
@@ -26,11 +26,11 @@
         </div>
         <div class="lg:col-span-8 col-span-12 h-full bg-white content flex flex-col">
             <div class="mx-auto flex items-center justify-center flex-col h-full w-full">
-                <p class="text-2xl font-semibold mb-6">Change Password</p>
+                <p class="text-2xl font-semibold mb-6">Tạo mật khẩu</p>
                 <form action="{{ url('/auth/change-password') }}" method="POST" role="form" class="wrapper-form mb-6">
                     {{ csrf_field() }}
                     <div class="mb-6">
-                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Password</label>
+                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mật khẩu</label>
                         <input type="password" id="password"
                                name="password"
                                placeholder="******************"
@@ -42,8 +42,7 @@
                     </div>
                     <div class="mb-6">
                         <label for="password_confirm"
-                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Confirm
-                            Password</label>
+                               class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Nhập lại mật khẩu</label>
                         <input type="password" id="password_confirm"
                                name="password_confirm"
                                placeholder="******************"
@@ -58,7 +57,7 @@
                     </div>
                     <button type="submit"
                             class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Change
+                        Tạo mật khẩu
                     </button>
                 </form>
             </div>

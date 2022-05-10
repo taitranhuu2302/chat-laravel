@@ -13,10 +13,15 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+    public function test_example(): void
     {
-        $response = $this->get('/');
+        $this->assertTrue(true);
+    }
 
-        $response->assertStatus(200);
+    public function test_edit_profile()
+    {
+//        $response = $this->put('/user/edit-profile', [
+//            ''
+//        ]);
     }
 }

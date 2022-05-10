@@ -52,22 +52,21 @@
                         id="avatar_user_navigation" src="{{ Auth::user()->avatar }}" alt="Bordered avatar">
                 </button>
                 <div id="dropdown_user"
-                    class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
+                    class="hidden z-10 w-50 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
                     <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown_user">
                         <li>
-                            <a href="#"
-                                class="block text-lg font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                            <a href="{{ url('/auth/change-password') }}"
+                                class="block text-lg font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Đổi mật khẩu</a>
                         </li>
                         <li>
                             <button data-modal-toggle="profile_modal" type="button"
                                 class="block text-lg font-semibold text-left w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                Profile
+                                Hồ sơ
                             </button>
                         </li>
                         <li>
                             <a href="{{ url('/auth/logout') }}"
-                                class="block text-lg font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign
-                                out</a>
+                                class="block text-lg font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Đăng xuất</a>
                         </li>
                     </ul>
                 </div>

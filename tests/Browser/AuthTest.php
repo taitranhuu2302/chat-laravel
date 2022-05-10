@@ -8,13 +8,8 @@ use Tests\DuskTestCase;
 
 class AuthTest extends DuskTestCase
 {
-    /**
-     * A Dusk test example.
-     *
-     * @return void
-     * @throws \Throwable
-     */
-    public function testExample(): void
+
+    public function test_example()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/auth/login')
@@ -27,22 +22,21 @@ class AuthTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/auth/login')
-                ->type('email', 'emlacuaanh1908@gmail.com')
-                ->type('password', 'qweqwe')
+                ->type('email', 'admin@gmail.com')
+                ->type('password', 'password')
                 ->press('Log In')
-                ->waitForText('Chats')
-                ->assertSee('Chats');
+                ->assertPathIs('/');
         });
     }
 
-    public function test_login_if_email_incorrect()
-    {
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/auth/login')
-                ->type('email', 'emlacuaanh@gmail.com')
-                ->type('password', 'qweqwe')
-                ->press('Log In')
-                ->waitForText('Email or password is incorrect');
-        });
-    }
+//    public function test_login_if_email_incorrect()
+//    {
+//        $this->browse(function (Browser $browser) {
+//            $browser->visit('/auth/login')
+//                ->type('email', 'emlacuaanh@gmail.com')
+//                ->type('password', 'qweqwe')
+//                ->press('Log In')
+//                ->waitForText('Email or password is incorrect');
+//        });
+//    }
 }

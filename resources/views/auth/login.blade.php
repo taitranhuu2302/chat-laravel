@@ -30,9 +30,18 @@
                     <h1 class="text-2xl font-semibold">Welcome Back !</h1>
                     <p class="text-lg text-gray-500">Sign in to continue to Doot</p>
                 </div>
-                @if (isset($registerSuccess))
-                    <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
-                        <span class="font-medium">Register success</span> {{ $registerSuccess }}
+                @if (session('registerSuccess'))
+                    <div
+                        class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+                        role="alert">
+                        <span class="font-medium">Register success!</span> {{ session('registerSuccess') }}
+                    </div>
+                @endif
+                @if (session('loginError'))
+                    <div
+                        class="p-4 mb-4 text-sm text-red-700 bg-red-200 rounded-lg dark:bg-red-200 dark:text-red-800"
+                        role="alert" style="background-color: #fde8e8;">
+                        <span class="font-medium">Login Failed! </span> {{ session('loginError') }}
                     </div>
                 @endif
                 <form action="{{ url('/auth/login') }}" method="POST" role="form" class="wrapper-form mb-6">
@@ -42,7 +51,7 @@
                             email</label>
                         <input type="email" name="email" id="email"
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               placeholder="name@flowbite.com" required>
+                               placeholder="name@flowbite.com">
                         @if($errors->has('email'))
                             <p class="text-red-700">{{ $errors->first('email') }}</p>
                         @endif
@@ -52,7 +61,7 @@
                             password</label>
                         <input type="password" name="password" id="password"
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               required>
+                        >
                         @if($errors->has('password'))
                             <p class="text-red-700">{{ $errors->first('password') }}</p>
                         @endif
@@ -101,5 +110,6 @@
     </div>
 </div>
 </body>
+
 
 </html>

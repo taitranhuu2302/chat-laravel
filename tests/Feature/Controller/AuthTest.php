@@ -26,7 +26,7 @@ class AuthTest extends TestCase
         $response->assertViewIs('auth.register');
     }
 
-    public function test_get_view_login_when_user_logged_in()
+    public function test_get_view_when_user_logged_in()
     {
         $user = User::factory()->create();
         $this->actingAs($user);
@@ -36,13 +36,4 @@ class AuthTest extends TestCase
         $response->assertRedirect('/');
     }
 
-    public function test_get_view_register_when_user_logged_in()
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-
-        $response = $this->get('/auth/register');
-
-        $response->assertRedirect('/');
-    }
 }

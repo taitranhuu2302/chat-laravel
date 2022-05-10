@@ -4,9 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class CheckLoginMiddleware
+class AllowCache
 {
     /**
      * Handle an incoming request.
@@ -17,10 +16,12 @@ class CheckLoginMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check()) {
-            return redirect('/');
-        }
+        $response = $next($request);
 
-        return $next($request);
+        $response->header('Pragma', 'no-cache');
+        $response->header('Expires', 'Fri, 01 Jan 1990 00:00:00 GMT');
+        $response->header('Cache-Control', 'no-cache, must-revalidate, no-store, max-age=0, private');
+
+        return $response;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostChangePassword;
+use App\Http\Requests\PostCreateNewPassword;
 use App\Http\Requests\PostLogin;
 use App\Http\Requests\PostRegister;
 use App\Models\Profile;
@@ -14,6 +15,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -54,19 +56,23 @@ class AuthController extends Controller
         $profile->user_id = $user->id;
         $profile->save();
 
-        Mail::send('mails.send-password', compact('password'),function($data) use ($email) {
+        Mail::send('mails.send-password', compact('password'), function ($data) use ($email) {
             $data->to($email, 'Chat App')->subject('Your password');
         });
 
-        return view('auth.login')->with('registerSuccess', 'Please check your email to get your password.');
+        return redirect('/auth/login')->with('registerSuccess', 'Please check your email to get your password.');
     }
 
     public function postLogin(PostLogin $request): Application|RedirectResponse
     {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+        $credentials = [
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+        ];
+        if (Auth::attempt($credentials, $request->input('remember'))) {
             return redirect('/');
         } else {
-            return redirect('/auth/login');
+            return redirect('/auth/login')->with('loginError', 'Email or password is incorrect.');
         }
     }
 
@@ -81,16 +87,16 @@ class AuthController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function viewChangePassword(): View
+    public function viewCreateNewPassword(): View
     {
-        return View('auth.change_password');
+        return View('auth.create_new_password');
     }
 
-    public function postChangePassword(PostChangePassword $request): RedirectResponse
+    public function postCreateNewPassword(PostCreateNewPassword $request): RedirectResponse
     {
         $user = Auth::user();
         // Create New Password
-        $user->password = Hash::make($request->password);
+        $user->password = Hash::make($request->input('password'));
         $user->login_first = false;
         $user->save();
         return redirect('/');
@@ -107,7 +113,7 @@ class AuthController extends Controller
                 Auth::login($user);
 
                 if ($user->login_first) {
-                    return redirect('/auth/change-password');
+                    return redirect('/auth/create-new-password');
                 }
 
                 return redirect('/');
@@ -126,7 +132,7 @@ class AuthController extends Controller
             ]);
 
             Auth::login($user);
-            return redirect('/auth/change-password');
+            return redirect('/auth/create-new-password');
 
         } catch (\Exception $exception) {
             return redirect()->route('login');
