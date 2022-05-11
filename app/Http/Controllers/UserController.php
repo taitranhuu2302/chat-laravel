@@ -155,7 +155,7 @@ class UserController extends Controller
     {
         try {
             $userId = Auth::id();
-            $userBlockId = $request->user_block_id;
+            $userBlockId = $request->input('user_block_id');
 
             $this->friendRequestRepository->changeStatusFriendRequest($userId, $userBlockId, FriendRequestStatus::REJECTED);
 
@@ -170,7 +170,7 @@ class UserController extends Controller
         try {
 
             $userId = Auth::id();
-            $userBlockId = $request->user_block_id;
+            $userBlockId = $request->input('user_block_id');
 
             $this->friendRepository->changeStatusFriend($userId, $userBlockId, FriendStatus::BLOCKED);
             $this->friendRepository->changeStatusFriend($userBlockId, $userId, FriendStatus::BLOCKED);

@@ -173,6 +173,32 @@ class UserTest extends TestCase
         ]);
     }
 
+    public function test_block_friend_request()
+    {
+        $user = User::factory()->create();
+        $friend = User::factory()->create();
+        $this->actingAs($friend);
+
+        $this->friendRequestRepository->create([
+            'user_id' => $friend->id, //
+            'request_id' => $user->id,
+            'description' => 'Test',
+        ]);
+
+        $response = $this->json('POST', '/user/block-friend-request', [
+            'user_block_id' => $user->id,
+        ]);
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('friend_requests', [
+            'user_id' => $friend->id,
+            'request_id' => $user->id,
+            'status' => FriendRequestStatus::REJECTED
+        ]);
+
+    }
+
     public function test_accept_friend_request()
     {
         $user = User::factory()->create();
@@ -209,6 +235,40 @@ class UserTest extends TestCase
         ]);
 
         $response->assertStatus(200);
+    }
+
+    public function test_block_friend()
+    {
+        $user = User::factory()->create();
+        $friend = User::factory()->create();
+        $this->actingAs($user);
+
+        $this->friendRepository->create([
+            'user_id' => $user->id,
+            'friend_id' => $friend->id,
+        ]);
+        $this->friendRepository->create([
+            'user_id' => $friend->id,
+            'friend_id' => $user->id,
+        ]);
+
+        $response = $this->json('POST', '/user/block-friend', [
+            'user_block_id' => $friend->id,
+        ]);
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('friends', [
+            'user_id' => $user->id,
+            'friend_id' => $friend->id,
+            'status' => FriendStatus::BLOCKED,
+        ]);
+
+        $this->assertDatabaseHas('friends', [
+            'user_id' => $friend->id,
+            'friend_id' => $user->id,
+            'status' => FriendStatus::BLOCKED,
+        ]);
     }
 }
 

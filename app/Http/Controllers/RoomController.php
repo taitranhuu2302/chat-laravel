@@ -18,10 +18,14 @@ use App\Repositories\Message\MessageRepositoryInterface;
 use App\Repositories\Room\RoomRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use GuzzleHttp\Promise\Create;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class RoomController extends Controller
 {
@@ -43,7 +47,7 @@ class RoomController extends Controller
         return response()->json(['message' => 'success', 'status' => 200, 'data' => $this->roomRepository->findAll()]);
     }
 
-    public function showRoomById($id)
+    public function showRoomById($id): View|Redirector|Application|RedirectResponse
     {
         $checkRoom = $this->roomRepository->isRoomExists(Auth::id(), $id);
 
@@ -63,7 +67,7 @@ class RoomController extends Controller
             ->with('friendRequests', $friendRequests);
     }
 
-    public function editGroupRoom(Request $request)
+    public function editGroupRoom(Request $request): JsonResponse
     {
         try {
             $roomName = $request->input('roomName');
@@ -188,7 +192,7 @@ class RoomController extends Controller
         }
     }
 
-    public function leaveGroup(LeaveGroupRequest $request)
+    public function leaveGroup(LeaveGroupRequest $request): JsonResponse
     {
         try {
             $roomId = $request->input('roomId');
