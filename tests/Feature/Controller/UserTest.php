@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Controller;
 
+use App\Enums\FriendRequestStatus;
+use App\Enums\FriendStatus;
 use App\Models\User;
 use App\Repositories\Friend\FriendRepository;
 use App\Repositories\FriendRequest\FriendRequestRepository;
@@ -48,7 +50,7 @@ class UserTest extends TestCase
             'country' => 'Vietnam',
         ];
 
-        $response = $this->json('PUT', '/user/edit-profile',$updated);
+        $response = $this->json('PUT', '/user/edit-profile', $updated);
 
         $response->assertStatus(200);
 
@@ -70,7 +72,27 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function test_return_error_if_add_friend_myself()
+    public function test_add_friend_request()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        $friend = User::factory()->create();
+
+        $response = $this->json('POST', '/user/add-friend-request', [
+            'email' => $friend->email,
+            'description' => 'Test',
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('friend_requests', [
+            'user_id' => $friend->id,
+            'request_id' => $user->id,
+            'description' => 'Test',
+            'status' => FriendRequestStatus::PENDING
+        ]);
+    }
+
+    public function test_return_error_if_request_friend_myself()
     {
         $user = User::factory()->create();
         $this->actingAs($user);
@@ -86,7 +108,7 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function test_return_error_if_user_does_not_exits()
+    public function test_return_error_if_request_friend_user_does_not_exits()
     {
         $user = User::factory()->create();
         $this->actingAs($user);
@@ -108,7 +130,7 @@ class UserTest extends TestCase
         $this->actingAs($user);
         $friend = User::factory()->create();
 
-         $this->friendRequestRepository->create([
+        $this->friendRequestRepository->create([
             'user_id' => $friend->id, //
             'request_id' => $user->id,
             'description' => 'Test',
@@ -150,4 +172,43 @@ class UserTest extends TestCase
             'message' => 'Hai bạn đã trở thành bạn bè',
         ]);
     }
+
+    public function test_accept_friend_request()
+    {
+        $user = User::factory()->create();
+        $friend = User::factory()->create();
+        $this->actingAs($friend);
+
+
+        $this->friendRequestRepository->create([
+            'user_id' => $friend->id, //
+            'request_id' => $user->id,
+            'description' => 'Test',
+        ]);
+
+        $response = $this->json('POST', '/user/accept-friend-request', [
+            'user_accept_id' => $user->id,
+        ]);
+
+        $this->assertDatabaseHas('friends', [
+            'user_id' => $user->id,
+            'friend_id' => $friend->id,
+            'status' => FriendStatus::FRIEND
+        ]);
+
+        $this->assertDatabaseHas('friends', [
+            'user_id' => $friend->id,
+            'friend_id' => $user->id,
+            'status' => FriendStatus::FRIEND
+        ]);
+
+        $this->assertDatabaseHas('friend_requests', [
+            'user_id' => $friend->id,
+            'request_id' => $user->id,
+            'status' => FriendRequestStatus::ACCEPTED,
+        ]);
+
+        $response->assertStatus(200);
+    }
 }
+

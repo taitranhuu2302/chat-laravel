@@ -44,7 +44,7 @@ class UserController extends Controller
         return $this->userRepository->findAll();
     }
 
-    public function editProfile(EditProfileRequest $request)
+    public function editProfile(EditProfileRequest $request): JsonResponse
     {
 
         try {
@@ -125,7 +125,7 @@ class UserController extends Controller
     {
         try {
             $userId = Auth::id();
-            $userAcceptId = $request->user_accept_id;
+            $userAcceptId = $request->input('user_accept_id');
 
             $userCurrent = $this->userRepository->findById($userId);
             $userTo = $this->userRepository->findById($userAcceptId);
