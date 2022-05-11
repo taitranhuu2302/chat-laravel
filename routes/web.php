@@ -26,11 +26,13 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('auth')->group(function () {
     // View
     Route::get('/login', [AuthController::class, 'viewLogin'])->name('login')->middleware('checkLogin');
-    Route::get('/create-new-password', [AuthController::class, 'viewCreateNewPassword']);
+    Route::get('/create-new-password', [AuthController::class, 'viewCreateNewPassword'])->middleware('auth');
+    Route::get('/change-password', [AuthController::class, 'viewChangePassword'])->middleware('auth');
     Route::get('/register', [AuthController::class, 'viewRegister'])->middleware('checkLogin');
 
     // Action
-    Route::post('/change-password', [AuthController::class, 'postCreateNewPassword']);
+    Route::post('/create-new-password', [AuthController::class, 'postCreateNewPassword']);
+    Route::post('/change-password', [AuthController::class, 'postChangePassword']);
     Route::post('/login', [AuthController::class, 'postLogin']);
     Route::post('/register', [AuthController::class, 'postRegister']);
     Route::get('/logout', [AuthController::class, 'logout'])->middleware('noCache');

@@ -5,10 +5,23 @@ namespace Tests\Feature\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
+    use WithoutMiddleware;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->withMiddleware();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+    }
 
     public function test_get_view_login()
     {
@@ -35,5 +48,20 @@ class AuthTest extends TestCase
 
         $response->assertRedirect('/');
         $response->assertStatus(302);
+    }
+
+    public function test_change_password()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $response = $this->post('/auth/change-password', [
+            'current_password' => $user->password,
+            'password' => 'qweqweqwe',
+            'password_confirm' => 'qweqweqwe',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/');
     }
 }

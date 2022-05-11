@@ -189,7 +189,6 @@ $(() => {
         e.preventDefault();
         const email = $('#email-add-friend');
         const description = $('#description-add-friend');
-
         axios.post('/user/add-friend-request', {
             email: email.val(),
             description: description.val()

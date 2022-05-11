@@ -24,8 +24,22 @@ class PostChangePassword extends FormRequest
     public function rules(): array
     {
         return [
+            'current_password' => 'required|string|min:6',
             'password' => 'required|min:6',
             'password_confirm' => 'required|same:password'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'current_password.required' => 'Mật khẩu cũ bắt buộc',
+            'current_password.string' => 'Mật khẩu cũ phải là kiểu chuỗi',
+            'current_password.min' => 'Mật khẩu cũ phải có ít nhất 6 ký tự',
+            'password.required' => 'Mật khẩu mới bắt buộc',
+            'password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự',
+            'password_confirm.required' => 'Xác nhận mật khẩu bắt buộc',
+            'password_confirm.same' => 'Mật khẩu xác nhận không khớp'
         ];
     }
 }

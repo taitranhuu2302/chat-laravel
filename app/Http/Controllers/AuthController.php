@@ -12,6 +12,7 @@ use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -39,7 +40,7 @@ class AuthController extends Controller
         return View('auth.register');
     }
 
-    public function postRegister(PostRegister $request)
+    public function postRegister(PostRegister $request): Redirector|Application|RedirectResponse
     {
         $email = $request->input('email');
         $fullName = $request->input('full_name');
@@ -91,6 +92,29 @@ class AuthController extends Controller
     {
         return View('auth.create_new_password');
     }
+
+    public function viewChangePassword(): View
+    {
+        return View('auth.change_password');
+    }
+
+    public function postChangePassword(PostChangePassword $request)
+    {
+        try {
+            $user = Auth::user();
+            if (Hash::check($request->input('current_password'), $user->password)) {
+                $user->password = Hash::make($request->input('password'));
+                $user->save();
+
+                return redirect('/');
+            }
+
+            return redirect()->back()->with('changePasswordError', 'Mật khẩu cũ chưa chính xác');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('changePasswordError', $e->getMessage());
+        }
+    }
+
 
     public function postCreateNewPassword(PostCreateNewPassword $request): RedirectResponse
     {

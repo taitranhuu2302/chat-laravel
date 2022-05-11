@@ -49,27 +49,30 @@ class UserController extends Controller
 
         try {
             $file = null;
-            $checkBase64 = isBase64($request->avatar);
+            $requestAvatar = $request->input('avatar');
+            $checkBase64 = isBase64($requestAvatar);
 
             if ($checkBase64) {
-                $file = handleImageBase64($request->avatar);
+                $file = handleImageBase64($requestAvatar);
             }
 
             $avatar = $file !== null ? $file['path_file'] : Auth::user()->avatar;
 
-            $this->userRepository->findById(Auth::user()->id)->update([
-                'full_name' => $request->full_name,
+            $user = $this->userRepository->update(Auth::id(), [
+                'full_name' => $request->input('full_name'),
                 'avatar' => $avatar,
             ]);
 
             $this->profileRepository->updateByUserId(Auth::id(), [
-                'phone' => $request->phone,
-                'address' => $request->address,
-                'country' => $request->country,
-                'about_myself' => trim($request->about_myself),
+                'phone' => $request->input('phone'),
+                'address' => $request->input('address'),
+                'country' => $request->input('country'),
+                'about_myself' => trim($request->input('about_myself')),
             ]);
 
-            return response()->json(['message' => 'success', 'status' => 200], 200);
+            $user->load('profile');
+
+            return response()->json(['message' => 'success', 'status' => 200, 'data' => $user], 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['message' => $e->getMessage()], 500);
@@ -82,17 +85,22 @@ class UserController extends Controller
             $userId = Auth::id();
             $userCurrent = $this->userRepository->findById($userId);
             $userTo = $this->userRepository->findByEmail($request->email);
-            $description = $request->description ? $request->description : 'Xin chào ' . $userCurrent->full_name;
 
             if (!$userTo) {
-                return response()->json(['message' => 'Failed'], 404);
+                return response()->json(['message' => 'Người dùng không tồn tại'], 404);
             }
+
+            if ($userTo->id === $userId) {
+                return response()->json(['message' => 'Bạn không thể thêm mình làm bạn'], 400);
+            }
+
+            $description = $request->description ? $request->description : 'Xin chào ' . $userCurrent->full_name;
 
             $checkFriendExist = $this->friendRepository->findAllFriendsByUserId($userId, $userTo->id);
             $checkFriendRequest = $this->friendRequestRepository->findFriendRequest($userId, $userTo->id);
 
             if (count($checkFriendRequest) > 0) {
-                return response()->json(['message' => 'Bạn đã gửi lời mời kết bạn'], 400);
+                return response()->json(['message' => 'Bạn đã gửi lời mời kết bạn cho người này'], 400);
             }
 
             if (count($checkFriendExist) > 0) {
