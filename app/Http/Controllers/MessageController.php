@@ -20,7 +20,7 @@ class MessageController extends Controller
         $this->messageRepository = $messageRepo;
     }
 
-    public function sendMessage(PostMessageRequest $request)
+    public function sendMessage(PostMessageRequest $request): JsonResponse
     {
         try {
             $text = $request->input('text');
@@ -59,7 +59,7 @@ class MessageController extends Controller
 
             event(new ChatEvent($message, $roomId, $user));
 
-            return response()->json(['message' => 'success', 'status' => 200], 200);
+            return response()->json(['message' => 'success', 'status' => 200, 'messages' => $message], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
