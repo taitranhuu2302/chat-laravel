@@ -105,7 +105,7 @@ class RoomTest extends TestCase
         $this->assertNull($roomPrivate);
     }
 
-    public function test_return_null_if_add_member_exists_in_room()
+    public function test_return_null_if_add_member_exists_in_group()
     {
         $userOne = $this->userRepository->create($this->userOne);
         $userTwo = $this->userRepository->create($this->userTwo);

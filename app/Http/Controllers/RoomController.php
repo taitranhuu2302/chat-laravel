@@ -101,7 +101,7 @@ class RoomController extends Controller
             event(new ChatEvent($message, $roomId, null));
             event(new UpdateRoomEvent($roomUpdate));
 
-            return response()->json(['message' => 'success', 'status' => 200]);
+            return response()->json(['message' => 'success', 'status' => 200, 'data' => $roomUpdate]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['message' => $e->getMessage(), 'status' => 500], 500);
@@ -185,7 +185,9 @@ class RoomController extends Controller
 
             event(new ChatEvent($message, $roomId, null));
 
-            return response()->json(['message' => 'success', 'status' => 200]);
+            $room->load('users');
+
+            return response()->json(['message' => 'success', 'status' => 200, 'data' => $room]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['message' => $e->getMessage(), 'status' => 500], 500);
@@ -207,7 +209,8 @@ class RoomController extends Controller
 
             if ($memberId) {
                 $isOwner = $this->roomRepository->isOwnerFromRoom($roomId, $userId);
-                $member = User::where('id', $memberId)->first();
+//                $member = User::where('id', $memberId)->first();
+                $member = $this->userRepository->findById($memberId);
 
                 if (!$isOwner) {
                     return response()->json(['message' => 'User is not owner', 'status' => 403], 403);

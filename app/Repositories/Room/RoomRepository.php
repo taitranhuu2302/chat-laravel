@@ -39,7 +39,7 @@ class RoomRepository extends BaseRepository implements RoomRepositoryInterface
     public function addUserToRoom($roomId, $userId)
     {
         $room = $this->findById($roomId);
-        if ($room->users()->where('user_id', $userId)->exists()) {
+        if ($this->isRoomExists($userId, $roomId)) {
             return null;
         }
 
