@@ -162,7 +162,6 @@ class RoomTest extends TestCase
     public function test_return_error_if_add_member_does_not_exists()
     {
         $user = User::factory()->create();
-        $userOne = User::factory()->create();
         $this->actingAs($user);
 
         $data = [
@@ -182,5 +181,58 @@ class RoomTest extends TestCase
 
         $response->assertStatus(404);
         $this->assertEquals('Người dùng không tồn tại', $response->json('message'));
+    }
+
+    public function test_user_leave_group()
+    {
+        $user = User::factory()->create();
+        $userOne = User::factory()->create();
+        $this->actingAs($user);
+
+        $data = [
+            'name' => 'test',
+            'room_type' => RoomType::GROUP_ROOM,
+            'description' => 'test',
+            'owner_id' => $user->id,
+        ];
+
+        $room = $this->roomRepository->create($data);
+        $this->roomRepository->addUserToRoom($room->id, $user->id);
+        $this->roomRepository->addUserToRoom($room->id, $userOne->id);
+
+        $response = $this->json('POST', '/room/leave-group', [
+            'roomId' => $room->id,
+        ]);
+
+        $response->assertStatus(200);
+        $count = count($response->json('data')['users']);
+        $this->assertEquals(1, $count);
+    }
+
+    public function test_owner_delete_member()
+    {
+        $user = User::factory()->create();
+        $userOne = User::factory()->create();
+        $this->actingAs($user);
+
+        $data = [
+            'name' => 'test',
+            'room_type' => RoomType::GROUP_ROOM,
+            'description' => 'test',
+            'owner_id' => $user->id,
+        ];
+
+        $room = $this->roomRepository->create($data);
+        $this->roomRepository->addUserToRoom($room->id, $user->id);
+        $this->roomRepository->addUserToRoom($room->id, $userOne->id);
+
+        $response = $this->json('POST', '/room/leave-group', [
+            'roomId' => $room->id,
+            'memberId' => $userOne->id
+        ]);
+
+        $response->assertStatus(200);
+        $count = count($response->json('data')['users']);
+        $this->assertEquals(1, $count);
     }
 }

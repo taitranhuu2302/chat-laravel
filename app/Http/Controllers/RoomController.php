@@ -208,15 +208,15 @@ class RoomController extends Controller
             }
 
             if ($memberId) {
+                // Only admin can remove member
                 $isOwner = $this->roomRepository->isOwnerFromRoom($roomId, $userId);
-//                $member = User::where('id', $memberId)->first();
                 $member = $this->userRepository->findById($memberId);
 
                 if (!$isOwner) {
                     return response()->json(['message' => 'User is not owner', 'status' => 403], 403);
                 }
 
-                $this->roomRepository->removeUserFromRoom($roomId, $memberId);
+                $room = $this->roomRepository->removeUserFromRoom($roomId, $memberId);
 
                 $message = $this->messageRepository->create([
                     'room_id' => $roomId,
@@ -226,10 +226,13 @@ class RoomController extends Controller
 
                 event(new ChatEvent($message, $roomId, null));
 
-                return response()->json(['message' => 'Remove user success', 'status' => 200], 200);
+                $room->load('users');
+
+                return response()->json(['message' => 'Remove user success', 'status' => 200, 'data' => $room], 200);
             }
 
-            $this->roomRepository->removeUserFromRoom($roomId, $userId);
+            $room = $this->roomRepository->removeUserFromRoom($roomId, $userId);
+            $room->load('users');
 
             $message = $this->messageRepository->create([
                 'room_id' => $roomId,
@@ -239,7 +242,7 @@ class RoomController extends Controller
 
             event(new ChatEvent($message, $roomId, null));
 
-            return response()->json(['message' => 'success', 'status' => 200]);
+            return response()->json(['message' => 'success', 'status' => 200, 'data' => $room], 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['message' => $e->getMessage(), 'status' => 500], 500);

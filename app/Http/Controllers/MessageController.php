@@ -6,6 +6,7 @@ use App\Events\ChatEvent;
 use App\Http\Requests\PostMessageRequest;
 use App\Models\Image;
 use App\Repositories\Message\MessageRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -64,7 +65,7 @@ class MessageController extends Controller
         }
     }
 
-    public function getMessage(Request $request, $roomId)
+    public function getMessage($roomId): JsonResponse
     {
         try {
             $messages = $this->messageRepository->getMessageByRoom($roomId);
