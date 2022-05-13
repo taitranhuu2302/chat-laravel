@@ -35,10 +35,10 @@
                     </div>
                 </div>
                 <div class="header__right flex items-center gap-3">
-                    <button class="border rounded px-3 pt-1 flex items-center justify-center">
+                    <button class="btn-test border rounded px-3 pt-1 flex items-center justify-center">
                         <i style="color: #0ABB87" class="text-xl far fa-phone"></i>
                     </button>
-                    <button class="border rounded px-3 pt-1 flex items-center jusitfy-center">
+                    <button class="btn-test border rounded px-3 pt-1 flex items-center jusitfy-center">
                         <i style="color: #FFB822" class="text-xl far fa-video"></i>
                     </button>
                     <button data-dropdown-toggle="dropdown-action-chat"
@@ -167,7 +167,6 @@
     <script>
         const roomId = @json(request()->route('id'));
         const userCurrent = @json(Auth::user());
-        console.log(@json($messages));
     </script>
 
     <script src="{{ asset('js/chat.js') }}"></script>

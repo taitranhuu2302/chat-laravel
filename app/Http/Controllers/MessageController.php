@@ -57,9 +57,12 @@ class MessageController extends Controller
             $message->images()->saveMany($messageImages);
             $message->load('images');
 
-            event(new ChatEvent($message, $roomId, $user));
+            broadcast(new ChatEvent($message, $roomId, $user))->toOthers();
 
-            return response()->json(['message' => 'success', 'status' => 200, 'messages' => $message], 200);
+            return response()->json(['message' => 'success', 'status' => 200, 'data' => [
+                'message' => $message,
+                'user' => $user,
+            ]], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

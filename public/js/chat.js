@@ -5364,6 +5364,17 @@ $(function () {
   $('.offcanvas__toggle').click(function () {
     $('#offcanvas-profile').toggleClass('offcanvas__open');
   });
+  $('.btn-test').click(function () {
+    toastify_js__WEBPACK_IMPORTED_MODULE_2___default()({
+      text: "T\xEDnh n\u0103ng \u0111ang ph\xE1t tri\u1EC3n",
+      duration: 3000,
+      newWindow: true,
+      close: true,
+      gravity: "top",
+      position: "right",
+      className: 'toastify-info'
+    }).showToast();
+  });
   $('#form-chat').submit(function (e) {
     e.preventDefault();
     var message = $('#txt_message');
@@ -5373,7 +5384,7 @@ $(function () {
       messageImage.push(item.src);
     });
 
-    if (messageImage.length <= 0 && message.val().trim().length == 0) {
+    if (messageImage.length <= 0 && message.val().trim().length === 0) {
       message.focus();
       console.log(message.val().trim().length);
       console.log(messageImage);
@@ -5390,6 +5401,16 @@ $(function () {
       messageImage = [];
       $('#list-file-image').html('');
       checkMessageImage();
+      var data = response.data.data;
+      $('#chat-message-list').prepend(renderMessage(data.message, data.user));
+      Array.from($('.room')).forEach(function (room) {
+        var attr = $(room).attr('data-room-id');
+
+        if (attr === roomId) {
+          var child = room.getElementsByClassName('message-description')[0];
+          child.innerHTML = data.message.text;
+        }
+      });
     })["catch"](function (error) {
       console.log(error);
     });

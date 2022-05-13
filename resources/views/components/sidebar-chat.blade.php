@@ -20,7 +20,7 @@
                 @php
                     $user = $item->users->where('id', '!=', Auth::user()->id)->first();
                 @endphp
-                <li data-room-id="{{ $item->id }}" class="room rooms__item border-b py-3 w-full px-8 flex items-center">
+                <li data-room-id="{{ $item->id }}" class="room rooms__item relative border-b py-3 w-full px-8 flex items-center">
                     <a href="{{ url('/room/' . $item->id) }}" class="block w-full">
                         <div class="flex overflow-hidden items-center w-full gap-3">
                             <img class="w-10 h-10 rounded-full" src="{{ $user->avatar }}" alt="Rounded avatar">
@@ -53,9 +53,12 @@
                             </ul>
                         </div>
                     </button>
+                    <div class="indicator__number">
+                        <div class="indicator__inner">1</div>
+                    </div>
                 </li>
             @elseif($item->room_type === \App\Enums\RoomType::GROUP_ROOM)
-                <li data-room-id="{{ $item->id }}" class="room rooms__item border-b py-3 w-full px-8 flex items-center">
+                <li data-room-id="{{ $item->id }}" class="room rooms__item relative border-b py-3 w-full px-8 flex items-center">
                     <a href="{{ url('/room/' . $item->id) }}" class="block w-full">
                         <div class="flex overflow-hidden items-center w-full gap-3">
                             <img class="w-10 h-10 rounded-full image-group-room-preview"

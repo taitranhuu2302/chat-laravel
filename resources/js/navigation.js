@@ -10,6 +10,15 @@ $(() => {
     const buttonTabs = Array.from(document.querySelectorAll('.nav__top--button'));
     let listFriendCreateRoom = [];
 
+    rooms.forEach(room => {
+        Echo.channel('chat-room.' + room.id).listen('ChatEvent', (e) => {
+            const indicator = $('#nav__chat .indicator__dot');
+            if (indicator.hasClass('hidden')) {
+                indicator.removeClass('hidden');
+            }
+        });
+    })
+
     Echo.channel(`add-friend.${userId}`).listen('AddFriendEvent', (data) => {
         $('#list-request-friend').append(renderFriendRequest(data.friend.avatar, data.friend.full_name, data.friend.id, data.description));
         Toastify({
@@ -22,6 +31,11 @@ $(() => {
             className: 'toastify-info'
         }).showToast();
         addEvent();
+
+        const indicator = $('#nav__request .indicator__dot');
+        if (indicator.hasClass('hidden')) {
+            indicator.removeClass('hidden');
+        }
     })
 
     Echo.channel(`accept-friend.${userId}`).listen('AcceptFriendEvent', (data) => {
@@ -37,6 +51,10 @@ $(() => {
             position: "right",
             className: 'toastify-info'
         }).showToast();
+        const indicator = $('#nav__friend .indicator__dot');
+        if (indicator.hasClass('hidden')) {
+            indicator.removeClass('hidden');
+        }
         addEvent();
     })
 
@@ -58,11 +76,17 @@ $(() => {
 
     // Change Tab Active
     buttonTabs.forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', function() {
             buttonTabs.forEach(btn => {
                 btn.classList.remove('nav__top--active');
             })
             button.classList.add('nav__top--active');
+            const parent = $(this).parent();
+            const indicator = parent.children('.indicator__dot');
+            if (!indicator.hasClass('hidden')) {
+                indicator.addClass('hidden');
+            }
+
         })
     })
     addEvent();
@@ -298,11 +322,11 @@ $(() => {
                     aria-labelledby="dropdownRightButton">
                     <li>
                         <a data-user-id="${id}" href="#"
-                            class="accept-friend-request block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Accept</a>
+                            class="accept-friend-request block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chấp nhận</a>
                     </li>
                     <li>
                         <a data-user-id="${id}" href="#"
-                            class="block-friend-request block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Block</a>
+                            class="block-friend-request block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Huỷ bỏ</a>
                     </li>
                 </ul>
             </div>
@@ -407,7 +431,7 @@ $(() => {
             const parent = $(this).parent().parent().parent().parent().parent();
 
             Swal.fire({
-                title: 'Want to accept a friend request??',
+                title: 'Bạn có muốn chấp nhận lời mời kết bạn ?',
                 showCancelButton: true,
                 confirmButtonText: 'Ok',
             }).then((result) => {

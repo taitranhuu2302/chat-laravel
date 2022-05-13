@@ -33,8 +33,8 @@ class AuthTest extends DuskTestCase
 //    {
 //        $this->browse(function (Browser $browser) {
 //            $browser->visit('/auth/login')
-//                ->type('email', 'emlacuaanh@gmail.com')
-//                ->type('password', 'qweqwe')
+//                ->type('email', 'test@gmail.com')
+//                ->type('password', 'test')
 //                ->press('Log In')
 //                ->waitForText('Email or password is incorrect');
 //        });

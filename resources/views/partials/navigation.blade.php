@@ -10,39 +10,48 @@
                     <i class="nav__top--logo far fa-comment-dots"></i>
                 </a>
             </li>
-            <li>
+            <li id="nav__chat" class="relative">
                 <button id="button-friend" data-tabs-target="#chat" type="button" role="tab" aria-controls="chat"
                     aria-selected="false" data-tooltip-target="tooltip-chat" class="nav__top--button nav__top--active">
                     <i class="nav__top--icon far fa-comment"></i>
                     <div id="tooltip-chat" role="tooltip"
-                        class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                        class="inline-block absolute whitespace-nowrap invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                         Chats
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
                 </button>
+                <div class="indicator__dot hidden">
+                    <div class="indicator__inner"></div>
+                </div>
             </li>
-            <li>
+            <li id="nav__friend" class="relative">
                 <button id="button-friend" data-tabs-target="#friend" type="button" role="tab" aria-controls="friend"
                     aria-selected="false" data-tooltip-target="tooltip-friend" class="nav__top--button">
                     <i class="nav__top--icon far fa-user"></i>
                     <div id="tooltip-friend" role="tooltip"
-                        class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                        class="inline-block absolute whitespace-nowrap invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                         Bạn bè
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
                 </button>
+                <div class="indicator__dot hidden">
+                    <div class="indicator__inner"></div>
+                </div>
             </li>
-            <li>
+            <li id="nav__request" class="relative">
                 <button id="button-friend-request" data-tabs-target="#friend-request" type="button" role="tab"
                     aria-controls="friend-request" aria-selected="false" data-tooltip-target="tooltip-friend-pending"
                     class="nav__top--button">
                     <i class="nav__top--icon far fa-star"></i>
                     <div id="tooltip-friend-pending" role="tooltip"
-                        class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                        class="inline-block absolute whitespace-nowrap invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                         Lời mời kết bạn
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
                 </button>
+                <div class="indicator__dot hidden">
+                    <div class="indicator__inner"></div>
+                </div>
             </li>
         </ul>
         <ul class="nav__bottom">

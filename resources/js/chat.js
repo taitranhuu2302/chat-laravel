@@ -166,6 +166,18 @@ $(() => {
         $('#offcanvas-profile').toggleClass('offcanvas__open');
     });
 
+    $('.btn-test').click(() => {
+        Toastify({
+            text: `Tính năng đang phát triển`,
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top",
+            position: "right",
+            className: 'toastify-info'
+        }).showToast();
+    })
+
     $('#form-chat').submit(function (e) {
         e.preventDefault();
         const message = $('#txt_message');
@@ -175,7 +187,7 @@ $(() => {
             messageImage.push(item.src);
         })
 
-        if (messageImage.length <= 0 && message.val().trim().length == 0) {
+        if (messageImage.length <= 0 && message.val().trim().length === 0) {
             message.focus();
             console.log(message.val().trim().length);
             console.log(messageImage);
@@ -193,6 +205,19 @@ $(() => {
             messageImage = [];
             $('#list-file-image').html('');
             checkMessageImage();
+
+            const data = response.data.data;
+
+            $('#chat-message-list').prepend(renderMessage(data.message, data.user));
+
+
+            Array.from($('.room')).forEach((room) => {
+                const attr = $(room).attr('data-room-id');
+                if (attr === roomId) {
+                    const child = room.getElementsByClassName('message-description')[0];
+                    child.innerHTML = data.message.text;
+                }
+            });
         }).catch((error) => {
             console.log(error);
         });

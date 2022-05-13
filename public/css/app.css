@@ -1543,7 +1543,6 @@ input:checked + .toggle-bg {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
-
 .toastify-info {
     background: linear-gradient(135deg, #73a5ff, #5477f5) !important;
     color: white !important;
@@ -1562,6 +1561,35 @@ input:checked + .toggle-bg {
 .toastify-warning {
     background: linear-gradient(135deg, #ffb822, #ff8b00) !important;
     color: white !important;
+}
+
+.indicator__dot {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+}
+
+.indicator__dot .indicator__inner {
+    width: 10px;
+    height: 10px;
+    background-color: #d61f69;
+    border-radius: 50%;
+}
+
+.indicator__number {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 60px;
+}
+
+.indicator__number .indicator__inner {
+    font-size: 12px;
+    color: white;
+    padding: 4px 8px;
+    background-color: #d61f69;
+    font-weight: bold;
+    border-radius: 12px;
 }
 
 .after\:absolute::after {
