@@ -28,4 +28,11 @@ class PostLogin extends FormRequest
             'password' => 'required|min:6'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'email.email' => 'Email is not in the correct format.'
+        ];
+    }
 }

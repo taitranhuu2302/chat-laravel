@@ -49,7 +49,7 @@
                     <div class="mb-6">
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your
                             email</label>
-                        <input type="email" name="email" id="email"
+                        <input type="text" name="email" id="email"
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                placeholder="name@flowbite.com">
                         @if($errors->has('email'))
@@ -66,15 +66,18 @@
                             <p class="text-red-700">{{ $errors->first('password') }}</p>
                         @endif
                     </div>
-                    <div class="flex items-start mb-6">
-                        <div class="flex items-center h-5">
-                            <input id="remember" name="remember" aria-describedby="remember" type="checkbox"
-                                   class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-green-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800">
+                    <div class="flex justify-between mb-6 items-center">
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="remember" name="remember" aria-describedby="remember" type="checkbox"
+                                       class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-green-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="remember" class="font-medium text-gray-900 dark:text-gray-300">Remember
+                                    me</label>
+                            </div>
                         </div>
-                        <div class="ml-3 text-sm">
-                            <label for="remember" class="font-medium text-gray-900 dark:text-gray-300">Remember
-                                me</label>
-                        </div>
+                        <a href="#" class="font-medium text-sm text-[#4eac6d]">Forgot Password ?</a>
                     </div>
                     <button type="submit"
                             class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">

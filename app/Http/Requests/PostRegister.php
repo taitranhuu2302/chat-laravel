@@ -32,11 +32,8 @@ class PostRegister extends FormRequest
     public function messages(): array
     {
         return [
-            'email.unique' => 'Tài khoản email đã tồn tại',
-            'email.required' => 'Vui lòng nhập email',
-            'email.email' => 'Email không đúng định dạng',
-            'full_name.required' => 'Vui lòng nhập họ tên',
-            'full_name.max' => 'Họ tên không được quá 255 ký tự',
+            'email.unique' => 'Email account already exists.',
+            'email.email' => 'Email is not in the correct format.',
         ];
     }
 }

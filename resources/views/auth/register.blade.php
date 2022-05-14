@@ -35,9 +35,9 @@
                     <div class="mb-6">
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your
                             email</label>
-                        <input type="email" name="email" id="email"
+                        <input type="text" name="email" id="email"
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               placeholder="name@flowbite.com" required>
+                               placeholder="name@flowbite.com">
                         @if($errors->has('email'))
                             <p class="text-red-700">{{ $errors->first('email') }}</p>
                         @endif
@@ -46,7 +46,7 @@
                         <label for="full_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Full Name</label>
                         <input type="text" name="full_name" id="full_name"
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               required>
+                               >
                         @if($errors->has('full_name'))
                             <p class="text-red-700">{{ $errors->first('full_name') }}</p>
                         @endif
@@ -73,7 +73,7 @@
                     </a>
                 </div>
                 <div>
-                    <p class="text-gray-500">I already have an account ? <a href="/auth/login"
+                    <p class="text-gray-500">I already have an account ? <a href="{{ route('login') }}"
                                                                      class="font-semibold text-[#4eac6d]">Login</a>
                     </p>
                 </div>

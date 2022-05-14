@@ -53,9 +53,6 @@
                             </ul>
                         </div>
                     </button>
-                    <div class="indicator__number">
-                        <div class="indicator__inner">1</div>
-                    </div>
                 </li>
             @elseif($item->room_type === \App\Enums\RoomType::GROUP_ROOM)
                 <li data-room-id="{{ $item->id }}" class="room rooms__item relative border-b py-3 w-full px-8 flex items-center">
@@ -98,5 +95,4 @@
             @endif
         @endforeach
     </ul>
-
 </div>
