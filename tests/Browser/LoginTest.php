@@ -10,7 +10,6 @@ use Tests\DuskTestCase;
 class LoginTest extends DuskTestCase
 {
 
-
     public function test_get_view_login()
     {
         $this->browse(function (Browser $browser) {

@@ -18,10 +18,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::factory()->createOne([
-           'email' => 'admin@gmail.com',
-           'password' => Hash::make('password'),
-           'full_name' => 'Admin',
-           'avatar' => 'https://picsum.photos/1200/800',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('password'),
+            'full_name' => 'Admin',
+            'avatar' => 'https://picsum.photos/1200/800',
+            'login_first' => false,
         ]);
     }
 }
