@@ -19,6 +19,8 @@ $(() => {
         });
     })
 
+
+
     Echo.channel(`add-friend.${userId}`).listen('AddFriendEvent', (data) => {
         $('#list-request-friend').append(renderFriendRequest(data.friend.avatar, data.friend.full_name, data.friend.id, data.description));
         Toastify({
@@ -90,6 +92,20 @@ $(() => {
         })
     })
     addEvent();
+
+    document.getElementById('search_sidebar_chat').addEventListener('keyup', (e) => {
+        const list = Array.from($('#chat_rooms').children());
+        const keyword = e.target.value;
+
+        list.forEach(function(item) {
+            const name = item.getElementsByClassName('chat__room--name')[0].innerText;
+            if (name.toLowerCase().indexOf(keyword.toLowerCase()) === -1) {
+                item.classList.add('hidden');
+            } else {
+                item.classList.remove('hidden');
+            }
+        })
+    })
 
     // Filter Friend
     $('#search-add-friend').autocomplete({
@@ -270,7 +286,7 @@ $(() => {
                     <img class="w-10 h-10 rounded-full" src="${avatar}" alt="Rounded avatar">
                     <div class="w-full overflow-hidden">
                         <p
-                            class="text-lg overflow-hidden whitespace-nowrap w-2/4 text-ellipsis text-blue-600 font-semibold">
+                            class="chat__room--name text-lg overflow-hidden whitespace-nowrap w-2/4 text-ellipsis text-blue-600 font-semibold">
                             ${roomName}
                         </p>
                         <p class="text-md overflow-hidden whitespace-nowrap w-2/4 text-ellipsis">

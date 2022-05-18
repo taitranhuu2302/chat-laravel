@@ -4546,7 +4546,20 @@ $(function () {
       }
     });
   });
-  addEvent(); // Filter Friend
+  addEvent();
+  document.getElementById('search_sidebar_chat').addEventListener('keyup', function (e) {
+    var list = Array.from($('#chat_rooms').children());
+    var keyword = e.target.value;
+    list.forEach(function (item) {
+      var name = item.getElementsByClassName('chat__room--name')[0].innerText;
+
+      if (name.toLowerCase().indexOf(keyword.toLowerCase()) === -1) {
+        item.classList.add('hidden');
+      } else {
+        item.classList.remove('hidden');
+      }
+    });
+  }); // Filter Friend
 
   $('#search-add-friend').autocomplete({
     source: function source(request, response) {
@@ -4708,7 +4721,7 @@ $(function () {
       avatar = room.image ? room.image : '/images/default-avatar.png';
     }
 
-    return "\n        <li data-room-id=\"".concat(room.id, "\" class=\"room rooms__item border-b py-3 w-full px-8 flex items-center\">\n            <a href=\"/room/").concat(room.id, "\" class=\"block w-full\">\n                <div class=\"flex overflow-hidden items-center w-full gap-3\">\n                    <img class=\"w-10 h-10 rounded-full\" src=\"").concat(avatar, "\" alt=\"Rounded avatar\">\n                    <div class=\"w-full overflow-hidden\">\n                        <p\n                            class=\"text-lg overflow-hidden whitespace-nowrap w-2/4 text-ellipsis text-blue-600 font-semibold\">\n                            ").concat(roomName, "\n                        </p>\n                        <p class=\"text-md overflow-hidden whitespace-nowrap w-2/4 text-ellipsis\">\n                            No messages yet\n                        </p>\n                    </div>\n                </div>\n            </a>\n            <button class=\"button-friend-request\" data-dropdown-placement=\"right\">\n                <i class=\"fas fa-ellipsis-h-alt\"></i>\n                <div\n                    class=\"hidden absolute z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dropdown-friend-request\">\n                    <ul class=\"text-left py-1 w-full text-sm text-gray-700 dark:text-gray-200\"\n                        aria-labelledby=\"dropdownRightButton\">\n                        <li>\n                            <a href='/room/").concat(room.id, "'\n                            class=\" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white\">M\u1EDF chat</a>\n                        </li>\n                        <li>\n                            <a data-user-id=\"").concat(room.id, "\" href=\"#\"\n                            class=\" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white\">\n                            ").concat(room.room_type === 'PRIVATE_ROOM' ? 'Chặn' : 'Rời phòng', "\n                            </a>\n                        </li>\n                    </ul>\n                </div>\n            </button>\n        </li>\n        ");
+    return "\n        <li data-room-id=\"".concat(room.id, "\" class=\"room rooms__item border-b py-3 w-full px-8 flex items-center\">\n            <a href=\"/room/").concat(room.id, "\" class=\"block w-full\">\n                <div class=\"flex overflow-hidden items-center w-full gap-3\">\n                    <img class=\"w-10 h-10 rounded-full\" src=\"").concat(avatar, "\" alt=\"Rounded avatar\">\n                    <div class=\"w-full overflow-hidden\">\n                        <p\n                            class=\"chat__room--name text-lg overflow-hidden whitespace-nowrap w-2/4 text-ellipsis text-blue-600 font-semibold\">\n                            ").concat(roomName, "\n                        </p>\n                        <p class=\"text-md overflow-hidden whitespace-nowrap w-2/4 text-ellipsis\">\n                            No messages yet\n                        </p>\n                    </div>\n                </div>\n            </a>\n            <button class=\"button-friend-request\" data-dropdown-placement=\"right\">\n                <i class=\"fas fa-ellipsis-h-alt\"></i>\n                <div\n                    class=\"hidden absolute z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dropdown-friend-request\">\n                    <ul class=\"text-left py-1 w-full text-sm text-gray-700 dark:text-gray-200\"\n                        aria-labelledby=\"dropdownRightButton\">\n                        <li>\n                            <a href='/room/").concat(room.id, "'\n                            class=\" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white\">M\u1EDF chat</a>\n                        </li>\n                        <li>\n                            <a data-user-id=\"").concat(room.id, "\" href=\"#\"\n                            class=\" block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white\">\n                            ").concat(room.room_type === 'PRIVATE_ROOM' ? 'Chặn' : 'Rời phòng', "\n                            </a>\n                        </li>\n                    </ul>\n                </div>\n            </button>\n        </li>\n        ");
   }
 
   function renderFriendRequest(avatar, full_name, id, message) {

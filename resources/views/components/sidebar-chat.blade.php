@@ -10,7 +10,7 @@
         </div>
 
     <div class="chat__search flex-shrink p-8">
-        <input type="text" placeholder="Search chats"
+        <input id="search_sidebar_chat" type="text" placeholder="Search chats"
                class="text-lg bg-gray-50 border border-gray-300 text-gray-900  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
     </div>
 
@@ -20,12 +20,12 @@
                 @php
                     $user = $item->users->where('id', '!=', Auth::user()->id)->first();
                 @endphp
-                <li data-room-id="{{ $item->id }}" class="room rooms__item relative border-b py-3 w-full px-8 flex items-center">
+                <li data-room-id="{{ $item->id }}" class="room rooms__item border-b py-3 w-full px-8 flex items-center">
                     <a href="{{ url('/room/' . $item->id) }}" class="block w-full">
                         <div class="flex overflow-hidden items-center w-full gap-3">
                             <img class="w-10 h-10 rounded-full" src="{{ $user->avatar }}" alt="Rounded avatar">
                             <div class="w-full overflow-hidden">
-                                <p class="text-lg overflow-hidden whitespace-nowrap w-3/4 text-ellipsis text-blue-600 font-semibold">
+                                <p class="chat__room--name group-name text-lg overflow-hidden whitespace-nowrap w-3/4 text-ellipsis text-blue-600 font-semibold">
                                     {{ $user->full_name }}
                                 </p>
                                 <p class="message-description text-md overflow-hidden whitespace-nowrap w-3/4 text-ellipsis">
@@ -55,7 +55,7 @@
                     </button>
                 </li>
             @elseif($item->room_type === \App\Enums\RoomType::GROUP_ROOM)
-                <li data-room-id="{{ $item->id }}" class="room rooms__item relative border-b py-3 w-full px-8 flex items-center">
+                <li data-room-id="{{ $item->id }}" class="room rooms__item border-b py-3 w-full px-8 flex items-center">
                     <a href="{{ url('/room/' . $item->id) }}" class="block w-full">
                         <div class="flex overflow-hidden items-center w-full gap-3">
                             <img class="w-10 h-10 rounded-full image-group-room-preview"
@@ -63,7 +63,7 @@
                                  alt="Rounded avatar">
                             <div class="w-full overflow-hidden">
                                 <p
-                                    class="group-name text-lg overflow-hidden whitespace-nowrap w-3/4 text-ellipsis text-blue-600 font-semibold">
+                                    class="chat__room--name group-name text-lg overflow-hidden whitespace-nowrap w-3/4 text-ellipsis text-blue-600 font-semibold">
                                     {{ $item->name }}
                                 </p>
                                 <p class="message-description text-md overflow-hidden whitespace-nowrap w-3/4 text-ellipsis">
