@@ -27,4 +27,13 @@ class Message extends Model
     {
         return $this->hasMany(Image::class)->select('source', 'message_id');
     }
+
+    public static function booted()
+    {
+        static::created(function ($message) {
+            $message->room->update([
+                'updated_at' => now(),
+            ]);
+        });
+    }
 }
