@@ -25,7 +25,6 @@ class PostRegister extends FormRequest
     {
         return [
             'email' => 'required|email|unique:users',
-            'full_name' => "required|max:255|regex: /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/",
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserRegister;
 use App\Http\Requests\PostChangePassword;
 use App\Http\Requests\PostCreateNewPassword;
 use App\Http\Requests\PostLogin;
@@ -57,9 +58,11 @@ class AuthController extends Controller
         $profile->user_id = $user->id;
         $profile->save();
 
-        Mail::send('mails.send-password', compact('password'), function ($data) use ($email) {
-            $data->to($email, 'Chat App')->subject('Your password');
-        });
+        event(new UserRegister($email, $password));
+
+//        Mail::send('mails.send-password', compact('password'), function ($data) use ($email) {
+//            $data->to($email, 'Chat App')->subject('Your password');
+//        });
 
         return redirect('/auth/login')->with('registerSuccess', 'Please check your email to get your password.');
     }

@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 <link rel="stylesheet" href="{{ asset('css/navigation.css') }}">
 
-
 <div id="navigation" class="flex">
     <div id="nav" class="py-6 flex flex-col items-center justify-between">
         <ul class="nav__top flex flex-col items-center gap-8" data-tabs-toggle="#sidebar">
