@@ -22,10 +22,9 @@ class RegisterTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/auth/register')
                 ->type('email', '')
-                ->type('full_name', '')
+                ->type('full_name', 'Tran Huu Tai')
                 ->press('Sign Up')
-                ->assertSee('The email field is required.')
-                ->assertSee('The full name field is required.');
+                ->assertSee('The email field is required.');
         });
     }
 
