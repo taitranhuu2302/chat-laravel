@@ -132,15 +132,7 @@ class UserController extends Controller
 
             $this->friendRequestRepository->changeStatusFriendRequest($userId, $userAcceptId, FriendRequestStatus::ACCEPTED);
 
-            $this->friendRepository->create([
-                'user_id' => $userId,
-                'friend_id' => $userAcceptId
-            ]);
-
-            $this->friendRepository->create([
-                'user_id' => $userAcceptId,
-                'friend_id' => $userId
-            ]);
+            $this->friendRepository->acceptFriend($userId, $userAcceptId);
 
             event(new AcceptFriendEvent($userTo->id, $userCurrent));
             event(new AcceptFriendEvent($userCurrent->id, $userTo));

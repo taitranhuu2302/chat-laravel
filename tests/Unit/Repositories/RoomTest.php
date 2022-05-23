@@ -3,12 +3,9 @@
 namespace Tests\Unit\Repositories;
 
 use App\Enums\RoomType;
-use App\Models\Room;
-use App\Models\User;
 use App\Repositories\Room\RoomRepository;
 use App\Repositories\User\UserRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 

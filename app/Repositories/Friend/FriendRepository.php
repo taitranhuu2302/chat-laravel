@@ -37,4 +37,21 @@ class FriendRepository extends BaseRepository implements FriendRepositoryInterfa
             ->where('friend_id', $friendId)
             ->first();
     }
+
+    public function acceptFriend($userOne, $userTwo): bool
+    {
+        $this->model->create([
+            'user_id' => $userOne,
+            'friend_id' => $userTwo,
+            'status' => FriendStatus::FRIEND,
+        ]);
+
+        $this->model->create([
+            'user_id' => $userTwo,
+            'friend_id' => $userOne,
+            'status' => FriendStatus::FRIEND,
+        ]);
+
+        return true;
+    }
 }

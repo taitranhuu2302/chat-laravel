@@ -73,6 +73,11 @@ class User extends Authenticatable
         return $this->hasMany(Message::class);
     }
 
+    public function tasks(): BelongsToMany
+    {
+        return $this->belongsToMany(Task::class, 'tasks_users');
+    }
+
     /**
      * The attributes that should be cast.
      *

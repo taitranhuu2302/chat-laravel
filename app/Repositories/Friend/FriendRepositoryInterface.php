@@ -11,4 +11,6 @@ interface FriendRepositoryInterface extends RepositoryInterface
     public function findFriend($userId, $friendId);
 
     public function changeStatusFriend($userId, $friendId, $status);
+
+    public function acceptFriend($userOne, $userTwo);
 }

@@ -17,7 +17,7 @@
     <div class="offcanvas__content px-5">
         <div class="offcanvas__content--about mb-5">
             <p class="text-xl font-semibold mb-2">Giới thiệu</p>
-            <p class="text-md text-gray-500">{{ $userProfile->profile->about_myself ? $userProfile->profile->about_myself : 'Chưa cập nhật' }}</p>
+            <p class="text-md text-gray-500">{{ $userProfile->profile ? ($userProfile->profile->about_myself ?: 'Chưa cập nhật') : 'Chưa cập nhật' }}</p>
         </div>
         <div class="offcanvas__content--email mb-5">
             <p class="text-xl font-semibold mb-2">Email</p>
@@ -25,15 +25,15 @@
         </div>
         <div class="offcanvas__content--phone mb-5">
             <p class="text-xl font-semibold mb-2">Số điện thoại</p>
-            <p class="text-md text-gray-500">{{ $userProfile->profile->phone ? $userProfile->profile->phone : 'Chưa cập nhật' }}</p>
+            <p class="text-md text-gray-500">{{ $userProfile->profile ? ($userProfile->profile->phone ?: 'Chưa cập nhật') : 'Chưa cập nhật' }}</p>
         </div>
         <div class="offcanvas__content--address mb-5">
             <p class="text-xl font-semibold mb-2">Địa chỉ</p>
-            <p class="text-md text-gray-500">{{ $userProfile->profile->address ?  $userProfile->profile->address : 'Chưa cập nhật' }}</p>
+            <p class="text-md text-gray-500">{{ $userProfile->profile ? ($userProfile->profile->address ?: 'Chưa cập nhật') : 'Chưa cập nhật' }}</p>
         </div>
         <div class="offcanvas__content--country mb-5">
             <p class="text-xl font-semibold mb-2">Quốc gia</p>
-            <p class="text-md text-gray-500">{{ $userProfile->profile->country ? $userProfile->profile->country : 'Chưa cập nhật' }}</p>
+            <p class="text-md text-gray-500">{{ $userProfile->profile ? ($userProfile->profile->country ?: 'Chưa cập nhật') : 'Chưa cập nhật' }}</p>
         </div>
         <div class="offcanvas__content--social mb-5">
             <p class="text-xl font-semibold mb-2">Kết nối</p>

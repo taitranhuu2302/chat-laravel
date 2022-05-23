@@ -12,6 +12,8 @@ use App\Repositories\Profile\ProfileRepository;
 use App\Repositories\Profile\ProfileRepositoryInterface;
 use App\Repositories\Room\RoomRepository;
 use App\Repositories\Room\RoomRepositoryInterface;
+use App\Repositories\Task\TaskRepository;
+use App\Repositories\Task\TaskRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -53,6 +55,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(
             MessageRepositoryInterface::class,
             MessageRepository::class
+        );
+
+        $this->app->singleton(
+            TaskRepositoryInterface::class,
+            TaskRepository::class
         );
     }
 
