@@ -17,6 +17,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 import Echo from 'laravel-echo';
+import 'sweetalert2/src/sweetalert2.scss';
+import "toastify-js/src/toastify.css";
 
 window.Pusher = require('pusher-js');
 

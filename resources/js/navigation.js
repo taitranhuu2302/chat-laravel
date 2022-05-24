@@ -1,7 +1,6 @@
 import Swal from 'sweetalert2';
 import Toastify from 'toastify-js'
-import 'sweetalert2/src/sweetalert2.scss';
-import "toastify-js/src/toastify.css"
+
 
 $(() => {
     const userId = document.getElementById('user_id').value;

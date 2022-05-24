@@ -60,10 +60,6 @@ class AuthController extends Controller
 
         event(new UserRegister($email, $password));
 
-//        Mail::send('mails.send-password', compact('password'), function ($data) use ($email) {
-//            $data->to($email, 'Chat App')->subject('Your password');
-//        });
-
         return redirect('/auth/login')->with('registerSuccess', 'Please check your email to get your password.');
     }
 

@@ -1,14 +1,51 @@
+import Swal from 'sweetalert2';
+import Toastify from 'toastify-js'
+
 $(() => {
     let listUserForTask = [];
+    const axios = window.axios;
 
     $('#task-form').submit(function (e) {
         e.preventDefault();
-        const data = $(this).serializeArray();
+        const title = $('#title-task');
+        const content = $('#content-task');
+        const dueDate = $('#due-date-task');
 
+        const request = {
+            title: title.val(),
+            content: content.val(),
+            due_date: dueDate.val(),
+            users: listUserForTask
+        }
 
-        // const request = {
-        //    title: data['title']
-        // }
+        axios.post('/task', request)
+            .then((response) => {
+                console.log(response);
+                title.val('');
+                content.val('');
+                dueDate.val('');
+                listUserForTask = [];
+                $('#list-user-in-task-count').text(listUserForTask.length);
+                const wrapperListAvatar = $('#list-avatar-user-for-task');
+                wrapperListAvatar.empty();
+                wrapperListAvatar.append(`
+                <a id="list-user-in-room-count"
+                   class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
+                   href="#">+0</a>
+                `);
+                Toastify({
+                    text: `Bạn đã tạo công việc thành công`,
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    className: 'toastify-success'
+                }).showToast();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     })
 
     $('#search-user-for-task').autocomplete({
@@ -45,7 +82,6 @@ $(() => {
                         src="${friendObj.user.avatar}" alt="">
                  `;
                 $('#list-avatar-user-for-task').prepend(html);
-                console.log('Xin chao')
             }
 
             $('#list-user-in-task-count').text(listUserForTask.length);

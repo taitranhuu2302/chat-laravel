@@ -1,6 +1,5 @@
 import Swal from "sweetalert2";
 import Toastify from "toastify-js";
-import "toastify-js/src/toastify.css"
 
 $(() => {
     const Echo = window.Echo;

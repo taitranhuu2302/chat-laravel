@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Models\Friend;
 use App\Models\FriendRequest;
@@ -42,16 +43,6 @@ Route::prefix('auth')->group(function () {
     Route::get('/google/callback', [AuthController::class, 'googleCallback']);
 });
 
-Route::prefix('mail')->group(function () {
-    Route::get('/send-password-to-mail', function() {
-        $password = '123456';
-        \Illuminate\Support\Facades\Mail::send('mail.send-password-to-mail', compact('password'), function ($email) {
-            $email->to('emlacuaanh1908@gmail.com', 'Anh')->subject('Send Password');
-        });
-        return view('mail.send-password-to-mail');
-    });
-});
-
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/room/{id}', function ($id) {
@@ -82,5 +73,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('message')->group(function() {
         Route::post('/send-message', [MessageController::class, 'sendMessage']);
         Route::get('/get-message/{roomId}', [MessageController::class, 'getMessage']);
+    });
+
+    Route::prefix('task')->group(function() {
+        Route::post('/', [TaskController::class, 'createTask']);
     });
 });
