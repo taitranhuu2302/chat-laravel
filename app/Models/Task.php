@@ -16,4 +16,9 @@ class Task extends Model
     {
         return $this->belongsToMany(User::class, 'users_tasks')->select('users.id', 'full_name', 'email', 'avatar');
     }
+
+    public static function boot()
+    {
+
+    }
 }
