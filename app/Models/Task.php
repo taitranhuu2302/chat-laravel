@@ -12,8 +12,11 @@ class Task extends Model
 
     protected $fillable = ['title', 'description', 'status', 'due_date', 'created_at'];
 
+    protected $dates = ['due_date', 'created_at'];
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'users_tasks')->select('users.id', 'full_name', 'email', 'avatar');
     }
+
 }

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\FriendStatus;
 use App\Models\Friend;
 use App\Models\Profile;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
