@@ -29,7 +29,7 @@ class TaskTest extends TestCase
 
         $this->task = [
             'title' => 'Task 1',
-            'description' => 'Task 1 description',
+            'content' => 'Task 1 description',
             'due_date' => $this->dueDate,
         ];
     }
@@ -48,7 +48,7 @@ class TaskTest extends TestCase
 
         $this->assertDatabaseHas('tasks', [
             'title' => 'Task 1',
-            'description' => 'Task 1 description',
+            'content' => 'Task 1 description',
             'due_date' => $this->dueDate,
             'status' => TaskStatus::PENDING
         ]);
@@ -58,7 +58,7 @@ class TaskTest extends TestCase
     {
         $task = $this->taskRepository->create([
             'title' => 'Task 1',
-            'description' => 'Task 1 description',
+            'content' => 'Task 1 description',
             'due_date' => Carbon::yesterday(),
         ]);
 

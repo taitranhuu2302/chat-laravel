@@ -5225,19 +5225,19 @@ $(function () {
   }
 
   function _eventLoadMoreMessage() {
-    _eventLoadMoreMessage = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+    _eventLoadMoreMessage = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
       var URL, nextPage, messages;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
         while (1) {
-          switch (_context.prev = _context.next) {
+          switch (_context2.prev = _context2.next) {
             case 0:
               URL = $(this).attr('data-url');
               nextPage = URL.split('page=')[1];
-              _context.next = 4;
+              _context2.next = 4;
               return getMessageApi(roomId, nextPage);
 
             case 4:
-              messages = _context.sent;
+              messages = _context2.sent;
               messages.data.forEach(function (message) {
                 $('#chat-message-list').append(renderMessage(message, message.user));
               });
@@ -5250,10 +5250,10 @@ $(function () {
 
             case 7:
             case "end":
-              return _context.stop();
+              return _context2.stop();
           }
         }
-      }, _callee, this);
+      }, _callee2, this);
     }));
     return _eventLoadMoreMessage.apply(this, arguments);
   }
@@ -5375,46 +5375,69 @@ $(function () {
       className: 'toastify-info'
     }).showToast();
   });
-  $('#form-chat').submit(function (e) {
-    e.preventDefault();
-    var message = $('#txt_message');
-    var messageImage = [];
-    var imgTag = Array.from($('.room__footer--message-images-item').children('img'));
-    imgTag.forEach(function (item) {
-      messageImage.push(item.src);
-    });
+  $('#form-chat').submit( /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(e) {
+      var message, messageImage, imgTag, data;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              e.preventDefault();
+              message = $('#txt_message');
+              messageImage = [];
+              imgTag = Array.from($('.room__footer--message-images-item').children('img'));
+              imgTag.forEach(function (item) {
+                messageImage.push(item.src);
+              });
 
-    if (messageImage.length <= 0 && message.val().trim().length === 0) {
-      message.focus();
-      console.log(message.val().trim().length);
-      console.log(messageImage);
-      return;
-    }
+              if (!(messageImage.length <= 0 && message.val().trim().length === 0)) {
+                _context.next = 10;
+                break;
+              }
 
-    var data = {
-      text: message.val(),
-      room_id: roomId,
-      images: messageImage
-    };
-    axios.post('/message/send-message', data).then(function (response) {
-      $('#txt_message').val('');
-      messageImage = [];
-      $('#list-file-image').html('');
-      checkMessageImage();
-      var data = response.data.data;
-      $('#chat-message-list').prepend(renderMessage(data.message, data.user));
-      Array.from($('.room')).forEach(function (room) {
-        var attr = $(room).attr('data-room-id');
+              message.focus();
+              console.log(message.val().trim().length);
+              console.log(messageImage);
+              return _context.abrupt("return");
 
-        if (attr === roomId) {
-          var child = room.getElementsByClassName('message-description')[0];
-          child.innerHTML = data.message.text;
+            case 10:
+              data = {
+                text: message.val(),
+                room_id: roomId,
+                images: messageImage
+              };
+              _context.next = 13;
+              return axios.post('/message/send-message', data).then(function (response) {
+                $('#txt_message').val('');
+                messageImage = [];
+                $('#list-file-image').html('');
+                checkMessageImage();
+                var data = response.data.data;
+                $('#chat-message-list').prepend(renderMessage(data.message, data.user));
+                Array.from($('.room')).forEach(function (room) {
+                  var attr = $(room).attr('data-room-id');
+
+                  if (attr === roomId) {
+                    var child = room.getElementsByClassName('message-description')[0];
+                    child.innerHTML = data.message.text;
+                  }
+                });
+              })["catch"](function (error) {
+                console.log(error);
+              });
+
+            case 13:
+            case "end":
+              return _context.stop();
+          }
         }
-      });
-    })["catch"](function (error) {
-      console.log(error);
-    });
-  });
+      }, _callee);
+    }));
+
+    return function (_x) {
+      return _ref.apply(this, arguments);
+    };
+  }());
   $('#input-message-image').change(function (e) {
     var input = $(_this);
     var file = e.target.files[0];

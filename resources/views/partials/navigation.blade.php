@@ -109,11 +109,13 @@
         <div id="todo">
             <x-sidebar-todo></x-sidebar-todo>
         </div>
+
     </div>
 </div>
 <x-add-friend-modal></x-add-friend-modal>
 <x-profile-modal></x-profile-modal>
 <x-create-group-modal></x-create-group-modal>
+<x-task-modal></x-task-modal>
 
 <script>
     const user = @json(Auth::user());

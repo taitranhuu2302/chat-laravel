@@ -178,7 +178,7 @@ $(() => {
         }).showToast();
     })
 
-    $('#form-chat').submit(function (e) {
+    $('#form-chat').submit(async function (e) {
         e.preventDefault();
         const message = $('#txt_message');
         let messageImage = [];
@@ -200,7 +200,7 @@ $(() => {
             images: messageImage
         }
 
-        axios.post('/message/send-message', data).then((response) => {
+        await axios.post('/message/send-message', data).then((response) => {
             $('#txt_message').val('');
             messageImage = [];
             $('#list-file-image').html('');

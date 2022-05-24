@@ -2,6 +2,7 @@
     "/js/app.js": "/js/app.js",
     "/js/navigation.js": "/js/navigation.js",
     "/js/chat.js": "/js/chat.js",
+    "/js/task.js": "/js/task.js",
     "/css/app.css": "/css/app.css",
     "/css/sidebar-profile-private.css": "/css/sidebar-profile-private.css",
     "/css/room.css": "/css/room.css",

@@ -6,8 +6,8 @@
                     data-modal-toggle="create-group-modal">
                 <i class="text-xl far fa-users"></i>
             </button>
-    </div>
         </div>
+    </div>
 
     <div class="chat__search flex-shrink p-8">
         <input id="search_sidebar_chat" type="text" placeholder="Search chats"
@@ -47,7 +47,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a data-user-id="{{ $item->id }}" data-room-type="{{ $item->room_type }}"  href="#"
+                                    <a data-user-id="{{ $item->id }}" data-room-type="{{ $item->room_type }}" href="#"
                                        class="block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Chặn</a>
                                 </li>
                             </ul>
@@ -86,7 +86,8 @@
                                 </li>
                                 <li>
                                     <a data-room-id="{{ $item->id }}" data-room-type="{{ $item->room_type }}" href="#"
-                                       class="btn-leave-group block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Rời phòng</a>
+                                       class="btn-leave-group block text-md font-semibold py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Rời
+                                        phòng</a>
                                 </li>
                             </ul>
                         </div>
