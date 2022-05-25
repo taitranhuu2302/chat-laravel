@@ -137,11 +137,26 @@
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <div class="footer__buttons flex">
                         <button type="button"
+                                data-tooltip-target="tooltip-choose-image"
                                 class="relative border border-gray-400 bg-gray-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800">
                             <i class="far text-md fa-image"></i>
                             <label for="input-message-image"
                                    class="cursor-pointer absolute top-0 left-0 right-0 bottom-0"></label>
                             <input type="file" hidden id="input-message-image">
+                            <div id="tooltip-choose-image" role="tooltip" class="whitespace-nowrap inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700">
+                                Đính kèm hình ảnh
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
+                        </button>
+                        <button type="button"
+                                data-modal-toggle="task-modal"
+                                data-tooltip-target="tooltip-create-task"
+                                class="relative border border-gray-400 bg-gray-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800">
+                            <i class="far fa-check-circle"></i>
+                            <div id="tooltip-create-task" role="tooltip" class="whitespace-nowrap inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700">
+                                Giao công việc
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
                         </button>
                         <button type="submit"
                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm p-3 text-center inline-flex items-center mr-2 ">

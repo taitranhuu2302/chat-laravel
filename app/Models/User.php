@@ -75,7 +75,8 @@ class User extends Authenticatable
 
     public function tasks(): BelongsToMany
     {
-        return $this->belongsToMany(Task::class, 'tasks_users');
+        return $this->belongsToMany(Task::class, 'users_tasks', 'user_id', 'task_id')
+            ->orderBy('updated_at', 'desc');
     }
 
     /**
