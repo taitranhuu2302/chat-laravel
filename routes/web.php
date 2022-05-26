@@ -77,5 +77,6 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('task')->group(function() {
         Route::post('/', [TaskController::class, 'createTask']);
+        Route::delete('/{id}', [TaskController::class, 'deleteTask']);
     });
 });

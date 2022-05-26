@@ -1,4 +1,4 @@
-<div id="task-detail-modal" tabindex="-1" aria-hidden="true"
+<div id="task-detail-modal" tabindex="-1" aria-hidden="true" data-task=""
      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
         <!-- Modal content -->
@@ -20,19 +20,19 @@
             </div>
             <!-- Modal body -->
             <div class="p-6 space-y-6 grid grid-cols-3">
-                <div class="detail__right col-span-2">
-                    <div class="right__title">
+                <div class="detail__left col-span-2">
+                    <div class="left__title">
                         <p class="title__text text-xl font-semibold">Title</p>
                     </div>
 
-                    <div class="right__content">
+                    <div class="left__content">
                         <p>Content Content Content Content Content Content Content Content Content Content Content
                             Content</p>
                     </div>
                 </div>
 
-                <div class="detail__left flex flex-col gap-3">
-                    <div class="left__status">
+                <div class="right flex flex-col gap-3">
+                    <div class="right__status">
                         <p class="status__title mb-2">
                             Trạng thái
                         </p>
@@ -41,11 +41,26 @@
                             <p class="text-sm">Đã đã nhận</p>
                         </div>
                     </div>
-                    <div class="left__action">
-                        <button>
-                            <input id="default-checkbox" type="checkbox" value="" disabled class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hoàn thành</label>
-                        </button>
+                    <div class="right__action flex flex-col">
+                        <p class="mb-2">Tác vụ</p>
+
+                        <div class="flex flex-col gap-3">
+                            <button class="bg-gray-100 p-3 rounded-sm flex items-center w-full">
+                                <input id="default-checkbox" type="checkbox" disabled value=""
+                                       class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <label for="default-checkbox"
+                                       class="cursor-pointer ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hoàn
+                                    thành</label>
+                            </button>
+                            <button class="bg-gray-100 p-3 rounded-sm flex items-center w-full">
+                                <i class="fas fa-pen"></i>
+                                <p class="cursor-pointer ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Chỉnh sửa</p>
+                            </button>
+                            <button class="btn-delete-task bg-gray-100 p-3 rounded-sm flex items-center w-full">
+                                <i class="far text-red-500 fa-trash"></i>
+                                <p class="cursor-pointer ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Xoá công việc</p>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -53,11 +68,11 @@
             <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
                 <button data-modal-toggle="task-detail-modal" type="button"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    I accept
+                    Lưu thay đổi
                 </button>
                 <button data-modal-toggle="task-detail-modal" type="button"
-                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
-                    Decline
+                        class="btn-cancel-modal-task text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                    Huỷ bỏ
                 </button>
             </div>
         </div>

@@ -36,21 +36,25 @@
         </div>
         <div id="tab-todo">
             <div class="hidden p-4 rounded-lg" id="todo-pending" role="tabpanel" aria-labelledby="pending-tab">
-                <ul class="border-t">
+                <ul id="list-todo-pending" class="border-t">
                     @foreach(Auth::user()->tasks->where('status', \App\Enums\TaskStatus::PENDING) as $task)
                         <li class="px-3 border-b py-3">
-                            <button class="w-full" data-modal-toggle="task-detail-modal">
+                            <button data-task-id="{{ $task->id }}" data-task="{{ $task }}" class="w-full btn-open-task-detail" data-modal-toggle="task-detail-modal">
                                 <div class="flex gap-3">
                                     <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
                                          src="{{ $task->owner->avatar }}" alt="">
-                                    <div>
-                                        <p class="text-xl font-semibold">{{ $task->title }}</p>
+                                    <div class="flex flex-col gap-1">
+                                        @if (isset($task->title))
+                                            <p class="text-xl font-semibold">{{ $task->title }}</p>
+                                        @else
+                                            <p class="text-xl font-semibold text-gray-400">(Không có tiêu đề)</p>
+                                        @endif
                                         <p class="text-sm text-limit-line text-left">{{ $task->content }}</p>
                                     </div>
                                 </div>
                                 <div class="flex justify-between mt-1">
                                     <p class="text-sm text-gray-400">Đã nhận</p>
-                                    <p class="text-sm">Thời hạn: {{ $task->due_date }}</p>
+                                    <p class="text-sm">Thời hạn: {{ $task->due_date ?: 'Không có thời hạn' }}</p>
                                 </div>
                             </button>
                         </li>
@@ -59,21 +63,25 @@
             </div>
             <div class="hidden p-4 rounded-lg" id="todo-complete" role="tabpanel"
                  aria-labelledby="complete-tab">
-                <ul class="border-t">
+                <ul id="list-todo-complete" class="border-t">
                     @foreach(Auth::user()->tasks->where('status', \App\Enums\TaskStatus::COMPLETED) as $task)
                         <li class="px-3 border-b py-3">
-                            <button class="w-full" data-modal-toggle="task-detail-modal">
+                            <button data-task-id="{{ $task->id }}" data-task="{{ $task }}" class="w-full btn-open-task-detail" data-modal-toggle="task-detail-modal">
                                 <div class="flex gap-3">
                                     <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
                                          src="{{ $task->owner->avatar }}" alt="">
-                                    <div>
-                                        <p class="text-xl font-semibold">{{ $task->title }}</p>
-                                        <p class="text-sm text-limit-line">{{ $task->content }}</p>
+                                    <div class="flex flex-col gap-1">
+                                        @if (isset($task->title))
+                                            <p class="text-xl font-semibold">{{ $task->title }}</p>
+                                        @else
+                                            <p class="text-xl font-semibold text-gray-400">(Không có tiêu đề)</p>
+                                        @endif
+                                        <p class="text-sm text-left text-limit-line">{{ $task->content }}</p>
                                     </div>
                                 </div>
                                 <div class="flex justify-between mt-1">
                                     <p class="text-sm text-gray-400">Đã nhận</p>
-                                    <p class="text-sm text-red-500">Thời hạn: {{ $task->due_date }}</p>
+                                    <p class="text-sm text-red-500">Thời hạn: {{ $task->due_date ?: 'Không có thời hạn' }}</p>
                                 </div>
                             </button>
                         </li>
@@ -82,21 +90,25 @@
             </div>
             <div class="hidden p-4 rounded-lg" id="todo-in-complete" role="tabpanel"
                  aria-labelledby="in-complete-tab">
-                <ul class="border-t">
+                <ul id="list-todo-in-complete" class="border-t">
                     @foreach(Auth::user()->tasks->where('status', \App\Enums\TaskStatus::IN_COMPLETE) as $task)
                         <li class="px-3 border-b py-3">
-                            <button class="w-full" data-modal-toggle="task-detail-modal">
+                            <button data-task-id="{{ $task->id }}" data-task="{{ $task }}" class="w-full btn-open-task-detail" data-modal-toggle="task-detail-modal">
                                 <div class="flex gap-3">
                                     <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
                                          src="{{ $task->owner->avatar }}" alt="">
-                                    <div>
-                                        <p class="text-xl font-semibold">{{ $task->title }}</p>
-                                        <p class="text-sm text-limit-line">{{ $task->content }}</p>
+                                    <div class="flex flex-col gap-1">
+                                        @if (isset($task->title))
+                                            <p class="text-xl font-semibold">{{ $task->title }}</p>
+                                        @else
+                                            <p class="text-xl font-semibold text-gray-400">(Không có tiêu đề)</p>
+                                        @endif
+                                        <p class="text-sm text-left text-limit-line">{{ $task->content }}</p>
                                     </div>
                                 </div>
                                 <div class="flex justify-between mt-1">
                                     <p class="text-sm text-gray-400">Đã nhận</p>
-                                    <p class="text-sm text-red-500">Thời hạn: {{ $task->due_date }}</p>
+                                    <p class="text-sm text-red-500">Thời hạn: {{ $task->due_date ?: 'Không có thời hạn' }}</p>
                                 </div>
                             </button>
                         </li>
