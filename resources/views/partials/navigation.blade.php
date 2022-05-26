@@ -116,6 +116,7 @@
 <x-profile-modal></x-profile-modal>
 <x-create-group-modal></x-create-group-modal>
 <x-task-modal></x-task-modal>
+<x-task-detail-modal></x-task-detail-modal>
 
 <script>
     const user = @json(Auth::user());

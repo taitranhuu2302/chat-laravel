@@ -39,18 +39,20 @@
                 <ul class="border-t">
                     @foreach(Auth::user()->tasks->where('status', \App\Enums\TaskStatus::PENDING) as $task)
                         <li class="px-3 border-b py-3">
-                            <div class="flex gap-3">
-                                <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                                     src="{{ $task->owner->avatar }}" alt="">
-                                <div>
-                                    <p class="text-xl font-semibold">{{ $task->title }}</p>
-                                    <p class="text-sm text-limit-line">{{ $task->content }}</p>
+                            <button class="w-full" data-modal-toggle="task-detail-modal">
+                                <div class="flex gap-3">
+                                    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+                                         src="{{ $task->owner->avatar }}" alt="">
+                                    <div>
+                                        <p class="text-xl font-semibold">{{ $task->title }}</p>
+                                        <p class="text-sm text-limit-line text-left">{{ $task->content }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="flex justify-between mt-1">
-                                <p class="text-sm text-gray-400">Đã nhận</p>
-                                <p class="text-sm text-red-500">Thời hạn: {{ $task->due_date }}</p>
-                            </div>
+                                <div class="flex justify-between mt-1">
+                                    <p class="text-sm text-gray-400">Đã nhận</p>
+                                    <p class="text-sm">Thời hạn: {{ $task->due_date }}</p>
+                                </div>
+                            </button>
                         </li>
                     @endforeach
                 </ul>
@@ -60,18 +62,20 @@
                 <ul class="border-t">
                     @foreach(Auth::user()->tasks->where('status', \App\Enums\TaskStatus::COMPLETED) as $task)
                         <li class="px-3 border-b py-3">
-                            <div class="flex gap-3">
-                                <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                                     src="{{ $task->owner->avatar }}" alt="">
-                                <div>
-                                    <p class="text-xl font-semibold">{{ $task->title }}</p>
-                                    <p class="text-sm text-limit-line">{{ $task->content }}</p>
+                            <button class="w-full" data-modal-toggle="task-detail-modal">
+                                <div class="flex gap-3">
+                                    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+                                         src="{{ $task->owner->avatar }}" alt="">
+                                    <div>
+                                        <p class="text-xl font-semibold">{{ $task->title }}</p>
+                                        <p class="text-sm text-limit-line">{{ $task->content }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="flex justify-between mt-1">
-                                <p class="text-sm text-gray-400">Đã nhận</p>
-                                <p class="text-sm text-red-500">Thời hạn: {{ $task->due_date }}</p>
-                            </div>
+                                <div class="flex justify-between mt-1">
+                                    <p class="text-sm text-gray-400">Đã nhận</p>
+                                    <p class="text-sm text-red-500">Thời hạn: {{ $task->due_date }}</p>
+                                </div>
+                            </button>
                         </li>
                     @endforeach
                 </ul>
@@ -81,18 +85,20 @@
                 <ul class="border-t">
                     @foreach(Auth::user()->tasks->where('status', \App\Enums\TaskStatus::IN_COMPLETE) as $task)
                         <li class="px-3 border-b py-3">
-                            <div class="flex gap-3">
-                                <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                                     src="{{ $task->owner->avatar }}" alt="">
-                                <div>
-                                    <p class="text-xl font-semibold">{{ $task->title }}</p>
-                                    <p class="text-sm text-limit-line">{{ $task->content }}</p>
+                            <button class="w-full" data-modal-toggle="task-detail-modal">
+                                <div class="flex gap-3">
+                                    <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+                                         src="{{ $task->owner->avatar }}" alt="">
+                                    <div>
+                                        <p class="text-xl font-semibold">{{ $task->title }}</p>
+                                        <p class="text-sm text-limit-line">{{ $task->content }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="flex justify-between mt-1">
-                                <p class="text-sm text-gray-400">Đã nhận</p>
-                                <p class="text-sm text-red-500">Thời hạn: {{ $task->due_date }}</p>
-                            </div>
+                                <div class="flex justify-between mt-1">
+                                    <p class="text-sm text-gray-400">Đã nhận</p>
+                                    <p class="text-sm text-red-500">Thời hạn: {{ $task->due_date }}</p>
+                                </div>
+                            </button>
                         </li>
                     @endforeach
                 </ul>
