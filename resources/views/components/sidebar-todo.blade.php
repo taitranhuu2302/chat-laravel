@@ -46,16 +46,16 @@
                                          src="{{ $task->owner->avatar }}" alt="">
                                     <div class="flex flex-col gap-1">
                                         @if (isset($task->title))
-                                            <p class="text-xl font-semibold">{{ $task->title }}</p>
+                                            <p class="text-xl todo__title font-semibold">{{ $task->title }}</p>
                                         @else
-                                            <p class="text-xl font-semibold text-gray-400">(Không có tiêu đề)</p>
+                                            <p class="text-xl todo__title font-semibold text-gray-400">(Không có tiêu đề)</p>
                                         @endif
-                                        <p class="text-sm text-limit-line text-left">{{ $task->content }}</p>
+                                        <p class="text-sm todo__content text-limit-line text-left">{{ $task->content }}</p>
                                     </div>
                                 </div>
                                 <div class="flex justify-between mt-1">
                                     <p class="text-sm text-gray-400">Đã nhận</p>
-                                    <p class="text-sm">Thời hạn: {{ $task->due_date ?: 'Không có thời hạn' }}</p>
+                                    <p class="text-sm todo__due">Thời hạn: {{ $task->due_date ?: 'Không có thời hạn' }}</p>
                                 </div>
                             </button>
                         </li>
@@ -74,16 +74,16 @@
                                          src="{{ $task->owner->avatar }}" alt="">
                                     <div class="flex flex-col gap-1">
                                         @if (isset($task->title))
-                                            <p class="text-xl font-semibold">{{ $task->title }}</p>
+                                            <p class="text-xl todo__title font-semibold">{{ $task->title }}</p>
                                         @else
-                                            <p class="text-xl font-semibold text-gray-400">(Không có tiêu đề)</p>
+                                            <p class="text-xl todo__title font-semibold text-gray-400">(Không có tiêu đề)</p>
                                         @endif
-                                        <p class="text-sm text-left text-limit-line">{{ $task->content }}</p>
+                                        <p class="text-sm todo__content text-left text-limit-line">{{ $task->content }}</p>
                                     </div>
                                 </div>
                                 <div class="flex justify-between mt-1">
                                     <p class="text-sm text-gray-400">Đã nhận</p>
-                                    <p class="text-sm text-red-500">Thời
+                                    <p class="text-sm todo__due text-red-500">Thời
                                         hạn: {{ $task->due_date ?: 'Không có thời hạn' }}</p>
                                 </div>
                             </button>
@@ -103,16 +103,16 @@
                                          src="{{ $task->owner->avatar }}" alt="">
                                     <div class="flex flex-col gap-1">
                                         @if (isset($task->title))
-                                            <p class="text-xl font-semibold">{{ $task->title }}</p>
+                                            <p class="text-xl todo__title font-semibold">{{ $task->title }}</p>
                                         @else
-                                            <p class="text-xl font-semibold text-gray-400">(Không có tiêu đề)</p>
+                                            <p class="text-xl todo__title font-semibold text-gray-400">(Không có tiêu đề)</p>
                                         @endif
-                                        <p class="text-sm text-left text-limit-line">{{ $task->content }}</p>
+                                        <p class="text-sm todo__content text-left text-limit-line">{{ $task->content }}</p>
                                     </div>
                                 </div>
                                 <div class="flex justify-between mt-1">
                                     <p class="text-sm text-gray-400">Đã nhận</p>
-                                    <p class="text-sm text-red-500">Thời
+                                    <p class="text-sm todo__due text-red-500">Thời
                                         hạn: {{ $task->due_date ?: 'Không có thời hạn' }}</p>
                                 </div>
                             </button>

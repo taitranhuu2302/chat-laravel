@@ -6,9 +6,14 @@ $(() => {
     let listUserForTask = [];
     const axios = window.axios;
     const taskDetailModal = new Modal(document.getElementById('task-detail-modal'));
+    let listUserForTaskDetail = [];
 
-    $('#btn-open-input-task').click(function() {
-        console.log($('#input-task-edit'))
+    $('.btn-open-input-task').click(function () {
+        const textTaskEdit = $('.text-task-edit')
+        const inputTaskEdit = $('.input-task-edit')
+
+        textTaskEdit.toggleClass('hidden')
+        inputTaskEdit.toggleClass('hidden')
     })
 
     $('#task-form').submit(function (e) {
@@ -109,10 +114,70 @@ $(() => {
     function setValueTaskOnDetail() {
         const modal = $('#task-detail-modal')
         const data = JSON.parse(modal.attr('data-task'));
-        console.log(data)
-        modal.find('.detail__left .left__title .title__text').text(data.title ? data.title : 'Chưa có tiêu đề');
-        modal.find('.detail__left .left__content p').text(data.content);
+        const title = Array.from(modal.find('.detail__left .left__title .title__text'))
+        const content = Array.from(modal.find('.detail__left .left__content .left__content--text'))
+        const dueDate = Array.from(modal.find('.detail__left .left__due .left__due--text'))
+
+        title[0].innerText = data.title ? data.title : 'Chưa có tiêu đề'
+        title[1].value = data.title ? data.title : '';
+        content[0].innerText = data.content;
+        content[1].value = data.content;
+        dueDate[0].innerText = data.due_date ? moment(data.due_date).format('L LTS') : 'Không giới hạn';
+        dueDate[1].value = data.due_date ? moment(data.due_date).format('YYYY-MM-DDTHH:mm:ss.SSS') : '';
+
+        if (data.users.length > 0) {
+            listUserForTaskDetail = data.users;
+
+            const taskPerformers = $('#task-performers');
+
+            taskPerformers.empty();
+
+            data.users.forEach((user, index) => {
+                const html = `
+                    <img class="task-detail-user w-10 h-10 border-2 border-white rounded-full dark:border-gray-800"
+                                 src="${user.avatar}" alt="">
+                `
+                taskPerformers.prepend(html);
+            })
+            taskPerformers.append(`
+                    <a class="task-performer-count flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
+                               href="#">${data.users.length}</a>
+                `)
+        }
     }
+
+    $('#btn-save-task-detail').on('click', function () {
+        const modal = $('#task-detail-modal');
+        const data = JSON.parse(modal.attr('data-task'));
+        const title = Array.from(modal.find('.detail__left .left__title .title__text'))
+        const content = Array.from(modal.find('.detail__left .left__content .left__content--text'))
+        const dueDate = Array.from(modal.find('.detail__left .left__due .left__due--text'))
+        const listTask = [...$('#list-todo-pending').children(), ...$('#list-todo-complete').children(), ...$('#list-todo-in-complete').children()];
+
+        const request = {
+            id: data.id,
+            title: title[1].value,
+            content: content[1].value,
+            due_date: dueDate[1].value,
+            users: listUserForTaskDetail.map(item => item.id)
+        }
+
+        axios.put(`/task/${data.id}`, request).then((res) => {
+            const taskUpdate = res.data.data;
+
+            listTask.forEach(item => {
+                const dataItem = JSON.parse($(item).children().attr('data-task'));
+                if (dataItem.id === taskUpdate.id) {
+                    $(item).children().attr('data-task', JSON.stringify(taskUpdate))
+                    item.getElementsByClassName('todo__title')[0].innerText = taskUpdate.title;
+                    item.getElementsByClassName('todo__content')[0].innerText = taskUpdate.content;
+                    item.getElementsByClassName('todo__due')[0].innerText = taskUpdate.due_date ? moment(taskUpdate.due_date).format('L LTS') : 'Không giới hạn';
+                }
+            })
+        }).catch((err) => {
+            console.log(err)
+        })
+    });
 
     //Event Task
     function eventTask() {
@@ -124,7 +189,7 @@ $(() => {
         btnOpenModalTaskDetail.unbind('click');
         btnCloseModalTask.unbind('click');
 
-        btnOpenModalTaskDetail.on('click', function() {
+        btnOpenModalTaskDetail.on('click', function () {
             taskDetailModal.toggle();
             const data = JSON.stringify($(this).data('task'));
             const modal = $('#task-detail-modal');
@@ -202,23 +267,23 @@ $(() => {
                     <div class="flex flex-col gap-1">
                         ${(() => {
             if (task.title) {
-                return `<p class="text-xl font-semibold">${task.title}</p>`
+                return `<p class="text-xl todo__title font-semibold">${task.title}</p>`
             } else {
-                return `<p class="text-xl font-semibold text-gray-400">(Không có tiêu đề)</p>`
+                return `<p class="text-xl todo__title font-semibold text-gray-400">(Không có tiêu đề)</p>`
             }
         })()}
-                        <p class="text-sm text-left text-limit-line">${task.content}</p>
+                        <p class="text-sm todo__content text-left text-limit-line">${task.content}</p>
                     </div>
                 </div>
                 <div class="flex justify-between mt-1">
                     <p class="text-sm text-gray-400">Đã nhận</p>
-                    <p class="text-sm">Thời hạn: ${(() => {
-                        if (task.due_date) {
-                            return moment(task.due_date).format('L LTS')
-                        } else {
-                            return 'Không có thời hạn'
-                        }
-                    })()}
+                    <p class="text-sm todo__due">Thời hạn: ${(() => {
+            if (task.due_date) {
+                return moment(task.due_date).format('L LTS')
+            } else {
+                return 'Không có thời hạn'
+            }
+        })()}
                     </p>
                 </div>
             </button>

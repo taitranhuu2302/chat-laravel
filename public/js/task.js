@@ -25616,8 +25616,12 @@ $(function () {
   var listUserForTask = [];
   var axios = window.axios;
   var taskDetailModal = new Modal(document.getElementById('task-detail-modal'));
-  $('#btn-open-input-task').click(function () {
-    console.log($('#input-task-edit'));
+  var listUserForTaskDetail = [];
+  $('.btn-open-input-task').click(function () {
+    var textTaskEdit = $('.text-task-edit');
+    var inputTaskEdit = $('.input-task-edit');
+    textTaskEdit.toggleClass('hidden');
+    inputTaskEdit.toggleClass('hidden');
   });
   $('#task-form').submit(function (e) {
     e.preventDefault();
@@ -25706,11 +25710,60 @@ $(function () {
   function setValueTaskOnDetail() {
     var modal = $('#task-detail-modal');
     var data = JSON.parse(modal.attr('data-task'));
-    console.log(data);
-    modal.find('.detail__left .left__title .title__text').text(data.title ? data.title : 'Chưa có tiêu đề');
-    modal.find('.detail__left .left__content p').text(data.content);
-  } //Event Task
+    var title = Array.from(modal.find('.detail__left .left__title .title__text'));
+    var content = Array.from(modal.find('.detail__left .left__content .left__content--text'));
+    var dueDate = Array.from(modal.find('.detail__left .left__due .left__due--text'));
+    title[0].innerText = data.title ? data.title : 'Chưa có tiêu đề';
+    title[1].value = data.title ? data.title : '';
+    content[0].innerText = data.content;
+    content[1].value = data.content;
+    dueDate[0].innerText = data.due_date ? moment__WEBPACK_IMPORTED_MODULE_2___default()(data.due_date).format('L LTS') : 'Không giới hạn';
+    dueDate[1].value = data.due_date ? moment__WEBPACK_IMPORTED_MODULE_2___default()(data.due_date).format('YYYY-MM-DDTHH:mm:ss.SSS') : '';
 
+    if (data.users.length > 0) {
+      listUserForTaskDetail = data.users;
+      var taskPerformers = $('#task-performers');
+      taskPerformers.empty();
+      data.users.forEach(function (user, index) {
+        var html = "\n                    <img class=\"task-detail-user w-10 h-10 border-2 border-white rounded-full dark:border-gray-800\"\n                                 src=\"".concat(user.avatar, "\" alt=\"\">\n                ");
+        taskPerformers.prepend(html);
+      });
+      taskPerformers.append("\n                    <a class=\"task-performer-count flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800\"\n                               href=\"#\">".concat(data.users.length, "</a>\n                "));
+    }
+  }
+
+  $('#btn-save-task-detail').on('click', function () {
+    var modal = $('#task-detail-modal');
+    var data = JSON.parse(modal.attr('data-task'));
+    var title = Array.from(modal.find('.detail__left .left__title .title__text'));
+    var content = Array.from(modal.find('.detail__left .left__content .left__content--text'));
+    var dueDate = Array.from(modal.find('.detail__left .left__due .left__due--text'));
+    var listTask = [].concat(_toConsumableArray($('#list-todo-pending').children()), _toConsumableArray($('#list-todo-complete').children()), _toConsumableArray($('#list-todo-in-complete').children()));
+    var request = {
+      id: data.id,
+      title: title[1].value,
+      content: content[1].value,
+      due_date: dueDate[1].value,
+      users: listUserForTaskDetail.map(function (item) {
+        return item.id;
+      })
+    };
+    axios.put("/task/".concat(data.id), request).then(function (res) {
+      var taskUpdate = res.data.data;
+      listTask.forEach(function (item) {
+        var dataItem = JSON.parse($(item).children().attr('data-task'));
+
+        if (dataItem.id === taskUpdate.id) {
+          $(item).children().attr('data-task', JSON.stringify(taskUpdate));
+          item.getElementsByClassName('todo__title')[0].innerText = taskUpdate.title;
+          item.getElementsByClassName('todo__content')[0].innerText = taskUpdate.content;
+          item.getElementsByClassName('todo__due')[0].innerText = taskUpdate.due_date ? moment__WEBPACK_IMPORTED_MODULE_2___default()(taskUpdate.due_date).format('L LTS') : 'Không giới hạn';
+        }
+      });
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  }); //Event Task
 
   function eventTask() {
     var btnDeleteTask = $('.btn-delete-task');
@@ -25775,11 +25828,11 @@ $(function () {
     var data = JSON.stringify(task);
     var html = "\n         <li class=\"px-3 border-b py-3\">\n            <button class=\"w-full btn-open-task-detail\"\n                data-task-id=\"".concat(task.id, "\"\n                data-task='").concat(data, "'\n            >\n                <div class=\"flex gap-3\">\n                    <img class=\"w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500\"\n                         src=\"").concat(task.owner.avatar, "\" alt=\"\">\n                    <div class=\"flex flex-col gap-1\">\n                        ").concat(function () {
       if (task.title) {
-        return "<p class=\"text-xl font-semibold\">".concat(task.title, "</p>");
+        return "<p class=\"text-xl todo__title font-semibold\">".concat(task.title, "</p>");
       } else {
-        return "<p class=\"text-xl font-semibold text-gray-400\">(Kh\xF4ng c\xF3 ti\xEAu \u0111\u1EC1)</p>";
+        return "<p class=\"text-xl todo__title font-semibold text-gray-400\">(Kh\xF4ng c\xF3 ti\xEAu \u0111\u1EC1)</p>";
       }
-    }(), "\n                        <p class=\"text-sm text-left text-limit-line\">").concat(task.content, "</p>\n                    </div>\n                </div>\n                <div class=\"flex justify-between mt-1\">\n                    <p class=\"text-sm text-gray-400\">\u0110\xE3 nh\u1EADn</p>\n                    <p class=\"text-sm\">Th\u1EDDi h\u1EA1n: ").concat(function () {
+    }(), "\n                        <p class=\"text-sm todo__content text-left text-limit-line\">").concat(task.content, "</p>\n                    </div>\n                </div>\n                <div class=\"flex justify-between mt-1\">\n                    <p class=\"text-sm text-gray-400\">\u0110\xE3 nh\u1EADn</p>\n                    <p class=\"text-sm todo__due\">Th\u1EDDi h\u1EA1n: ").concat(function () {
       if (task.due_date) {
         return moment__WEBPACK_IMPORTED_MODULE_2___default()(task.due_date).format('L LTS');
       } else {

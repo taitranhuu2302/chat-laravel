@@ -15,12 +15,30 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
 
     public function create($attributes = [])
     {
-        $users = $attributes['users'];
+        $users = $attributes['users'] ?: [];
 
         unset($attributes['users']);
         $task = $this->model->create($attributes);
 
         $task->users()->attach($attributes['owner_id']);
+        if ($users) {
+            foreach ($users as $user) {
+                $task->users()->attach($user);
+            }
+        }
+
+        return $task;
+    }
+
+    public function update($id, $attributes = [])
+    {
+        $users = $attributes['users'];
+
+        unset($attributes['users']);
+        $task = $this->model->findOrFail($id);
+        $task->update($attributes);
+        $task->users()->detach();
+
         if ($users) {
             foreach ($users as $user) {
                 $task->users()->attach($user);
