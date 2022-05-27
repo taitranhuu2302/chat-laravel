@@ -1,4 +1,4 @@
-<div class="h-full flex flex-col">
+<div class="h-screen flex flex-col">
     <div class="task__header border-b flex-shrink px-8 py-5 flex justify-between items-center">
         <p class="text-2xl font-semibold">Công việc</p>
         <div class="task__header--button flex gap-3">
@@ -8,8 +8,8 @@
             </button>
         </div>
     </div>
-    <div id="sidebar-todo-content">
-        <div class="mb-4 border-b flex justify-center border-gray-200 dark:border-gray-700">
+    <div id="sidebar-todo-content" class="flex-grow flex flex-col">
+        <div class="flex-shrink mb-4 border-b flex justify-center border-gray-200 dark:border-gray-700">
             <ul class="flex -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#tab-todo"
                 role="tablist">
                 <li class="mr-2" role="presentation">
@@ -35,11 +35,12 @@
             </ul>
         </div>
         <div id="tab-todo">
-            <div class="hidden p-4 rounded-lg" id="todo-pending" role="tabpanel" aria-labelledby="pending-tab">
-                <ul id="list-todo-pending" class="border-t">
+            <div class="hidden p-4 h-screen rounded-lg" style="height: 86vh" id="todo-pending" role="tabpanel" aria-labelledby="pending-tab">
+                <ul id="list-todo-pending" class="h-full border-t overflow-y-auto flex flex-col">
                     @foreach(Auth::user()->tasks->where('status', \App\Enums\TaskStatus::PENDING) as $task)
                         <li class="px-3 border-b py-3">
-                            <button data-task-id="{{ $task->id }}" data-task="{{ $task }}" class="w-full btn-open-task-detail" data-modal-toggle="task-detail-modal">
+                            <button data-task-id="{{ $task->id }}" data-task="{{ $task }}"
+                                    class="w-full btn-open-task-detail">
                                 <div class="flex gap-3">
                                     <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
                                          src="{{ $task->owner->avatar }}" alt="">
@@ -61,12 +62,13 @@
                     @endforeach
                 </ul>
             </div>
-            <div class="hidden p-4 rounded-lg" id="todo-complete" role="tabpanel"
+            <div class="hidden h-screen p-4 rounded-lg" style="height: 86vh" id="todo-complete" role="tabpanel"
                  aria-labelledby="complete-tab">
                 <ul id="list-todo-complete" class="border-t">
                     @foreach(Auth::user()->tasks->where('status', \App\Enums\TaskStatus::COMPLETED) as $task)
                         <li class="px-3 border-b py-3">
-                            <button data-task-id="{{ $task->id }}" data-task="{{ $task }}" class="w-full btn-open-task-detail" data-modal-toggle="task-detail-modal">
+                            <button data-task-id="{{ $task->id }}" data-task="{{ $task }}"
+                                    class="w-full btn-open-task-detail">
                                 <div class="flex gap-3">
                                     <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
                                          src="{{ $task->owner->avatar }}" alt="">
@@ -81,19 +83,21 @@
                                 </div>
                                 <div class="flex justify-between mt-1">
                                     <p class="text-sm text-gray-400">Đã nhận</p>
-                                    <p class="text-sm text-red-500">Thời hạn: {{ $task->due_date ?: 'Không có thời hạn' }}</p>
+                                    <p class="text-sm text-red-500">Thời
+                                        hạn: {{ $task->due_date ?: 'Không có thời hạn' }}</p>
                                 </div>
                             </button>
                         </li>
                     @endforeach
                 </ul>
             </div>
-            <div class="hidden p-4 rounded-lg" id="todo-in-complete" role="tabpanel"
+            <div class="hidden p-4 h-screen rounded-lg" style="height: 86vh;" id="todo-in-complete" role="tabpanel"
                  aria-labelledby="in-complete-tab">
                 <ul id="list-todo-in-complete" class="border-t">
                     @foreach(Auth::user()->tasks->where('status', \App\Enums\TaskStatus::IN_COMPLETE) as $task)
                         <li class="px-3 border-b py-3">
-                            <button data-task-id="{{ $task->id }}" data-task="{{ $task }}" class="w-full btn-open-task-detail" data-modal-toggle="task-detail-modal">
+                            <button data-task-id="{{ $task->id }}" data-task="{{ $task }}"
+                                    class="w-full btn-open-task-detail">
                                 <div class="flex gap-3">
                                     <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
                                          src="{{ $task->owner->avatar }}" alt="">
@@ -108,7 +112,8 @@
                                 </div>
                                 <div class="flex justify-between mt-1">
                                     <p class="text-sm text-gray-400">Đã nhận</p>
-                                    <p class="text-sm text-red-500">Thời hạn: {{ $task->due_date ?: 'Không có thời hạn' }}</p>
+                                    <p class="text-sm text-red-500">Thời
+                                        hạn: {{ $task->due_date ?: 'Không có thời hạn' }}</p>
                                 </div>
                             </button>
                         </li>

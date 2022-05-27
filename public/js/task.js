@@ -25615,21 +25615,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 $(function () {
   var listUserForTask = [];
   var axios = window.axios;
-  $('.btn-open-task-detail').on('click', function () {
-    var data = JSON.stringify($(this).data('task'));
-    var modal = $('#task-detail-modal');
-    modal.removeAttr('data-task');
-    modal.attr('data-task', data);
-    setValueTaskOnDetail();
+  var taskDetailModal = new Modal(document.getElementById('task-detail-modal'));
+  $('#btn-open-input-task').click(function () {
+    console.log($('#input-task-edit'));
   });
-
-  function setValueTaskOnDetail() {
-    var modal = $('#task-detail-modal');
-    var data = JSON.parse(modal.attr('data-task'));
-    modal.find('.detail__left .left__title .title__text').text(data.title ? data.title : 'Chưa có tiêu đề');
-    modal.find('.detail__left .left__content p').text(data.content);
-  }
-
   $('#task-form').submit(function (e) {
     e.preventDefault();
     var title = $('#title-task');
@@ -25653,6 +25642,7 @@ $(function () {
       wrapperListAvatar.empty();
       wrapperListAvatar.append("\n                <a id=\"list-user-in-room-count\"\n                   class=\"flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800\"\n                   href=\"#\">+0</a>\n                ");
       renderTask(taskResponse);
+      eventTask();
       toastify_js__WEBPACK_IMPORTED_MODULE_1___default()({
         text: "B\u1EA1n \u0111\xE3 t\u1EA1o c\xF4ng vi\u1EC7c th\xE0nh c\xF4ng",
         duration: 3000,
@@ -25711,11 +25701,35 @@ $(function () {
         $('#list-user-in-task-count').text(listUserForTask.length);
       });
     }
-  }); //Event Task
+  });
+
+  function setValueTaskOnDetail() {
+    var modal = $('#task-detail-modal');
+    var data = JSON.parse(modal.attr('data-task'));
+    console.log(data);
+    modal.find('.detail__left .left__title .title__text').text(data.title ? data.title : 'Chưa có tiêu đề');
+    modal.find('.detail__left .left__content p').text(data.content);
+  } //Event Task
+
 
   function eventTask() {
     var btnDeleteTask = $('.btn-delete-task');
+    var btnOpenModalTaskDetail = $('button.btn-open-task-detail');
+    var btnCloseModalTask = $('.btn-cancel-modal-task');
     btnDeleteTask.unbind('click');
+    btnOpenModalTaskDetail.unbind('click');
+    btnCloseModalTask.unbind('click');
+    btnOpenModalTaskDetail.on('click', function () {
+      taskDetailModal.toggle();
+      var data = JSON.stringify($(this).data('task'));
+      var modal = $('#task-detail-modal');
+      modal.removeAttr('data-task');
+      modal.attr('data-task', data);
+      setValueTaskOnDetail();
+    });
+    btnCloseModalTask.on('click', function () {
+      taskDetailModal.toggle();
+    });
     btnDeleteTask.on('click', function () {
       var parent = this.parentElement.parentElement.parentElement.parentElement.parentElement;
       var modal = $(this).parents('#task-detail-modal');
@@ -25758,7 +25772,8 @@ $(function () {
   eventTask(); // render Task
 
   function renderTask(task) {
-    var html = "\n         <li class=\"px-3 border-b py-3\">\n            <button class=\"w-full\" data-modal-toggle=\"task-detail-modal\">\n                <div class=\"flex gap-3\">\n                    <img class=\"w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500\"\n                         src=\"".concat(task.owner.avatar, "\" alt=\"\">\n                    <div class=\"flex flex-col gap-1\">\n                        ").concat(function () {
+    var data = JSON.stringify(task);
+    var html = "\n         <li class=\"px-3 border-b py-3\">\n            <button class=\"w-full btn-open-task-detail\"\n                data-task-id=\"".concat(task.id, "\"\n                data-task='").concat(data, "'\n            >\n                <div class=\"flex gap-3\">\n                    <img class=\"w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500\"\n                         src=\"").concat(task.owner.avatar, "\" alt=\"\">\n                    <div class=\"flex flex-col gap-1\">\n                        ").concat(function () {
       if (task.title) {
         return "<p class=\"text-xl font-semibold\">".concat(task.title, "</p>");
       } else {

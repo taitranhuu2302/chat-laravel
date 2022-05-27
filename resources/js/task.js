@@ -5,21 +5,11 @@ import moment from 'moment';
 $(() => {
     let listUserForTask = [];
     const axios = window.axios;
+    const taskDetailModal = new Modal(document.getElementById('task-detail-modal'));
 
-    $('.btn-open-task-detail').on('click', function () {
-        const data = JSON.stringify($(this).data('task'));
-        const modal = $('#task-detail-modal');
-        modal.removeAttr('data-task');
-        modal.attr('data-task', data);
-        setValueTaskOnDetail();
+    $('#btn-open-input-task').click(function() {
+        console.log($('#input-task-edit'))
     })
-
-    function setValueTaskOnDetail() {
-        const modal = $('#task-detail-modal')
-        const data = JSON.parse(modal.attr('data-task'));
-        modal.find('.detail__left .left__title .title__text').text(data.title ? data.title : 'Chưa có tiêu đề');
-        modal.find('.detail__left .left__content p').text(data.content);
-    }
 
     $('#task-form').submit(function (e) {
         e.preventDefault();
@@ -51,6 +41,7 @@ $(() => {
                    href="#">+0</a>
                 `);
                 renderTask(taskResponse);
+                eventTask();
                 Toastify({
                     text: `Bạn đã tạo công việc thành công`,
                     duration: 3000,
@@ -84,6 +75,7 @@ $(() => {
             }))
         }
     }, {});
+
     $('#btn-add-user-for-task').click(function (e) {
         e.preventDefault();
 
@@ -92,7 +84,6 @@ $(() => {
 
         if (friendObj) {
             listUserForTask.push(friendObj.user.id);
-
 
             if (listUserForTask.length < 4) {
                 const html = `
@@ -115,10 +106,36 @@ $(() => {
         }
     })
 
+    function setValueTaskOnDetail() {
+        const modal = $('#task-detail-modal')
+        const data = JSON.parse(modal.attr('data-task'));
+        console.log(data)
+        modal.find('.detail__left .left__title .title__text').text(data.title ? data.title : 'Chưa có tiêu đề');
+        modal.find('.detail__left .left__content p').text(data.content);
+    }
+
     //Event Task
     function eventTask() {
         const btnDeleteTask = $('.btn-delete-task');
+        const btnOpenModalTaskDetail = $('button.btn-open-task-detail');
+        const btnCloseModalTask = $('.btn-cancel-modal-task');
+
         btnDeleteTask.unbind('click');
+        btnOpenModalTaskDetail.unbind('click');
+        btnCloseModalTask.unbind('click');
+
+        btnOpenModalTaskDetail.on('click', function() {
+            taskDetailModal.toggle();
+            const data = JSON.stringify($(this).data('task'));
+            const modal = $('#task-detail-modal');
+            modal.removeAttr('data-task');
+            modal.attr('data-task', data);
+            setValueTaskOnDetail();
+        })
+
+        btnCloseModalTask.on('click', function () {
+            taskDetailModal.toggle();
+        })
 
         btnDeleteTask.on('click', function () {
             const parent = this.parentElement.parentElement.parentElement.parentElement.parentElement;
@@ -172,9 +189,13 @@ $(() => {
 
     // render Task
     function renderTask(task) {
+        const data = JSON.stringify(task);
         const html = `
          <li class="px-3 border-b py-3">
-            <button class="w-full" data-modal-toggle="task-detail-modal">
+            <button class="w-full btn-open-task-detail"
+                data-task-id="${task.id}"
+                data-task='${data}'
+            >
                 <div class="flex gap-3">
                     <img class="w-10 h-10 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
                          src="${task.owner.avatar}" alt="">
@@ -212,4 +233,5 @@ $(() => {
             $('#list-todo-in-complete').prepend(html);
         }
     }
+
 })
