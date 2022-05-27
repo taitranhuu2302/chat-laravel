@@ -47,6 +47,7 @@ class TaskController extends Controller
                 return response()->json(['status' => 'error', 'message' => 'You are not authorized to update this task.'], 401);
             }
 
+            $data['owner_id'] = Auth::id();
             $task = $this->taskRepository->update($id, $data);
             $task->load('owner');
             $task->load('users');

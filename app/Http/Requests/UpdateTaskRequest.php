@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TaskStatus;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTaskRequest extends FormRequest
@@ -25,9 +26,10 @@ class UpdateTaskRequest extends FormRequest
     {
         return [
             'title' => 'max:255',
-            'content' => 'required',
+            'content' => '',
             'users' => 'array',
             'due_date' => '',
+            'status' => '',
         ];
     }
 }

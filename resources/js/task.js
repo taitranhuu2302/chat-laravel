@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 import Toastify from 'toastify-js'
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 $(() => {
     let listUserForTask = [];
@@ -122,8 +122,13 @@ $(() => {
         title[1].value = data.title ? data.title : '';
         content[0].innerText = data.content;
         content[1].value = data.content;
-        dueDate[0].innerText = data.due_date ? moment(data.due_date).format('L LTS') : 'Không giới hạn';
-        dueDate[1].value = data.due_date ? moment(data.due_date).format('YYYY-MM-DDTHH:mm:ss.SSS') : '';
+        dueDate[0].innerText = data.due_date ? moment.tz(data.due_date, 'UTC+7').format('L LTS') : 'Không giới hạn';
+        dueDate[1].value = data.due_date ? moment.tz(data.due_date, 'UTC+7').format('YYYY-MM-DDTHH:mm:ss.SSS') : '';
+        if (data.status === 'COMPLETED') {
+            $('#checkbox-task-completed').prop('checked', true);
+        } else {
+            $('#checkbox-task-completed').prop('checked', false);
+        }
 
         if (data.users.length > 0) {
             listUserForTaskDetail = data.users;
@@ -146,6 +151,66 @@ $(() => {
         }
     }
 
+    $('#btn-edit-task-detail').on('click', function () {
+        const modal = $('#task-detail-modal');
+        const data = JSON.parse(modal.attr('data-task'));
+        const listTask = [...$('#list-todo-pending').children(), ...$('#list-todo-complete').children(), ...$('#list-todo-in-complete').children()];
+
+        const request = {
+            status: $('#checkbox-task-completed').is(':checked') ? 'PENDING' : 'COMPLETED',
+        }
+
+        Swal.fire({
+            title: 'Bạn muốn thay đổi trạng thái ?',
+            showCancelButton: true,
+            confirmButtonText: 'Đồng ý',
+            cancelButtonText: 'Huỷ',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+
+                axios.put(`/task/${data.id}`, request)
+                    .then(res => {
+                        let taskUpdate = res.data.data;
+
+                        Toastify({
+                            text: `Cập nhật công việc thành công`,
+                            duration: 3000,
+                            newWindow: true,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            className: 'toastify-success'
+                        }).showToast();
+
+                        listTask.forEach(item => {
+                            if ($(item).children().attr('data-task-id') == taskUpdate.id) {
+                                item.remove();
+                                renderTask(taskUpdate)
+                                eventTask()
+                                taskDetailModal.hide();
+                            }
+                        })
+                    })
+                    .catch(err => {
+                        Toastify({
+                            text: 'Đã xảy ra lỗi',
+                            duration: 3000,
+                            newWindow: true,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            className: 'toastify-error'
+                        }).showToast();
+                    })
+            }
+        })
+
+
+    });
+
     $('#btn-save-task-detail').on('click', function () {
         const modal = $('#task-detail-modal');
         const data = JSON.parse(modal.attr('data-task'));
@@ -165,13 +230,23 @@ $(() => {
         axios.put(`/task/${data.id}`, request).then((res) => {
             const taskUpdate = res.data.data;
 
+            Toastify({
+                text: `Cập nhật công việc thành công`,
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "right",
+                className: 'toastify-success'
+            }).showToast();
+
             listTask.forEach(item => {
                 const dataItem = JSON.parse($(item).children().attr('data-task'));
                 if (dataItem.id === taskUpdate.id) {
                     $(item).children().attr('data-task', JSON.stringify(taskUpdate))
                     item.getElementsByClassName('todo__title')[0].innerText = taskUpdate.title;
                     item.getElementsByClassName('todo__content')[0].innerText = taskUpdate.content;
-                    item.getElementsByClassName('todo__due')[0].innerText = taskUpdate.due_date ? moment(taskUpdate.due_date).format('L LTS') : 'Không giới hạn';
+                    item.getElementsByClassName('todo__due')[0].innerText = taskUpdate.due_date ? moment.tz(taskUpdate.due_date, 'UTC+7').format('L LTS') : 'Không giới hạn';
                 }
             })
         }).catch((err) => {
@@ -225,7 +300,7 @@ $(() => {
                     listTask.forEach(item => {
                         if ($(item).children().attr('data-task-id') === taskId.toString()) {
                             $(item).remove();
-                            parent.getElementsByClassName('btn-cancel-modal-task')[0].click();
+                            taskDetailModal.hide();
                         }
                     })
                     axios.delete(`/task/${taskId}`)
@@ -279,7 +354,7 @@ $(() => {
                     <p class="text-sm text-gray-400">Đã nhận</p>
                     <p class="text-sm todo__due">Thời hạn: ${(() => {
             if (task.due_date) {
-                return moment(task.due_date).format('L LTS')
+                return moment.tz(task.due_date, 'UTC+7').format('L LTS')
             } else {
                 return 'Không có thời hạn'
             }

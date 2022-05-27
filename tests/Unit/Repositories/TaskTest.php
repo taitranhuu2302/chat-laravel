@@ -106,4 +106,19 @@ class TaskTest extends TestCase
         $this->taskRepository->findById($task->id);
         $this->assertEquals(2, $task->users->count());
     }
+
+    public function test_change_status()
+    {
+        $data = $this->task;
+        $data['owner_id'] = $this->userOne->id;
+        $task = $this->taskRepository->create($data);
+
+        $task = $this->taskRepository->update($task->id, [
+            'status' => TaskStatus::COMPLETED
+        ]);
+
+        $this->assertEquals(TaskStatus::COMPLETED, $task->status);
+        $this->assertEquals('Task 1', $task->title);
+        $this->assertEquals('Task 1 description', $task->content);
+    }
 }

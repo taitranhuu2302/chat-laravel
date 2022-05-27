@@ -37,6 +37,7 @@
         <div id="tab-todo">
             <div class="hidden p-4 h-screen rounded-lg" style="height: 86vh" id="todo-pending" role="tabpanel" aria-labelledby="pending-tab">
                 <ul id="list-todo-pending" class="h-full border-t overflow-y-auto flex flex-col">
+{{--                    @dump(Auth::user()->tasks->where('status', \App\Enums\TaskStatus::PENDING)->toArray())--}}
                     @foreach(Auth::user()->tasks->where('status', \App\Enums\TaskStatus::PENDING) as $task)
                         <li class="px-3 border-b py-3">
                             <button data-task-id="{{ $task->id }}" data-task="{{ $task }}"
@@ -83,7 +84,7 @@
                                 </div>
                                 <div class="flex justify-between mt-1">
                                     <p class="text-sm text-gray-400">Đã nhận</p>
-                                    <p class="text-sm todo__due text-red-500">Thời
+                                    <p class="text-sm todo__due">Thời
                                         hạn: {{ $task->due_date ?: 'Không có thời hạn' }}</p>
                                 </div>
                             </button>
@@ -112,8 +113,8 @@
                                 </div>
                                 <div class="flex justify-between mt-1">
                                     <p class="text-sm text-gray-400">Đã nhận</p>
-                                    <p class="text-sm todo__due text-red-500">Thời
-                                        hạn: {{ $task->due_date ?: 'Không có thời hạn' }}</p>
+                                    <p class="text-sm text-red-500">Thời
+                                        hạn: <span class="todo__due">{{ $task->due_date ?: 'Không có thời hạn' }}</span></p>
                                 </div>
                             </button>
                         </li>

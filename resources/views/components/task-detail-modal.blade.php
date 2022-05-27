@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="left__due flex-shrink">
-                        <p class="text-sm text-task-edit left__due--text">Thời gian</p>
+                        <p class="text-sm text-task-edit">Thời gian: <span class="left__due--text"></span></p>
                         <div class="mb-6 hidden input-task-edit">
                             <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Thời
                                 hạn</label>
@@ -78,10 +78,12 @@
                         <p class="mb-2">Tác vụ</p>
 
                         <div class="flex flex-col gap-3">
-                            <button class="bg-gray-100 p-3 rounded-sm flex items-center w-full">
-                                <input id="default-checkbox" type="checkbox" disabled value=""
+                            <button class="bg-gray-100 p-3 rounded-sm flex items-center w-full"
+                                id="btn-edit-task-detail"
+                            >
+                                <input id="checkbox-task-completed" type="checkbox" disabled
                                        class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="default-checkbox"
+                                <label for="checkbox-task-completed"
                                        class="cursor-pointer ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hoàn
                                     thành</label>
                             </button>

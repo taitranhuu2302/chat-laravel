@@ -27,6 +27,7 @@
     },
     "dependencies": {
         "moment": "^2.29.3",
+        "moment-timezone": "^0.5.34",
         "sweetalert2": "^11.4.9",
         "toastify-js": "^1.11.2"
     }
