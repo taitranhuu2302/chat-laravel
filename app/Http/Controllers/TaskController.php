@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\TaskStatus;
+use App\Events\CreateTaskEvent;
+use App\Events\UpdateTaskEvent;
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Repositories\Task\TaskRepositoryInterface;
@@ -28,6 +30,13 @@ class TaskController extends Controller
             $data['status'] = TaskStatus::PENDING;
             $task = $this->taskRepository->create($data);
             $task->load('owner');
+            $task->load('users');
+
+            if (isset($data['users'])) {
+                foreach ($data['users'] as $user) {
+                    event(new CreateTaskEvent($user, $task));
+                }
+            }
 
             return response()->json(['status' => 'success', 'message' => 'Task created successfully.', 'data' => $task], 200);
         } catch (\Exception $e) {
@@ -41,16 +50,18 @@ class TaskController extends Controller
     {
         try {
             $data = $request->all();
-            $task = $this->taskRepository->findById($id);
-
-            if ($task->owner_id != Auth::id()) {
-                return response()->json(['status' => 'error', 'message' => 'You are not authorized to update this task.'], 401);
-            }
 
             $data['owner_id'] = Auth::id();
             $task = $this->taskRepository->update($id, $data);
             $task->load('owner');
             $task->load('users');
+
+            if (isset($task->users)) {
+                foreach ($task->users as $user) {
+                    Log::info($user->id);
+                    event(new UpdateTaskEvent($user->id, $task));
+                }
+            }
 
             return response()->json(['status' => 'success', 'message' => 'Task updated successfully.', 'data' => $task], 200);
         } catch (\Exception $e) {
@@ -69,9 +80,14 @@ class TaskController extends Controller
                 return response()->json(['status' => 'error', 'message' => 'Task not found.'], 404);
             }
 
+            if ($task->owner_id !== Auth::id()) {
+                $task->users()->detach(Auth::id());
+                return response()->json(['status' => 'success', 'message' => 'Bạn đã từ chối công việc thành công'], 200);
+            }
+
             $this->taskRepository->delete($id);
 
-            return response()->json(['status' => 'success', 'message' => 'Task deleted successfully.'], 200);
+            return response()->json(['status' => 'success', 'message' => 'Công việc đã được xoá'], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()

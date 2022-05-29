@@ -52,7 +52,7 @@
                     <div class="indicator__inner"></div>
                 </div>
             </li>
-            <li id="nav__request" class="relative">
+            <li id="nav__todo" class="relative">
                 <button id="button-friend-request" data-tabs-target="#todo" type="button" role="tab"
                     aria-controls="friend-request" aria-selected="false" data-tooltip-target="tooltip-todo"
                     class="nav__top--button">

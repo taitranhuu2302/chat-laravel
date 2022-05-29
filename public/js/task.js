@@ -26347,6 +26347,24 @@ $(function () {
   var axios = window.axios;
   var taskDetailModal = new Modal(document.getElementById('task-detail-modal'));
   var listUserForTaskDetail = [];
+  var Echo = window.Echo;
+  Echo.channel("create-task.".concat(user.id)).listen('CreateTaskEvent', function (data) {
+    renderTask(data.task);
+    var indicator = $('#nav__todo .indicator__dot');
+
+    if (indicator.hasClass('hidden')) {
+      indicator.removeClass('hidden');
+    }
+  });
+  Echo.channel("update-task.".concat(user.id)).listen('UpdateTaskEvent', function (data) {
+    changeTask(data.task);
+    console.log(data.task);
+    var indicator = $('#nav__todo .indicator__dot');
+
+    if (indicator.hasClass('hidden')) {
+      indicator.removeClass('hidden');
+    }
+  });
   $('.btn-open-input-task').click(function () {
     var textTaskEdit = $('.text-task-edit');
     var inputTaskEdit = $('.input-task-edit');
@@ -26376,7 +26394,6 @@ $(function () {
       wrapperListAvatar.empty();
       wrapperListAvatar.append("\n                <a id=\"list-user-in-room-count\"\n                   class=\"flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800\"\n                   href=\"#\">+0</a>\n                ");
       renderTask(taskResponse);
-      eventTask();
       toastify_js__WEBPACK_IMPORTED_MODULE_1___default()({
         text: "B\u1EA1n \u0111\xE3 t\u1EA1o c\xF4ng vi\u1EC7c th\xE0nh c\xF4ng",
         duration: 3000,
@@ -26459,8 +26476,14 @@ $(function () {
     if (data.users.length > 0) {
       listUserForTaskDetail = data.users;
       var taskPerformers = $('#task-performers');
+      var taskOwner = $('#task-owner');
       taskPerformers.empty();
+      taskOwner.empty();
       data.users.forEach(function (user, index) {
+        if (user.id === data.owner_id) {
+          taskOwner.append("\n                    <div class=\"flex items-center\">\n                        <img src=\"".concat(user.avatar, "\" alt=\"\"\n                             class=\"w-8 h-8 rounded-full mr-2\">\n                            <p class=\"text-sm\">").concat(user.full_name, "</p>\n                     </div>\n                    "));
+        }
+
         var html = "\n                    <img class=\"task-detail-user w-10 h-10 border-2 border-white rounded-full dark:border-gray-800\"\n                                 src=\"".concat(user.avatar, "\" alt=\"\">\n                ");
         taskPerformers.prepend(html);
       });
@@ -26468,10 +26491,19 @@ $(function () {
     }
   }
 
+  function changeTask(task) {
+    var listTask = [].concat(_toConsumableArray($('#list-todo-pending').children()), _toConsumableArray($('#list-todo-complete').children()), _toConsumableArray($('#list-todo-in-complete').children()));
+    listTask.forEach(function (item) {
+      if ($(item).children().attr('data-task-id') == task.id) {
+        item.remove();
+        renderTask(task);
+      }
+    });
+  }
+
   $('#btn-edit-task-detail').on('click', function () {
     var modal = $('#task-detail-modal');
     var data = JSON.parse(modal.attr('data-task'));
-    var listTask = [].concat(_toConsumableArray($('#list-todo-pending').children()), _toConsumableArray($('#list-todo-complete').children()), _toConsumableArray($('#list-todo-in-complete').children()));
     var request = {
       status: $('#checkbox-task-completed').is(':checked') ? 'PENDING' : 'COMPLETED'
     };
@@ -26495,14 +26527,8 @@ $(function () {
             position: "right",
             className: 'toastify-success'
           }).showToast();
-          listTask.forEach(function (item) {
-            if ($(item).children().attr('data-task-id') == taskUpdate.id) {
-              item.remove();
-              renderTask(taskUpdate);
-              eventTask();
-              taskDetailModal.hide();
-            }
-          });
+          changeTask(taskUpdate);
+          taskDetailModal.hide();
         })["catch"](function (err) {
           toastify_js__WEBPACK_IMPORTED_MODULE_1___default()({
             text: 'Đã xảy ra lỗi',
@@ -26598,9 +26624,9 @@ $(function () {
               taskDetailModal.hide();
             }
           });
-          axios["delete"]("/task/".concat(taskId)).then(function () {
+          axios["delete"]("/task/".concat(taskId)).then(function (res) {
             toastify_js__WEBPACK_IMPORTED_MODULE_1___default()({
-              text: "B\u1EA1n \u0111\xE3 x\xF3a c\xF4ng vi\u1EC7c th\xE0nh c\xF4ng",
+              text: res.data.message,
               duration: 3000,
               newWindow: true,
               close: true,
@@ -26641,6 +26667,8 @@ $(function () {
     } else if (task.status === 'IN_COMPLETE') {
       $('#list-todo-in-complete').prepend(html);
     }
+
+    eventTask();
   }
 });
 })();

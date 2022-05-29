@@ -7,6 +7,24 @@ $(() => {
     const axios = window.axios;
     const taskDetailModal = new Modal(document.getElementById('task-detail-modal'));
     let listUserForTaskDetail = [];
+    const Echo = window.Echo;
+
+    Echo.channel(`create-task.${user.id}`).listen('CreateTaskEvent', (data) => {
+        renderTask(data.task);
+        const indicator = $('#nav__todo .indicator__dot');
+        if (indicator.hasClass('hidden')) {
+            indicator.removeClass('hidden');
+        }
+    });
+
+    Echo.channel(`update-task.${user.id}`).listen('UpdateTaskEvent', (data) => {
+        changeTask(data.task);
+        console.log(data.task)
+        const indicator = $('#nav__todo .indicator__dot');
+        if (indicator.hasClass('hidden')) {
+            indicator.removeClass('hidden');
+        }
+    });
 
     $('.btn-open-input-task').click(function () {
         const textTaskEdit = $('.text-task-edit')
@@ -46,7 +64,6 @@ $(() => {
                    href="#">+0</a>
                 `);
                 renderTask(taskResponse);
-                eventTask();
                 Toastify({
                     text: `Bạn đã tạo công việc thành công`,
                     duration: 3000,
@@ -130,14 +147,26 @@ $(() => {
             $('#checkbox-task-completed').prop('checked', false);
         }
 
+
         if (data.users.length > 0) {
             listUserForTaskDetail = data.users;
 
             const taskPerformers = $('#task-performers');
+            const taskOwner = $('#task-owner');
 
             taskPerformers.empty();
+            taskOwner.empty();
 
             data.users.forEach((user, index) => {
+                if (user.id === data.owner_id) {
+                    taskOwner.append(`
+                    <div class="flex items-center">
+                        <img src="${user.avatar}" alt=""
+                             class="w-8 h-8 rounded-full mr-2">
+                            <p class="text-sm">${user.full_name}</p>
+                     </div>
+                    `);
+                }
                 const html = `
                     <img class="task-detail-user w-10 h-10 border-2 border-white rounded-full dark:border-gray-800"
                                  src="${user.avatar}" alt="">
@@ -151,10 +180,19 @@ $(() => {
         }
     }
 
+    function changeTask(task) {
+        const listTask = [...$('#list-todo-pending').children(), ...$('#list-todo-complete').children(), ...$('#list-todo-in-complete').children()];
+        listTask.forEach(item => {
+            if ($(item).children().attr('data-task-id') == task.id) {
+                item.remove();
+                renderTask(task)
+            }
+        })
+    }
+
     $('#btn-edit-task-detail').on('click', function () {
         const modal = $('#task-detail-modal');
         const data = JSON.parse(modal.attr('data-task'));
-        const listTask = [...$('#list-todo-pending').children(), ...$('#list-todo-complete').children(), ...$('#list-todo-in-complete').children()];
 
         const request = {
             status: $('#checkbox-task-completed').is(':checked') ? 'PENDING' : 'COMPLETED',
@@ -184,15 +222,8 @@ $(() => {
                             position: "right",
                             className: 'toastify-success'
                         }).showToast();
-
-                        listTask.forEach(item => {
-                            if ($(item).children().attr('data-task-id') == taskUpdate.id) {
-                                item.remove();
-                                renderTask(taskUpdate)
-                                eventTask()
-                                taskDetailModal.hide();
-                            }
-                        })
+                        changeTask(taskUpdate);
+                        taskDetailModal.hide();
                     })
                     .catch(err => {
                         Toastify({
@@ -304,9 +335,9 @@ $(() => {
                         }
                     })
                     axios.delete(`/task/${taskId}`)
-                        .then(() => {
+                        .then((res) => {
                             Toastify({
-                                text: `Bạn đã xóa công việc thành công`,
+                                text: res.data.message,
                                 duration: 3000,
                                 newWindow: true,
                                 close: true,
@@ -372,6 +403,8 @@ $(() => {
         } else if (task.status === 'IN_COMPLETE') {
             $('#list-todo-in-complete').prepend(html);
         }
+
+        eventTask();
     }
 
 })

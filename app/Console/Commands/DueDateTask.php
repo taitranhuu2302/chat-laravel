@@ -4,9 +4,11 @@ namespace App\Console\Commands;
 
 use App\Enums\TaskStatus;
 use App\Enums\TimeZone;
+use App\Events\DueDateTaskEvent;
 use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class DueDateTask extends Command
 {

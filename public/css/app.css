@@ -930,6 +930,9 @@ input:checked + .toggle-bg {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
 }
+.mr-2 {
+  margin-right: 0.5rem;
+}
 .mt-1 {
   margin-top: 0.25rem;
 }
@@ -947,9 +950,6 @@ input:checked + .toggle-bg {
 }
 .ml-3 {
   margin-left: 0.75rem;
-}
-.mr-2 {
-  margin-right: 0.5rem;
 }
 .-ml-1 {
   margin-left: -0.25rem;
@@ -1008,11 +1008,11 @@ input:checked + .toggle-bg {
 .h-10 {
   height: 2.5rem;
 }
-.h-full {
-  height: 100%;
-}
 .h-8 {
   height: 2rem;
+}
+.h-full {
+  height: 100%;
 }
 .h-5 {
   height: 1.25rem;

@@ -23,7 +23,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
         $task->users()->attach($attributes['owner_id']);
         if ($users) {
             foreach ($users as $user) {
-                $task->users()->attach($user);
+                $task->users()->where('user_id', $user)->first() ?: $task->users()->attach($user);
             }
         }
 
@@ -37,15 +37,10 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
         unset($attributes['users']);
         $task = $this->model->findOrFail($id);
         $task->update($attributes);
-        $task->users()->detach();
-
-        if (!in_array($attributes['owner_id'], $users)) {
-            $task->users()->attach($attributes['owner_id']);
-        }
 
         if ($users) {
             foreach ($users as $user) {
-                $task->users()->attach($user);
+                $task->users()->where('user_id', $user)->first() ?: $task->users()->attach($user);
             }
         }
 

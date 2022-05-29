@@ -66,6 +66,14 @@
                             <p class="text-sm">Đã đã nhận</p>
                         </div>
                     </div>
+                    <div class="right__owner">
+                        <p class="owner_title mb-2">
+                            Người tạo
+                        </p>
+                        <div id="task-owner">
+
+                        </div>
+                    </div>
                     <div class="right__users">
                         <p class="users__title mb-2">
                             Người thực hiện

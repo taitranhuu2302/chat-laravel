@@ -37,7 +37,7 @@
         <div id="tab-todo">
             <div class="hidden p-4 h-screen rounded-lg" style="height: 86vh" id="todo-pending" role="tabpanel" aria-labelledby="pending-tab">
                 <ul id="list-todo-pending" class="h-full border-t overflow-y-auto flex flex-col">
-{{--                    @dump(Auth::user()->tasks->where('status', \App\Enums\TaskStatus::PENDING)->toArray())--}}
+
                     @foreach(Auth::user()->tasks->where('status', \App\Enums\TaskStatus::PENDING) as $task)
                         <li class="px-3 border-b py-3">
                             <button data-task-id="{{ $task->id }}" data-task="{{ $task }}"
