@@ -65,7 +65,7 @@
             </div>
             <div class="hidden h-screen p-4 rounded-lg" style="height: 86vh" id="todo-complete" role="tabpanel"
                  aria-labelledby="complete-tab">
-                <ul id="list-todo-complete" class="border-t">
+                <ul id="list-todo-complete" class="h-full border-t overflow-y-auto flex flex-col">
                     @foreach(Auth::user()->tasks->where('status', \App\Enums\TaskStatus::COMPLETED) as $task)
                         <li class="px-3 border-b py-3">
                             <button data-task-id="{{ $task->id }}" data-task="{{ $task }}"
@@ -94,7 +94,7 @@
             </div>
             <div class="hidden p-4 h-screen rounded-lg" style="height: 86vh;" id="todo-in-complete" role="tabpanel"
                  aria-labelledby="in-complete-tab">
-                <ul id="list-todo-in-complete" class="border-t">
+                <ul id="list-todo-in-complete" class="h-full border-t overflow-y-auto flex flex-col">
                     @foreach(Auth::user()->tasks->where('status', \App\Enums\TaskStatus::IN_COMPLETE) as $task)
                         <li class="px-3 border-b py-3">
                             <button data-task-id="{{ $task->id }}" data-task="{{ $task }}"
