@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
@@ -65,7 +66,7 @@ class RegisterTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/auth/register')
-                ->type('email', 'test123123@gmail.com')
+                ->type('email', Str::random(10).'@gmail.com')
                 ->type('full_name', 'Tran Huu Tai')
                 ->press('Sign Up')
                 ->assertPathIs('/auth/login')
