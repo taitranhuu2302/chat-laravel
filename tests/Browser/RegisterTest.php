@@ -67,7 +67,7 @@ class RegisterTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/auth/register')
                 ->type('email', Str::random(10).'@gmail.com')
-                ->type('full_name', 'Tran Huu Tai')
+                ->type('full_name', 'Trần Hữu Tài')
                 ->press('Sign Up')
                 ->assertPathIs('/auth/login')
                 ->assertSee('Please check your email to get your password.');

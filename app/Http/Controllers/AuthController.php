@@ -70,6 +70,11 @@ class AuthController extends Controller
             'password' => $request->input('password'),
         ];
         if (Auth::attempt($credentials, $request->input('remember'))) {
+
+            if (Auth::user()->login_first) {
+                return redirect('/auth/change-password');
+            }
+
             return redirect('/');
         } else {
             return redirect('/auth/login')->with('loginError', 'Email or password is incorrect.');
