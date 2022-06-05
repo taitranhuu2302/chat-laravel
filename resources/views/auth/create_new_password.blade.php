@@ -27,7 +27,7 @@
         <div class="lg:col-span-8 col-span-12 h-full bg-white content flex flex-col">
             <div class="mx-auto flex items-center justify-center flex-col h-full w-full">
                 <p class="text-2xl font-semibold mb-6">Tạo mật khẩu</p>
-                <form action="{{ url('/auth/create-new-password') }}" method="POST" role="form" class="wrapper-form mb-6">
+                <form action="{{ url('/auth/create-new-password') }}" method="POST" role="form" class="w-full wrapper-form mb-6">
                     {{ csrf_field() }}
                     <div class="mb-6">
                         <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mật khẩu</label>

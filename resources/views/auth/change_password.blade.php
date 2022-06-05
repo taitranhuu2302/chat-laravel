@@ -26,13 +26,13 @@
         </div>
         <div class="lg:col-span-8 col-span-12 h-full bg-white content flex flex-col">
             <div class="mx-auto flex items-center justify-center flex-col h-full w-full">
-                <p class="text-2xl font-semibold mb-6">Tạo mật khẩu</p>
+                <p class="text-2xl font-semibold mb-6">Đổi mật khẩu</p>
                 @if (session('changePasswordError'))
                     <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" style="background-color: #fde8e8" role="alert">
                         <span class="font-medium">{{ session('changePasswordError') }}</span>
                     </div>
                 @endif
-                <form action="{{ url('/auth/change-password') }}" method="POST" role="form" class="wrapper-form mb-6">
+                <form action="{{ url('/auth/change-password') }}" method="POST" role="form" class="w-full wrapper-form mb-6">
                     {{ csrf_field() }}
                     <div class="mb-6">
                         <label for="current_password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mật khẩu cũ</label>
@@ -40,7 +40,7 @@
                                name="current_password"
                                placeholder="******************"
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               required>
+                               >
                         @if($errors->has('current_password'))
                             <p class="text-red-700">{{ $errors->first('current_password') }}</p>
                         @endif
@@ -51,7 +51,7 @@
                                name="password"
                                placeholder="******************"
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               required>
+                               >
                         @if($errors->has('password'))
                             <p class="text-red-700">{{ $errors->first('password') }}</p>
                         @endif
@@ -63,7 +63,7 @@
                                name="password_confirm"
                                placeholder="******************"
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               required>
+                               >
                         @if($errors->has('password_confirm'))
                             <p class="text-red-700">{{ $errors->first('password_confirm') }}</p>
                         @endif
@@ -73,7 +73,7 @@
                     </div>
                     <button type="submit"
                             class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Tạo mật khẩu
+                        Đổi mật khẩu
                     </button>
                 </form>
             </div>

@@ -30,7 +30,7 @@
                     <h1 class="text-2xl font-semibold">Welcome Back !</h1>
                     <p class="text-lg text-gray-500">Sign up to continue to Doot</p>
                 </div>
-                <form action="{{ url('/auth/register') }}" method="POST" role="form" class="wrapper-form mb-6">
+                <form action="{{ url('/auth/register') }}" method="POST" role="form" class="w-full wrapper-form mb-6">
                     {{ csrf_field() }}
                     <div class="mb-6">
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your
@@ -61,7 +61,7 @@
                     <p class="text-md font-semibold">Sign in with</p>
                     <div class="line"></div>
                 </div>
-                <div class="wrapper-button-social mb-6">
+                <div class="wrapper-button-social mb-6 w-full">
                     <a href="{{ url('/auth/google') }}" type="button"
                        class="w-full text-white bg-[#ea4335] hover:bg-[#ea4335]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex justify-center items-center dark:focus:ring-[#ea4335]/55 mr-2 mb-2">
                         <svg class="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab"

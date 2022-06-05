@@ -14,7 +14,7 @@
   padding: 24px 24px 0;
 }
 #wrapper .wrapper-form {
-  width: 430px;
+  max-width: 430px;
 }
 #wrapper .wrapper-line {
   display: flex;
@@ -32,5 +32,5 @@
   white-space: nowrap;
 }
 #wrapper .wrapper-button-social {
-  width: 430px;
+  max-width: 430px;
 }
