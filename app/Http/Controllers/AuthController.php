@@ -113,7 +113,7 @@ class AuthController extends Controller
                 return redirect('/');
             }
 
-            return redirect()->back()->with('changePasswordError', 'Mật khẩu cũ chưa chính xác');
+            return redirect()->back()->with('changePasswordError', 'Mật khẩu cũ chưa chính xác.');
         } catch (\Exception $e) {
             return redirect()->back()->with('changePasswordError', $e->getMessage());
         }

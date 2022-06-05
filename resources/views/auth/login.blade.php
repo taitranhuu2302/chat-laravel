@@ -13,7 +13,7 @@
 <body>
 <div id="wrapper">
     <div class="grid grid-cols-12 h-full">
-        <div class="lg:col-span-4 lg:block hidden">
+        <div class="sm:col-span-4 sm:block hidden">
             <div class="flex items-center gap-2">
                 <svg class="w-8 h-8 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                      xmlns="http://www.w3.org/2000/svg">
@@ -24,7 +24,7 @@
             </div>
             <img class="bgr" src="https://doot-light.react.themesbrand.com/static/media/auth-img.9302755e.png" alt="">
         </div>
-        <div class="lg:col-span-8 col-span-12 h-full bg-white content flex flex-col ">
+        <div class="sm:col-span-8 col-span-12 h-full bg-white content flex flex-col ">
             <div class="mx-auto flex items-center justify-center flex-col h-full w-full">
                 <div class="flex flex-col items-center gap-3 mb-8">
                     <h1 class="text-2xl font-semibold">Welcome Back !</h1>
@@ -44,7 +44,7 @@
                         <span class="font-medium">Login Failed! </span> {{ session('loginError') }}
                     </div>
                 @endif
-                <form action="{{ url('/auth/login') }}" method="POST" role="form" class="wrapper-form mb-6">
+                <form action="{{ url('/auth/login') }}" method="POST" role="form" class="w-full wrapper-form mb-6">
                     {{ csrf_field() }}
                     <div class="mb-6">
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Your
@@ -89,7 +89,7 @@
                     <p class="text-md font-semibold">Sign in with</p>
                     <div class="line"></div>
                 </div>
-                <div class="wrapper-button-social mb-6">
+                <div class="wrapper-button-social w-full mb-6">
                     <a href="{{ url('/auth/google') }}" type="button"
                        class="w-full text-white bg-[#ea4335] hover:bg-[#ea4335]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex justify-center items-center dark:focus:ring-[#ea4335]/55 mr-2 mb-2">
                         <svg class="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab"
