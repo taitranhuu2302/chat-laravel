@@ -13,7 +13,7 @@
 <body>
 <div id="wrapper">
     <div class="grid grid-cols-12 h-full">
-        <div class="sm:col-span-4 sm:block hidden">
+        <div class="lg:col-span-4 lg:block hidden">
             <div class="flex items-center gap-2">
                 <svg class="w-8 h-8 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                      xmlns="http://www.w3.org/2000/svg">
@@ -24,7 +24,7 @@
             </div>
             <img class="bgr" src="https://doot-light.react.themesbrand.com/static/media/auth-img.9302755e.png" alt="">
         </div>
-        <div class="sm:col-span-8 col-span-12 h-full bg-white content flex flex-col ">
+        <div class="lg:col-span-8 col-span-12 h-full bg-white content flex flex-col ">
             <div class="mx-auto flex items-center justify-center flex-col h-full w-full">
                 <div class="flex flex-col items-center gap-3 mb-8">
                     <h1 class="text-2xl font-semibold">Welcome Back !</h1>

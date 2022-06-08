@@ -108,6 +108,7 @@ class AuthController extends Controller
             $user = Auth::user();
             if (Hash::check($request->input('current_password'), $user->password)) {
                 $user->password = Hash::make($request->input('password'));
+                $user->login_first = false;
                 $user->save();
 
                 return redirect('/');
