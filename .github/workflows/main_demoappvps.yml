@@ -56,5 +56,5 @@ jobs:
         with:
           app-name: 'demoAppVps'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0E7B2EB387A74549B07D870AC3C260C0 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9F83A63A98B44B4687AEE31F465781FA }}
           package: .
